@@ -1,0 +1,4871 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://github.com/alexym1/taglyatelle/references/git_providers/core/git_factory/">
+      
+      
+        <link rel="prev" href="../git_adapter/">
+      
+      
+        <link rel="next" href="../git_registry/">
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>git_factory.py - taglyatelle</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="preference" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#taglyatelle.git_providers.core.git_factory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="taglyatelle" class="md-header__button md-logo" aria-label="taglyatelle" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            taglyatelle
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              git_factory.py
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/alexym1/taglyatelle/tree/v0.1.0" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    alexym1/taglyatelle
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Contents
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../exposition/middleware/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Modules
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="taglyatelle" class="md-nav__button md-logo" aria-label="taglyatelle" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    taglyatelle
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/alexym1/taglyatelle/tree/v0.1.0" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    alexym1/taglyatelle
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Contents
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Contents
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Modules
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Modules
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    exposition
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            exposition
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../exposition/middleware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    middleware.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../exposition/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    monitoring.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../exposition/taglyatelle_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    taglyatelle_api.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    git_providers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            git_providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    core
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            core
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git_adapter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    git_adapter.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    git_factory.py
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    git_factory.py
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory" class="md-nav__link">
+    <span class="md-ellipsis">
+      git_factory
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitProvider
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GitProvider">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.strategy--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      bump_version
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="bump_version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses" class="md-nav__link">
+    <span class="md-ellipsis">
+      check_licenses
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="check_licenses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_issue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_body" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_pr_body
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_pr_body">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_body--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_comment" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_pr_comment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_pr_comment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_comment--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_release" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_release
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_release">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_release--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_tag
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_tag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_tag--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_current_tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_current_tag
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_current_tag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_current_tag--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_file_content
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_file_content">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_pr_body
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_pr_body">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_pr_files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_pr_files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      invoke_llm
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="invoke_llm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      search_issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="search_issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.set_llm_strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      set_llm_strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="set_llm_strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.set_llm_strategy--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      synchronize_changelog
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="synchronize_changelog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      update_issue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="update_issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../git_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    git_registry.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../github_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    github_api.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    llm_providers
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            llm_providers
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/anthropic_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    anthropic_api.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    core
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            core
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/core/llm_adapter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    llm_adapter.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/core/llm_builder/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    llm_builder.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/core/llm_factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    llm_factory.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/core/llm_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    llm_registry.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/gemini_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    gemini_api.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/meta_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    meta_api.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/mistral_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    mistral_api.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../llm_providers/openai_api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    openai_api.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    schemas
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            schemas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../schemas/webhook_event_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    webhook_event_models.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    slash_commands
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            slash_commands
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../slash_commands/check_licenses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    check_licenses.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_2" id="__nav_2_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    core
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            core
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../slash_commands/core/slash_factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    slash_factory.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../slash_commands/core/slash_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    slash_registry.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    webhooks
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            webhooks
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6_1" id="__nav_2_6_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    core
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            core
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../webhooks/core/webhook_adapter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    webhook_adapter.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../webhooks/core/webhook_factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    webhook_factory.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../webhooks/core/webhook_registry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    webhook_registry.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../webhooks/webhook_github/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    webhook_github.py
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory" class="md-nav__link">
+    <span class="md-ellipsis">
+      git_factory
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider" class="md-nav__link">
+    <span class="md-ellipsis">
+      GitProvider
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GitProvider">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.strategy--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version" class="md-nav__link">
+    <span class="md-ellipsis">
+      bump_version
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="bump_version">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses" class="md-nav__link">
+    <span class="md-ellipsis">
+      check_licenses
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="check_licenses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_issue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_body" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_pr_body
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_pr_body">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_body--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_comment" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_pr_comment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_pr_comment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_comment--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_release" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_release
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_release">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_release--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      create_tag
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="create_tag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_tag--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_current_tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_current_tag
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_current_tag">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_current_tag--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_file_content
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_file_content">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_pr_body
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_pr_body">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_pr_files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_pr_files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      invoke_llm
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="invoke_llm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      search_issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="search_issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.set_llm_strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      set_llm_strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="set_llm_strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.set_llm_strategy--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      synchronize_changelog
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="synchronize_changelog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue" class="md-nav__link">
+    <span class="md-ellipsis">
+      update_issue
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="update_issue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+  <h1>git_factory.py</h1>
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="taglyatelle.git_providers.core.git_factory"></a>
+    <div class="doc doc-contents first">
+
+        <p>Factory pattern for git providers.</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="taglyatelle.git_providers.core.git_factory.GitProvider" class="doc doc-heading">
+            <code>GitProvider</code>
+
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+        <p>Adapter for multiple git providers.</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GitProvider</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for multiple git providers.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">git_provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">repo</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">provider</span> <span class="o">=</span> <span class="n">git_provider</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">owner</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repo</span> <span class="o">=</span> <span class="n">repo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_adapter</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_builder</span> <span class="o">=</span> <span class="n">LlmProviderBuilder</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">files_to_check</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;requirements.txt&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pyproject.toml&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_adapter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GitAdapter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the appropriate adapter based on the provider.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        The adapter instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">adapter_cls</span> <span class="o">=</span> <span class="n">git_provider_registry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">adapter_cls</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unsupported provider: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">provider</span><span class="si">}</span><span class="s2">. Supported providers are: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">git_provider_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">adapter_cls</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">owner</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LlmProvider</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the LLM strategy associated with this Git provider.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        The LLM strategy instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_llm_strategy</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the LLM strategy using the builder pattern.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        provider</span>
+<span class="sd">            LLM provider name</span>
+
+<span class="sd">        model</span>
+<span class="sd">            LLM model name</span>
+
+<span class="sd">        temperature</span>
+<span class="sd">            LLM temperature</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_builder</span><span class="o">.</span><span class="n">set_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">set_temperature</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">invoke_llm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a request to a LLM.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        prompt</span>
+<span class="sd">            The prompt to send to the LLM</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Answer of the LLM or None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;LLM strategy is not defined.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span><span class="o">.</span><span class="n">invoke_llm</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_pr_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the list of files changed in a pull request.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pr_number</span>
+<span class="sd">            Pull request number</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List of files changed in the pull request</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get_pr_files</span><span class="p">(</span><span class="n">pr_number</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_pr_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the body/description of a pull request.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pr_number</span>
+<span class="sd">            Pull request number</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        The PR body text or None if not present</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get_pr_body</span><span class="p">(</span><span class="n">pr_number</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_pr_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fill in the description body of a pull request.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pr_number</span>
+<span class="sd">            Pull request number</span>
+
+<span class="sd">        body</span>
+<span class="sd">            Pull request body text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_pr_body</span><span class="p">(</span><span class="n">pr_number</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_pr_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a comment on a pull request.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pr_number</span>
+<span class="sd">            Pull request number</span>
+
+<span class="sd">        message</span>
+<span class="sd">            Comment message</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_pr_comment</span><span class="p">(</span><span class="n">pr_number</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the current tag of the repository.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Current version of the repository</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get_current_tag</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a tag in the repository.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tag</span>
+<span class="sd">            version of the repo</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_release</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a release in the repository.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        body</span>
+<span class="sd">            Release notes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_release</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_issue</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an issue in the repository.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        title</span>
+<span class="sd">            Issue title</span>
+
+<span class="sd">        body</span>
+<span class="sd">            Issue body text</span>
+
+<span class="sd">        labels</span>
+<span class="sd">            List of label names to apply to the issue</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Created issue number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_issue</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">search_issues</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search for issues in the repository.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        query</span>
+<span class="sd">            Search query string to match in issue titles</span>
+
+<span class="sd">        state</span>
+<span class="sd">            Issue state: &#39;open&#39;, &#39;closed&#39;, or &#39;all&#39;</span>
+
+<span class="sd">        labels</span>
+<span class="sd">            Filter by label names</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        List of matching issues</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">search_issues</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_issue</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">issue_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">body</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update an existing issue.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        issue_number</span>
+<span class="sd">            Issue number to update</span>
+
+<span class="sd">        title</span>
+<span class="sd">            New title (optional)</span>
+
+<span class="sd">        body</span>
+<span class="sd">            New body content (optional)</span>
+
+<span class="sd">        state</span>
+<span class="sd">            New state: &#39;open&#39; or &#39;closed&#39; (optional)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Created issue number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">update_issue</span><span class="p">(</span><span class="n">issue_number</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_file_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the content of a file from the repository.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file_path</span>
+<span class="sd">            Path to the file in the repository</span>
+
+<span class="sd">        ref</span>
+<span class="sd">            Branch, tag, or commit SHA to get the file from</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        File content as string or None if file not found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get_file_content</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">synchronize_changelog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a changelog description prompt.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        content</span>
+<span class="sd">            list of modified files</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Generated changelog description</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;LLM strategy is not defined.&quot;</span><span class="p">)</span>
+
+        <span class="n">files_summary</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">file_info</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">additions</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;additions&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">deletions</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;deletions&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">patch</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="n">files_summary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                File: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span>
+<span class="s2">                Status: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span>
+<span class="s2">                Changes: +</span><span class="si">{</span><span class="n">additions</span><span class="si">}</span><span class="s2"> -</span><span class="si">{</span><span class="n">deletions</span><span class="si">}</span>
+<span class="s2">                Patch:</span><span class="si">{</span><span class="n">patch</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">changelog_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Based on the following pull request changes, generate a changelog description in this format:</span>
+
+<span class="s2">        ## Added</span>
+<span class="s2">        [List new features, functionality, or files that were added]</span>
+
+<span class="s2">        ## Modified</span>
+<span class="s2">        [List existing features, functionality, or files that were changed/updated]</span>
+
+<span class="s2">        ## Fixed</span>
+<span class="s2">        [List bugs, issues, or problems that were resolved]</span>
+
+<span class="s2">        Pull Request Files Changed:</span>
+<span class="s2">        </span><span class="si">{</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">files_summary</span><span class="p">)</span><span class="si">}</span>
+
+<span class="s2">        Instructions:</span>
+<span class="s2">        - Analyze the code changes and categorize them appropriately</span>
+<span class="s2">        - Use bullet points with clear, concise descriptions</span>
+<span class="s2">        - Focus on user-facing changes and important technical improvements</span>
+<span class="s2">        - If a category has no changes, omit it.</span>
+<span class="s2">        - Keep descriptions professional and informative without too much verbosity.</span>
+<span class="s2">        - Return ONLY the changelog content in plain text without markdown code blocks or backticks.</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">changelog_description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke_llm</span><span class="p">(</span><span class="n">changelog_prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">changelog_description</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">bump_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changelog</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Identify the version to bump and return the new version.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        changelog</span>
+<span class="sd">            The changelog description</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        New version string in the same format as current version</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">current_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_tag</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">current_version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;0.1.0&quot;</span>
+
+        <span class="n">version_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Based on the following changelog, determine the appropriate version bump type according to semantic versioning principles.</span>
+
+<span class="s2">        Current version: </span><span class="si">{</span><span class="n">current_version</span><span class="si">}</span>
+
+<span class="s2">        Changelog:</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">changelog</span><span class="si">}</span>
+
+<span class="s2">        Version bump guidelines:</span>
+<span class="s2">        - MAJOR: Breaking changes, incompatible API changes, or significant architectural changes</span>
+<span class="s2">        - MINOR: New features that are backward-compatible, significant improvements, or new functionality</span>
+<span class="s2">        - PATCH: Bug fixes, minor improvements, documentation updates, or small non-breaking changes</span>
+
+<span class="s2">        Analyze the changelog and provide the new version number that should be used.</span>
+
+<span class="s2">        Instructions:</span>
+<span class="s2">        - Return ONLY the new version number in the exact same format as the current version: X.Y.Z</span>
+<span class="s2">        - Do not include any explanations or additional text</span>
+<span class="s2">        - Consider the severity and scope of changes in the changelog</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="n">new_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke_llm</span><span class="p">(</span><span class="n">version_prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_version</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_licenses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check software licenses used by the repository.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        branch</span>
+<span class="sd">            The branch to check for licenses</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Formatted markdown table with license information</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">files_content</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files_to_check</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_file_content</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">branch</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">content</span><span class="p">:</span>
+                <span class="n">files_content</span><span class="p">[</span><span class="n">file_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">content</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">files_content</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">license_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Analyze the following files and identify all software packages/dependencies and their licenses.</span>
+
+<span class="s2">        Files:</span>
+<span class="s2">        </span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}{</span><span class="n">content</span><span class="si">}{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">files_content</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span><span class="si">}</span>
+
+<span class="s2">        Create a detailed analysis with:</span>
+<span class="s2">        1. List of all packages/dependencies found</span>
+<span class="s2">        2. For each package, identify its license type (MIT, Apache 2.0, GPL, BSD, etc.)</span>
+<span class="s2">        3. Assign a severity level:</span>
+<span class="s2">           - 🟢 Low: Permissive licenses (MIT, Apache, BSD)</span>
+<span class="s2">           - 🟡 Medium: Weak copyleft (LGPL, MPL)</span>
+<span class="s2">           - 🔴 High: Strong copyleft or commercial restrictions (GPL, AGPL, proprietary)</span>
+<span class="s2">           - ⚪ Unknown: License not found or unclear</span>
+
+<span class="s2">        Format the response as a markdown table with columns: Package | License | Severity</span>
+
+<span class="s2">        Important:</span>
+<span class="s2">        - Only include actual packages/dependencies, not base images or comments</span>
+<span class="s2">        - Be specific about license versions when possible (e.g., &quot;GPL-3.0&quot; not just &quot;GPL&quot;)</span>
+<span class="s2">        - If you cannot determine a license, mark it as &quot;Unknown&quot;</span>
+<span class="s2">        - Include a brief summary at the end with counts by severity level</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">license_analysis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke_llm</span><span class="p">(</span><span class="n">license_prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">license_analysis</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.strategy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">strategy</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.strategy" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the LLM strategy associated with this Git provider.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.strategy--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.strategy--returns" title="Permanent link">&para;</a></h6>
+<p>The LLM strategy instance</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.bump_version" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">bump_version</span><span class="p">(</span><span class="n">changelog</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Identify the version to bump and return the new version.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.bump_version--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version--parameters" title="Permanent link">&para;</a></h6>
+<p>changelog
+    The changelog description</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.bump_version--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.bump_version--returns" title="Permanent link">&para;</a></h6>
+<p>New version string in the same format as current version</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">bump_version</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">changelog</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identify the version to bump and return the new version.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    changelog</span>
+<span class="sd">        The changelog description</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    New version string in the same format as current version</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_tag</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">current_version</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;0.1.0&quot;</span>
+
+    <span class="n">version_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Based on the following changelog, determine the appropriate version bump type according to semantic versioning principles.</span>
+
+<span class="s2">    Current version: </span><span class="si">{</span><span class="n">current_version</span><span class="si">}</span>
+
+<span class="s2">    Changelog:</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">changelog</span><span class="si">}</span>
+
+<span class="s2">    Version bump guidelines:</span>
+<span class="s2">    - MAJOR: Breaking changes, incompatible API changes, or significant architectural changes</span>
+<span class="s2">    - MINOR: New features that are backward-compatible, significant improvements, or new functionality</span>
+<span class="s2">    - PATCH: Bug fixes, minor improvements, documentation updates, or small non-breaking changes</span>
+
+<span class="s2">    Analyze the changelog and provide the new version number that should be used.</span>
+
+<span class="s2">    Instructions:</span>
+<span class="s2">    - Return ONLY the new version number in the exact same format as the current version: X.Y.Z</span>
+<span class="s2">    - Do not include any explanations or additional text</span>
+<span class="s2">    - Consider the severity and scope of changes in the changelog</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="n">new_version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke_llm</span><span class="p">(</span><span class="n">version_prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_version</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">check_licenses</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Check software licenses used by the repository.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses--parameters" title="Permanent link">&para;</a></h6>
+<p>branch
+    The branch to check for licenses</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.check_licenses--returns" title="Permanent link">&para;</a></h6>
+<p>Formatted markdown table with license information</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">check_licenses</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check software licenses used by the repository.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    branch</span>
+<span class="sd">        The branch to check for licenses</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Formatted markdown table with license information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">files_content</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files_to_check</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_file_content</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">branch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">content</span><span class="p">:</span>
+            <span class="n">files_content</span><span class="p">[</span><span class="n">file_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">content</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">files_content</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">license_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Analyze the following files and identify all software packages/dependencies and their licenses.</span>
+
+<span class="s2">    Files:</span>
+<span class="s2">    </span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}{</span><span class="n">content</span><span class="si">}{</span><span class="nb">chr</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">content</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">files_content</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span><span class="si">}</span>
+
+<span class="s2">    Create a detailed analysis with:</span>
+<span class="s2">    1. List of all packages/dependencies found</span>
+<span class="s2">    2. For each package, identify its license type (MIT, Apache 2.0, GPL, BSD, etc.)</span>
+<span class="s2">    3. Assign a severity level:</span>
+<span class="s2">       - 🟢 Low: Permissive licenses (MIT, Apache, BSD)</span>
+<span class="s2">       - 🟡 Medium: Weak copyleft (LGPL, MPL)</span>
+<span class="s2">       - 🔴 High: Strong copyleft or commercial restrictions (GPL, AGPL, proprietary)</span>
+<span class="s2">       - ⚪ Unknown: License not found or unclear</span>
+
+<span class="s2">    Format the response as a markdown table with columns: Package | License | Severity</span>
+
+<span class="s2">    Important:</span>
+<span class="s2">    - Only include actual packages/dependencies, not base images or comments</span>
+<span class="s2">    - Be specific about license versions when possible (e.g., &quot;GPL-3.0&quot; not just &quot;GPL&quot;)</span>
+<span class="s2">    - If you cannot determine a license, mark it as &quot;Unknown&quot;</span>
+<span class="s2">    - Include a brief summary at the end with counts by severity level</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">license_analysis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke_llm</span><span class="p">(</span><span class="n">license_prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">license_analysis</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_issue" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create_issue</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create an issue in the repository.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_issue--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue--parameters" title="Permanent link">&para;</a></h6>
+<p>title
+    Issue title</p>
+<p>body
+    Issue body text</p>
+<p>labels
+    List of label names to apply to the issue</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_issue--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_issue--returns" title="Permanent link">&para;</a></h6>
+<p>Created issue number</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_issue</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an issue in the repository.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    title</span>
+<span class="sd">        Issue title</span>
+
+<span class="sd">    body</span>
+<span class="sd">        Issue body text</span>
+
+<span class="sd">    labels</span>
+<span class="sd">        List of label names to apply to the issue</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Created issue number</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_issue</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_body" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create_pr_body</span><span class="p">(</span><span class="n">pr_number</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_body" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Fill in the description body of a pull request.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_body--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_body--parameters" title="Permanent link">&para;</a></h6>
+<p>pr_number
+    Pull request number</p>
+<p>body
+    Pull request body text</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_pr_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fill in the description body of a pull request.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pr_number</span>
+<span class="sd">        Pull request number</span>
+
+<span class="sd">    body</span>
+<span class="sd">        Pull request body text</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_pr_body</span><span class="p">(</span><span class="n">pr_number</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_comment" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create_pr_comment</span><span class="p">(</span><span class="n">pr_number</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_comment" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create a comment on a pull request.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_comment--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_pr_comment--parameters" title="Permanent link">&para;</a></h6>
+<p>pr_number
+    Pull request number</p>
+<p>message
+    Comment message</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_pr_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a comment on a pull request.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pr_number</span>
+<span class="sd">        Pull request number</span>
+
+<span class="sd">    message</span>
+<span class="sd">        Comment message</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_pr_comment</span><span class="p">(</span><span class="n">pr_number</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_release" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create_release</span><span class="p">(</span><span class="n">body</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_release" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create a release in the repository.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_release--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_release--parameters" title="Permanent link">&para;</a></h6>
+<p>body
+    Release notes</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_release</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a release in the repository.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    body</span>
+<span class="sd">        Release notes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_release</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_tag" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_tag" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create a tag in the repository.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.create_tag--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.create_tag--parameters" title="Permanent link">&para;</a></h6>
+<p>tag
+    version of the repo</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a tag in the repository.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tag</span>
+<span class="sd">        version of the repo</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_current_tag" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_current_tag</span><span class="p">()</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_current_tag" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the current tag of the repository.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_current_tag--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_current_tag--returns" title="Permanent link">&para;</a></h6>
+<p>Current version of the repository</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_current_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the current tag of the repository.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Current version of the repository</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get_current_tag</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_file_content</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="s1">&#39;main&#39;</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the content of a file from the repository.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content--parameters" title="Permanent link">&para;</a></h6>
+<p>file_path
+    Path to the file in the repository</p>
+<p>ref
+    Branch, tag, or commit SHA to get the file from</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_file_content--returns" title="Permanent link">&para;</a></h6>
+<p>File content as string or None if file not found</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_file_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the content of a file from the repository.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_path</span>
+<span class="sd">        Path to the file in the repository</span>
+
+<span class="sd">    ref</span>
+<span class="sd">        Branch, tag, or commit SHA to get the file from</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    File content as string or None if file not found</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get_file_content</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_pr_body</span><span class="p">(</span><span class="n">pr_number</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the body/description of a pull request.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body--parameters" title="Permanent link">&para;</a></h6>
+<p>pr_number
+    Pull request number</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_body--returns" title="Permanent link">&para;</a></h6>
+<p>The PR body text or None if not present</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_pr_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the body/description of a pull request.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pr_number</span>
+<span class="sd">        Pull request number</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    The PR body text or None if not present</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get_pr_body</span><span class="p">(</span><span class="n">pr_number</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_pr_files</span><span class="p">(</span><span class="n">pr_number</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the list of files changed in a pull request.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files--parameters" title="Permanent link">&para;</a></h6>
+<p>pr_number
+    Pull request number</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.get_pr_files--returns" title="Permanent link">&para;</a></h6>
+<p>List of files changed in the pull request</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_pr_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the list of files changed in a pull request.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pr_number</span>
+<span class="sd">        Pull request number</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List of files changed in the pull request</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get_pr_files</span><span class="p">(</span><span class="n">pr_number</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">invoke_llm</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Send a request to a LLM.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm--parameters" title="Permanent link">&para;</a></h6>
+<p>prompt
+    The prompt to send to the LLM</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.invoke_llm--returns" title="Permanent link">&para;</a></h6>
+<p>Answer of the LLM or None</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">invoke_llm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Send a request to a LLM.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    prompt</span>
+<span class="sd">        The prompt to send to the LLM</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Answer of the LLM or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;LLM strategy is not defined.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span><span class="o">.</span><span class="n">invoke_llm</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.search_issues" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">search_issues</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;open&#39;</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Search for issues in the repository.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.search_issues--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues--parameters" title="Permanent link">&para;</a></h6>
+<p>query
+    Search query string to match in issue titles</p>
+<p>state
+    Issue state: 'open', 'closed', or 'all'</p>
+<p>labels
+    Filter by label names</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.search_issues--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.search_issues--returns" title="Permanent link">&para;</a></h6>
+<p>List of matching issues</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">search_issues</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Search for issues in the repository.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    query</span>
+<span class="sd">        Search query string to match in issue titles</span>
+
+<span class="sd">    state</span>
+<span class="sd">        Issue state: &#39;open&#39;, &#39;closed&#39;, or &#39;all&#39;</span>
+
+<span class="sd">    labels</span>
+<span class="sd">        Filter by label names</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List of matching issues</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">search_issues</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.set_llm_strategy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">set_llm_strategy</span><span class="p">(</span><span class="n">provider</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.set_llm_strategy" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Set the LLM strategy using the builder pattern.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.set_llm_strategy--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.set_llm_strategy--parameters" title="Permanent link">&para;</a></h6>
+<p>provider
+    LLM provider name</p>
+<p>model
+    LLM model name</p>
+<p>temperature
+    LLM temperature</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_llm_strategy</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">provider</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">temperature</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the LLM strategy using the builder pattern.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    provider</span>
+<span class="sd">        LLM provider name</span>
+
+<span class="sd">    model</span>
+<span class="sd">        LLM model name</span>
+
+<span class="sd">    temperature</span>
+<span class="sd">        LLM temperature</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_builder</span><span class="o">.</span><span class="n">set_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">set_temperature</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">synchronize_changelog</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create a changelog description prompt.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog--parameters" title="Permanent link">&para;</a></h6>
+<p>content
+    list of modified files</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.synchronize_changelog--returns" title="Permanent link">&para;</a></h6>
+<p>Generated changelog description</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">synchronize_changelog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a changelog description prompt.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    content</span>
+<span class="sd">        list of modified files</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Generated changelog description</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;LLM strategy is not defined.&quot;</span><span class="p">)</span>
+
+    <span class="n">files_summary</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">file_info</span> <span class="ow">in</span> <span class="n">content</span><span class="p">:</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">additions</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;additions&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">deletions</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;deletions&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">patch</span> <span class="o">=</span> <span class="n">file_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">files_summary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            File: </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span>
+<span class="s2">            Status: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span>
+<span class="s2">            Changes: +</span><span class="si">{</span><span class="n">additions</span><span class="si">}</span><span class="s2"> -</span><span class="si">{</span><span class="n">deletions</span><span class="si">}</span>
+<span class="s2">            Patch:</span><span class="si">{</span><span class="n">patch</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="n">changelog_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Based on the following pull request changes, generate a changelog description in this format:</span>
+
+<span class="s2">    ## Added</span>
+<span class="s2">    [List new features, functionality, or files that were added]</span>
+
+<span class="s2">    ## Modified</span>
+<span class="s2">    [List existing features, functionality, or files that were changed/updated]</span>
+
+<span class="s2">    ## Fixed</span>
+<span class="s2">    [List bugs, issues, or problems that were resolved]</span>
+
+<span class="s2">    Pull Request Files Changed:</span>
+<span class="s2">    </span><span class="si">{</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">files_summary</span><span class="p">)</span><span class="si">}</span>
+
+<span class="s2">    Instructions:</span>
+<span class="s2">    - Analyze the code changes and categorize them appropriately</span>
+<span class="s2">    - Use bullet points with clear, concise descriptions</span>
+<span class="s2">    - Focus on user-facing changes and important technical improvements</span>
+<span class="s2">    - If a category has no changes, omit it.</span>
+<span class="s2">    - Keep descriptions professional and informative without too much verbosity.</span>
+<span class="s2">    - Return ONLY the changelog content in plain text without markdown code blocks or backticks.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">changelog_description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">invoke_llm</span><span class="p">(</span><span class="n">changelog_prompt</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">changelog_description</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.git_providers.core.git_factory.GitProvider.update_issue" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">update_issue</span><span class="p">(</span><span class="n">issue_number</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Update an existing issue.</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.update_issue--parameters">Parameters<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue--parameters" title="Permanent link">&para;</a></h6>
+<p>issue_number
+    Issue number to update</p>
+<p>title
+    New title (optional)</p>
+<p>body
+    New body content (optional)</p>
+<p>state
+    New state: 'open' or 'closed' (optional)</p>
+<h6 id="taglyatelle.git_providers.core.git_factory.GitProvider.update_issue--returns">Returns<a class="headerlink" href="#taglyatelle.git_providers.core.git_factory.GitProvider.update_issue--returns" title="Permanent link">&para;</a></h6>
+<p>Created issue number</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/git_providers/core/git_factory.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_issue</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">issue_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">body</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update an existing issue.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    issue_number</span>
+<span class="sd">        Issue number to update</span>
+
+<span class="sd">    title</span>
+<span class="sd">        New title (optional)</span>
+
+<span class="sd">    body</span>
+<span class="sd">        New body content (optional)</span>
+
+<span class="sd">    state</span>
+<span class="sd">        New state: &#39;open&#39; or &#39;closed&#39; (optional)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Created issue number</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">update_issue</span><span class="p">(</span><span class="n">issue_number</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="alexym1" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m20 8-8 5-8-5V6l8 5 8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.instant", "navigation.tabs.sticky"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
