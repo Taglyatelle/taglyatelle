@@ -1,0 +1,78 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "taglyatelle"
+version = "0.1.0"
+homepage = "https://github.com/alexym1/taglyatelle"
+description = "Automate low-value tasks on cloud-based platforms"
+authors = [{ name = "Alex MARTINEZ" }]
+requires-python = ">=3.12,<3.13"
+keywords = [
+  "uv", "requirements", "packaging"
+]
+classifiers=[
+    'Intended Audience :: Developers',
+    'Natural Language :: English',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.12',
+]
+readme = "README.md"
+packages = [
+    { include = "taglyatelle"},
+    { include = "tests", format = "sdist" },
+]
+
+dependencies = [
+    "aiofiles>=25.1.0",
+    "anthropic>=0.67.0",
+    "cryptography>=46.0.3",
+    "dotenv>=0.9.9",
+    "fastapi>=0.116.1",
+    "google-genai>=1.38.0",
+    "httpx>=0.28.1",
+    "llama-api-client>=0.5.0",
+    "mistralai>=1.9.11",
+    "openai>=2.7.1",
+    "pydantic>=2.12.4",
+    "pydantic-core>=2.41.5",
+    "pyjwt>=2.10.1",
+    "requests>=2.32.5",
+    "uvicorn>=0.35.0",
+]
+
+[project.optional-dependencies]
+typing = [
+    "types-requests>=2.32.4.20250913",
+    "mypy",
+    "types-pyyaml",
+    "typing-inspection>=0.4.2",
+    "typing_extensions",
+    "types-aiofiles"
+]
+
+test = [
+    "pytest>=9.0.0",
+    "pytest-cov>=7.0.0",
+    "pytest-mock"
+]
+
+dev = [
+    "bump2version"
+]
+
+doc = [
+    "mkdocs",
+    "mkdocs-include-markdown-plugin>=7.2.0",
+    "mkdocs-material",
+    "mkdocstrings>=0.30.1",
+    "mkdocstrings-python",
+    "mkdocs-material-extensions",
+    "pytkdocs",
+    "mkdocs-autorefs",
+    "mkdocs-gen-files",
+    "mkdocs-literate-nav",
+    "jinja2",
+    "MarkupSafe>=3.0.3"
+]

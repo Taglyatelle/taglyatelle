@@ -1,0 +1,1 @@
+"""Core git provider functionality."""
