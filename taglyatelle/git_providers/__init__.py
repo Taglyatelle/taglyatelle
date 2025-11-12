@@ -1,0 +1,1 @@
+"""Git providers for Taglyatelle."""
