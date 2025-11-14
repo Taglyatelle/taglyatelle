@@ -42,7 +42,7 @@ options:
   logging: CLOUD_LOGGING_ONLY
 substitutions:
   _AR_REPOSITORY: cloud-run-source-deploy
-  _AR_PROJECT_ID: taglyatelle
+  _AR_PROJECT_ID: taglyatelle-476911
   _TRIGGER_ID: 54074941-77f6-411d-8156-38eb6a882d51
   _SERVICE_NAME: taglyatelle
   _DEPLOY_REGION: europe-west9
