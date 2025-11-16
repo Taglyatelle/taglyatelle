@@ -415,6 +415,7 @@ class GitProvider:
         - Return ONLY the new version number in the exact same format as the current version: X.Y.Z
         - Do not include any explanations or additional text
         - Consider the severity and scope of changes in the changelog
+        - If the changelog mentions bumping version files or updating version numbers, use the current version: {current_version}
         """
 
         new_version = self.invoke_llm(version_prompt)
