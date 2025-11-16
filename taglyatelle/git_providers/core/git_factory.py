@@ -24,8 +24,53 @@ class GitProvider:
         self._strategy = None
 
         self.files_to_check = [
+            # Python
             "requirements.txt",
             "pyproject.toml",
+            "uv.lock",
+            "poetry.lock",
+            "setup.py",
+            "setup.cfg",
+            "Pipfile",
+            "Pipfile.lock",
+            # R
+            "DESCRIPTION",
+            "renv.lock",
+            # JavaScript/Node.js
+            "package.json",
+            "package-lock.json",
+            "yarn.lock",
+            "pnpm-lock.yaml",
+            # Ruby
+            "Gemfile",
+            "Gemfile.lock",
+            # Java/Maven
+            "pom.xml",
+            # Java/Gradle
+            "build.gradle",
+            "build.gradle.kts",
+            # .NET
+            "packages.config",
+            "*.csproj",
+            "*.fsproj",
+            "*.vbproj",
+            # Go
+            "go.mod",
+            "go.sum",
+            # Rust
+            "Cargo.toml",
+            "Cargo.lock",
+            # PHP/Composer
+            "composer.json",
+            "composer.lock",
+            # Elixir
+            "mix.exs",
+            "mix.lock",
+            # Docker
+            "Dockerfile",
+            # GitHub Actions
+            ".github/workflows/*.yml",
+            ".github/workflows/*.yaml",
         ]
 
     def _get_adapter(self) -> GitAdapter:
