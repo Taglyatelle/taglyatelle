@@ -195,6 +195,3 @@ docker-run:
 
 show-api:
 	@${UV} run uvicorn taglyatelle.exposition.taglyatelle_api:app --host 0.0.0.0 --port 8000
-
-activate:
-	source .venv/bin/activate
