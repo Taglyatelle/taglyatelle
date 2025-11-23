@@ -7,6 +7,7 @@ from taglyatelle.slash_commands.check_licenses.core.license_registry import (
     check_license_registry,
 )
 
+import pandas as pd
 
 class LicenseProvider:
     """Adapter for multiple license providers."""
@@ -26,21 +27,19 @@ class LicenseProvider:
         adapter_cls = check_license_registry.get(self.provider)
         if not adapter_cls:
             raise ValueError(
-                f"Unsupported provider: {self.provider}. Supported providers are: {list(check_license_registry.keys())}"
+                f"Unsupported provider: {self.provider}. Supported languages are: {list(check_license_registry.keys())}"
             )
         return adapter_cls()
 
-    def parse(self, files: list[str]) -> dict[str, str]:
+    def parse(self) -> None | list[dict[str, str]]:
         """
-        Send a request to a LLM.
-
-        Parameters
-        ----------
-        files
-            The list of files to parse
+        Parse the selected files to extract their licenses.
 
         Returns
         -------
         A dictionary mapping file names to their licenses
         """
-        return self.adapter.parse(files)
+        parsing_packages = self.adapter.parse()
+        df_parsing = pd.DataFrame(parsing_packages)
+        df_parsing["severity"] = df_parsing["license"].apply(lambda x: self.adapter._get_complaince(x))
+        return df_parsing.to_dict('records')
