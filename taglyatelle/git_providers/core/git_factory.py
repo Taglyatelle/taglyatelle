@@ -255,24 +255,6 @@ class GitProvider:
         """
         return self.adapter.update_issue(issue_number, title, body, state)
 
-    def get_file_content(self, file_path: str, ref: str = "main") -> str | None:
-        """
-        Get the content of a file from the repository.
-
-        Parameters
-        ----------
-        file_path
-            Path to the file in the repository
-
-        ref
-            Branch, tag, or commit SHA to get the file from
-
-        Returns
-        -------
-        File content as string or None if file not found
-        """
-        return self.adapter.get_file_content(file_path, ref)
-
     def synchronize_changelog(self, content: list[dict[str, str | int]]) -> str:
         """
         Create a changelog description prompt.

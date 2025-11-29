@@ -7,7 +7,6 @@ from taglyatelle.git_providers.core.git_adapter import GitAdapter
 from dotenv import load_dotenv
 import logging
 import os
-import base64
 
 if os.path.exists(".env"):
     load_dotenv()
@@ -366,30 +365,3 @@ class GithubAdapter(GitAdapter):
         URL encoded query string
         """
         return "&".join(f"{key}={value}" for key, value in params.items() if value)
-
-    def get_file_content(self, file_path: str, ref: str = "main") -> str | None:
-        """
-        Get the content of a file from the repository.
-
-        Parameters
-        ----------
-        file_path
-            Path to the file in the repository
-
-        ref
-            Branch, tag, or commit SHA to get the file from
-
-        Returns
-        -------
-        File content as string or None if file not found
-        """
-        try:
-            response = self._get_request(url=f"contents/{file_path}?ref={ref}")
-            if response.status_code == 200:
-                data = response.json()
-                content = base64.b64decode(data["content"]).decode("utf-8")
-                return content
-            return None
-        except Exception as e:
-            logging.warning(f"Could not retrieve file {file_path}: {e}")
-            return None

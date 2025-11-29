@@ -1,0 +1,14 @@
+services:
+  github-mcp-server:
+    image: ghcr.io/github/github-mcp-server:latest
+    container_name: github-mcp-server
+    stdin_open: true
+    tty: true
+    environment:
+      - GITHUB_PERSONAL_ACCESS_TOKEN=${GITHUB_TOKEN}
+    networks:
+      - taglyatelle-network
+
+networks:
+  taglyatelle-network:
+    driver: bridge
