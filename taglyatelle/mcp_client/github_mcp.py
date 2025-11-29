@@ -15,8 +15,8 @@ if os.path.exists(".env"):
 class GithubMcpClient:
     """Define GitHub MCP Client."""
 
-    def __init__(self, github_token: str | None = None):
-        self.github_token = github_token or os.getenv("GITHUB_TOKEN")
+    def __init__(self, github_token: str):
+        self.github_token = github_token
         if not self.github_token:
             raise ValueError(
                 "GitHub token is required. Provide it or set GITHUB_TOKEN env variable."
