@@ -13,25 +13,14 @@ if os.path.exists(".env"):
 
 
 class GithubMcpClient:
-    """
-    GitHub MCP Client that provides tools to LLMs.
-    
-    This client connects to the MCP GitHub server and allows LLMs
-    to discover and use available tools dynamically.
-    """
+    """Define GitHub MCP Client."""
 
     def __init__(self, github_token: str | None = None):
-        """
-        Initialize the GitHub MCP client.
-
-        Parameters
-        ----------
-        github_token
-            GitHub personal access token.
-        """
         self.github_token = github_token or os.getenv("GITHUB_TOKEN")
         if not self.github_token:
-            raise ValueError("GitHub token is required. Provide it or set GITHUB_TOKEN env variable.")
+            raise ValueError(
+                "GitHub token is required. Provide it or set GITHUB_TOKEN env variable."
+            )
 
     def _get_server_params(self) -> StdioServerParameters:
         """
@@ -41,7 +30,6 @@ class GithubMcpClient:
         -------
         StdioServerParameters configured for GitHub MCP server
         """
-        # Use Docker to run the official GitHub MCP server
         return StdioServerParameters(
             command="docker",
             args=[
@@ -62,13 +50,6 @@ class GithubMcpClient:
         Returns
         -------
         List of tool definitions with their schemas
-        
-        Examples
-        --------
-        >>> client = GithubMcpClient()
-        >>> tools = await client.get_available_tools()
-        >>> print([tool['name'] for tool in tools])
-        ['get_issue', 'create_issue', 'get_pull_request', ...]
         """
         try:
             server_params = self._get_server_params()
@@ -76,8 +57,7 @@ class GithubMcpClient:
                 async with ClientSession(read, write) as session:
                     await session.initialize()
                     tools_list = await session.list_tools()
-                    
-                    # Convert tools to a format usable by LLMs
+
                     return [
                         {
                             "name": tool.name,
@@ -101,21 +81,14 @@ class GithubMcpClient:
         Parameters
         ----------
         tool_name
-            Name of the tool to call (e.g., 'get_issue', 'create_pull_request')
+            Name of the tool to call
+
         arguments
             Dictionary of arguments for the tool
 
         Returns
         -------
         Tool result or None if call failed
-        
-        Examples
-        --------
-        >>> client = GithubMcpClient()
-        >>> result = await client.call_tool(
-        ...     "get_issue",
-        ...     {"owner": "octocat", "repo": "Hello-World", "issue_number": 1}
-        ... )
         """
         try:
             server_params = self._get_server_params()
@@ -131,38 +104,20 @@ class GithubMcpClient:
 
     async def execute_with_context(
         self,
-        github_context: dict[str, Any] | None = None,
     ) -> tuple[list[dict[str, Any]], ClientSession | None]:
         """
         Create a session and return available tools with context.
-        
-        This method is useful when you want to pass tools to an LLM
-        and let it decide which ones to use based on the context.
-
-        Parameters
-        ----------
-        github_context
-            Optional GitHub context to provide to the LLM
 
         Returns
         -------
         Tuple of (available_tools, session) for LLM to use
-        
-        Examples
-        --------
-        >>> client = GithubMcpClient()
-        >>> tools, session = await client.execute_with_context(
-        ...     {"owner": "octocat", "repo": "Hello-World"}
-        ... )
-        >>> # Pass tools to LLM, let it choose which to call
-        >>> # Then use session.call_tool() based on LLM's choice
         """
         try:
             server_params = self._get_server_params()
             read, write = await stdio_client(server_params).__aenter__()
             session = await ClientSession(read, write).__aenter__()
             await session.initialize()
-            
+
             tools_list = await session.list_tools()
             tools = [
                 {
@@ -172,7 +127,7 @@ class GithubMcpClient:
                 }
                 for tool in tools_list.tools
             ]
-            
+
             return tools, session
         except Exception as e:
             print(f"Error initializing MCP session: {e}")
@@ -194,8 +149,7 @@ class GithubMcpClient:
         """
         if isinstance(result, list):
             return "\n".join(
-                item.text if hasattr(item, "text") else str(item)
-                for item in result
+                item.text if hasattr(item, "text") else str(item) for item in result
             )
         return str(result)
 
@@ -211,6 +165,7 @@ class GithubMcpClient:
         ----------
         tools
             List of available MCP tools
+
         github_context
             Optional GitHub context
 
@@ -219,15 +174,17 @@ class GithubMcpClient:
         System prompt with tools description
         """
         prompt = "You have access to the following GitHub tools:\n\n"
-        
+
         for tool in tools:
             prompt += f"- {tool['name']}: {tool['description']}\n"
-            if tool.get('input_schema'):
-                prompt += f"  Parameters: {json.dumps(tool['input_schema'], indent=2)}\n"
-        
+            if tool.get("input_schema"):
+                prompt += (
+                    f"  Parameters: {json.dumps(tool['input_schema'], indent=2)}\n"
+                )
+
         if github_context:
-            prompt += f"\n\nCurrent GitHub context:\n{json.dumps(github_context, indent=2)}"
-        
+            prompt += (
+                f"\n\nCurrent GitHub context:\n{json.dumps(github_context, indent=2)}"
+            )
+
         return prompt
-
-
