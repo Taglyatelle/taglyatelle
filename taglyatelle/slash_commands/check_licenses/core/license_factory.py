@@ -9,6 +9,7 @@ from taglyatelle.slash_commands.check_licenses.core.license_registry import (
 
 import pandas as pd
 
+
 class LicenseProvider:
     """Adapter for multiple license providers."""
 
@@ -41,5 +42,7 @@ class LicenseProvider:
         """
         parsing_packages = self.adapter.parse()
         df_parsing = pd.DataFrame(parsing_packages)
-        df_parsing["severity"] = df_parsing["license"].apply(lambda x: self.adapter._get_complaince(x))
-        return df_parsing.to_dict('records')
+        df_parsing["severity"] = df_parsing["license"].apply(
+            lambda x: self.adapter._get_complaince(x)
+        )
+        return df_parsing.to_dict("records")

@@ -10,7 +10,6 @@ from importlib import metadata
 from pathlib import Path
 import urllib.request
 import json
-import pandas as pd
 
 
 class PythonAdapter(LicenseAdapter):
