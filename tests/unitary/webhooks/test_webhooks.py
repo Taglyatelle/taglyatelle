@@ -6,28 +6,29 @@ from taglyatelle.webhooks.webhook_github import GithubWebhookAdapter
 
 
 @pytest.mark.parametrize(
-    "path, secret, header, expected_detail",
+    "payload_bytes, secret, header, expected_detail",
     [
         (
-            "data/payload.json",
+            b'{"action": "opened"}',
             "my_secret_token",
             "",
             "x-hub-signature-256 header missing",
         ),
         (
-            "data/payload.json",
+            b'{"action": "opened"}',
             "hash_secret",
             "sha256=01532439e0104e69bb09743e6a31a0fec11216660869fb2a4891f27851723a16",
             "Signature mismatch",
         ),
-        ("data/payload.json", "hash_secret", "hash_header", "Signature mismatch"),
+        (
+            b'{"action": "opened", "number": 2}',
+            "hash_secret",
+            "sha256=invalid_hash",
+            "Signature mismatch",
+        ),
     ],
 )
-def test_verify_signature(path, secret, header, expected_detail):
-    with open(path, "rb") as json_file:
-        payload_bytes = json_file.read()
-
-    # Mock the request object
+def test_verify_signature(payload_bytes, secret, header, expected_detail):
     mock_request = Mock()
     mock_request.headers = MagicMock()
 
