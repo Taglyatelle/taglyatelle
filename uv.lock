@@ -1286,7 +1286,7 @@ requires-dist = [
     { name = "jinja2", marker = "extra == 'doc'" },
     { name = "llama-api-client", specifier = ">=0.5.0" },
     { name = "markupsafe", marker = "extra == 'doc'", specifier = ">=3.0.3" },
-    { name = "mcp", specifier = ">=1.0.0" },
+    { name = "mcp", specifier = ">=1.22.0" },
     { name = "mistralai", specifier = ">=1.9.11" },
     { name = "mkdocs", marker = "extra == 'doc'" },
     { name = "mkdocs-autorefs", marker = "extra == 'doc'" },
