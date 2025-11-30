@@ -29,16 +29,6 @@ class GitMcpAdapter(ABC):
     ) -> tuple[list[dict[str, Any]], ClientSession | None]:
         raise NotImplementedError
 
-    @abstractmethod
-    def continue_with_tool_result(
-        self,
-        conversation_history: list[str],
-        tool_results: list[dict[str, Any]],
-        tools: list[dict[str, Any]],
-        system_instruction: str,
-    ) -> dict[str, Any]:
-        raise NotImplementedError
-
     @staticmethod
     def format_tool_result(result: Any) -> str:
         raise NotImplementedError

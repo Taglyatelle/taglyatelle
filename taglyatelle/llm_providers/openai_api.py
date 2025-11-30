@@ -115,7 +115,7 @@ class OpenAIAdapter(LlmAdapter):
         )
 
         result = self._extract_response_parts(response)
-        result["raw_response"] = response  # Include raw response for tool call tracking
+        result["raw_response"] = response
         return result
 
     def _extract_response_parts(self, response: Any) -> dict[str, Any]:
@@ -139,7 +139,7 @@ class OpenAIAdapter(LlmAdapter):
             for tool_call in message.tool_calls:
                 tool_calls.append(
                     {
-                        "id": tool_call.id,  # Include the tool_call_id
+                        "id": tool_call.id,
                         "name": tool_call.function.name,
                         "arguments": eval(tool_call.function.arguments),
                     }
@@ -189,7 +189,6 @@ class OpenAIAdapter(LlmAdapter):
         for msg in conversation_history:
             messages.append({"role": "user", "content": msg})
 
-        # Add the assistant's message with tool calls
         if assistant_message:
             messages.append(
                 {
@@ -209,7 +208,6 @@ class OpenAIAdapter(LlmAdapter):
                 }
             )
 
-        # Add tool results
         for tool_result in tool_results:
             messages.append(
                 {
