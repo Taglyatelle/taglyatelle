@@ -6,17 +6,18 @@ from typing import Any
 
 from dotenv import load_dotenv
 from mcp import ClientSession, StdioServerParameters
+from taglyatelle.mcp_client.core.mcp_adapter import GitMcpAdapter
 from mcp.client.stdio import stdio_client
 
 if os.path.exists(".env"):
     load_dotenv()
 
 
-class GithubMcpClient:
+class GithubMcpClient(GitMcpAdapter):
     """Define GitHub MCP Client."""
 
-    def __init__(self, github_token: str):
-        self.github_token = github_token
+    def __init__(self, token: str):
+        self.github_token = token
         if not self.github_token:
             raise ValueError(
                 "GitHub token is required. Provide it or set GITHUB_TOKEN env variable."
@@ -156,7 +157,7 @@ class GithubMcpClient:
     @staticmethod
     def build_system_prompt(
         tools: list[dict[str, Any]],
-        github_context: dict[str, Any] | None = None,
+        context: dict[str, Any] | None = None,
     ) -> str:
         """
         Build a system prompt that includes available tools.
@@ -166,7 +167,7 @@ class GithubMcpClient:
         tools
             List of available MCP tools
 
-        github_context
+        context
             Optional GitHub context
 
         Returns
@@ -182,9 +183,7 @@ class GithubMcpClient:
                     f"  Parameters: {json.dumps(tool['input_schema'], indent=2)}\n"
                 )
 
-        if github_context:
-            prompt += (
-                f"\n\nCurrent GitHub context:\n{json.dumps(github_context, indent=2)}"
-            )
+        if context:
+            prompt += f"\n\nCurrent GitHub context:\n{json.dumps(context, indent=2)}"
 
         return prompt
