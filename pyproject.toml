@@ -32,14 +32,14 @@ dependencies = [
     "docstring-parser>=0.17.0",
     "dotenv>=0.9.9",
     "fastapi>=0.121.1",
-    "google-genai>=1.38.0",
+    "google-genai>=1.52.0",
     "httpx>=0.28.1",
     "llama-api-client>=0.5.0",
     "mcp>=1.22.0",
     "mistralai>=1.9.11",
-    "openai>=2.7.1",
+    "openai>=2.8.1",
     "pandas>=2.3.3",
-    "pydantic>=2.12.4",
+    "pydantic>=2.12.5",
     "pydantic-core>=2.41.5",
     "pyjwt>=2.10.1",
     "requests>=2.32.5",
@@ -53,13 +53,13 @@ typing = [
     "types-pyyaml>=6.0.12.20250915",
     "typing-inspection>=0.4.2",
     "typing_extensions",
-    "types-aiofiles"
+    "types-aiofiles>=25.1.0.20251011"
 ]
 
 test = [
     "pytest>=9.0.0",
     "pytest-cov>=7.0.0",
-    "pytest-mock"
+    "pytest-mock>=3.15.1"
 ]
 
 dev = [
