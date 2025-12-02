@@ -30,6 +30,12 @@ from taglyatelle.llm_providers.mistral_api import MistralAdapter
             "taglyatelle.llm_providers.anthropic_api.Anthropic",
             "anthropic response",
         ),
+        (
+            "mistral",
+            "taglyatelle.llm_providers.mistral_api.MistralAdapter.invoke_llm",
+            "taglyatelle.llm_providers.mistral_api.Mistral",
+            "mistral response",
+        ),
     ],
 )
 def test_llm_provider_invoke_llm(
