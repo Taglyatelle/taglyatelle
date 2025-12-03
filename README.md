@@ -1,7 +1,7 @@
 <div align="center">
     <picture><img src="taglyatelle.png" alt="logo" width="200"></picture>
     <br/><br/>
-    <p> taglyatelle automates low-value tasks on cloud platforms by combining GitHub webhooks and AI-powered slash commands. Taglyatelle can run as Github App or locally as a standalone API.
+    <p> taglyatelle automates low-value tasks on cloud platforms by combining GitHub webhooks and AI-powered slash commands. Taglyatelle can be run as Github App or locally as a standalone API.
     <br/>
     <p>
         <a href="https://github.com/alexym1/taglyatelle/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>
