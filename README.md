@@ -1,7 +1,7 @@
 <div align="center">
     <picture><img src="taglyatelle.png" alt="logo" width="200"></picture>
     <br/><br/>
-    <p> Delegate routine tasks accross Git platforms.
+    <p> Delegate routine tasks to your AI agent accross Git platforms.
     <br/>
     <p>
         <a href="https://github.com/alexym1/taglyatelle/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>
