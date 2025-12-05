@@ -72,7 +72,7 @@ async def receipt_payload(
 
         elif payload["pull_request"]["merged"] and payload["pull_request"]["base"][
             "ref"
-        ] in ["main", "master"]:
+        ] == payload["repository"]["default_branch"]:
             changelog = provider.get_pr_body(payload["number"])
             new_version = provider.bump_version(changelog)
             provider.create_tag(tag=new_version)
