@@ -46,3 +46,9 @@ class GitAdapter:
         state: str | None = None,
     ) -> int:
         raise NotImplementedError
+
+    def get_file_content(self, file_path: str, ref: str = "main") -> str | None:
+        raise NotImplementedError
+
+    def get_repository_tree(self, ref: str = "main") -> list[str]:
+        raise NotImplementedError

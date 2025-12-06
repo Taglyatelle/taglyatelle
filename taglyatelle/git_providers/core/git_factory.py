@@ -89,6 +89,83 @@ class GitProvider:
             raise ValueError("LLM strategy is not defined.")
         return self._strategy.invoke_llm(prompt)
 
+    def get_file_content(self, file_path: str, ref: str = "main") -> str | None:
+        """
+        Get the content of a file from the repository.
+
+        Parameters
+        ----------
+        file_path
+            Path to the file in the repository
+
+        ref
+            Git reference (branch, tag, or commit SHA)
+
+        Returns
+        -------
+        Decoded file content or None if file not found
+        """
+        return self.adapter.get_file_content(file_path, ref)
+
+    def get_repository_tree(self, ref: str = "main") -> list[str]:
+        """
+        Get the file tree of the repository.
+
+        Parameters
+        ----------
+        ref
+            Git reference (branch, tag, or commit SHA)
+
+        Returns
+        -------
+        List of file paths in the repository
+        """
+        return self.adapter.get_repository_tree(ref)
+
+    def detect_main_language(self, branch: str = "main") -> str | None:
+        """
+        Detect the main programming language of the repository using LLM.
+
+        Parameters
+        ----------
+        branch
+            The branch to analyze
+
+        Returns
+        -------
+        Main programming language (e.g., 'python', 'javascript', 'java')
+        """
+        if self._strategy is None:
+            raise ValueError("LLM strategy is not defined.")
+
+        # Get repository file tree
+        files = self.get_repository_tree(ref=branch)
+
+        # Sample some key files for analysis
+        sample_files = [f for f in files if any(f.endswith(ext) for ext in [
+            '.py', '.js', '.ts', '.java', '.go', '.rb', '.php', '.cs',
+            '.cpp', '.c', '.rs', '.swift', '.kt', 'package.json',
+            'requirements.txt', 'pom.xml', 'go.mod', 'Gemfile',
+            'composer.json', 'Cargo.toml', 'pyproject.toml'
+        ])][:20]  # Limit to first 20 relevant files
+
+        language_prompt = f"""
+        Analyze the following file paths from a repository and determine the main programming language.
+
+        Files:
+        {chr(10).join(sample_files)}
+
+        Based on the file extensions and patterns, identify the PRIMARY programming language used in this repository.
+        Respond with ONLY the language name in lowercase (e.g., 'python', 'javascript', 'java', 'go', 'ruby').
+        Do not include any explanation, just the language name.
+        """
+
+        response = self.invoke_llm(language_prompt)
+        if response:
+            # Clean up the response and return lowercase language name
+            return response.strip().lower()
+        return None
+
     def get_pr_files(self, pr_number: int) -> list[dict[str, str | int]]:
         """
         Get the list of files changed in a pull request.
@@ -352,51 +429,3 @@ class GitProvider:
 
         new_version = self.invoke_llm(version_prompt)
         return str(new_version)
-
-    def check_licenses(self, branch: str) -> str | None:
-        """
-        Check software licenses used by the repository.
-
-        Parameters
-        ----------
-        branch
-            The branch to check for licenses
-
-        Returns
-        -------
-        Formatted markdown table with license information
-        """
-        files_content = {}
-        for file_path in self.files_to_check:
-            content = self.get_file_content(file_path, ref=branch)
-            if content:
-                files_content[file_path] = content
-
-        if not files_content:
-            return None
-
-        license_prompt = f"""
-        Analyze the following files and identify all software packages/dependencies and their licenses.
-
-        Files:
-        {chr(10).join([f"{path}:{chr(10)}{content}{chr(10)}" for path, content in files_content.items()])}
-
-        Create a detailed analysis with:
-        1. List of all packages/dependencies found
-        2. For each package, identify its license type (MIT, Apache 2.0, GPL, BSD, etc.)
-        3. Assign a severity level:
-           - 🟢 Low: Permissive licenses (MIT, Apache, BSD)
-           - 🟡 Medium: Weak copyleft (LGPL, MPL)
-           - 🔴 High: Strong copyleft or commercial restrictions (GPL, AGPL, proprietary)
-           - ⚪ Unknown: License not found or unclear
-
-        Format the response as a markdown table with columns: Package | License | Severity
-
-        Important:
-        - Only include actual packages/dependencies, not base images or comments
-        - Be specific about license versions when possible (e.g., "GPL-3.0" not just "GPL")
-        - If you cannot determine a license, mark it as "Unknown"
-        - Include a brief summary at the end with counts by severity level
-        """
-        license_analysis = self.invoke_llm(license_prompt)
-        return str(license_analysis)

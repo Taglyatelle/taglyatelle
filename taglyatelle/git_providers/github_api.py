@@ -365,3 +365,52 @@ class GithubAdapter(GitAdapter):
         URL encoded query string
         """
         return "&".join(f"{key}={value}" for key, value in params.items() if value)
+
+    def get_file_content(self, file_path: str, ref: str = "main") -> str | None:
+        """
+        Get the content of a file from the repository.
+
+        Parameters
+        ----------
+        file_path
+            Path to the file in the repository
+
+        ref
+            Git reference (branch, tag, or commit SHA)
+
+        Returns
+        -------
+        Decoded file content or None if file not found
+        """
+        import base64
+
+        response = self._get_request(url=f"contents/{file_path}?ref={ref}")
+        if response.status_code == 200:
+            content_data = response.json()
+            # GitHub API returns base64 encoded content
+            encoded_content = content_data.get("content", "")
+            return base64.b64decode(encoded_content).decode("utf-8")
+        return None
+
+    def get_repository_tree(self, ref: str = "main") -> list[str]:
+        """
+        Get the file tree of the repository.
+
+        Parameters
+        ----------
+        ref
+            Git reference (branch, tag, or commit SHA)
+
+        Returns
+        -------
+        List of file paths in the repository
+        """
+        response = self._get_request(url=f"git/trees/{ref}?recursive=1")
+        if response.status_code == 200:
+            tree_data = response.json()
+            files = []
+            for item in tree_data.get("tree", []):
+                if item.get("type") == "blob":  # Only include files, not directories
+                    files.append(item.get("path", ""))
+            return files
+        return []
