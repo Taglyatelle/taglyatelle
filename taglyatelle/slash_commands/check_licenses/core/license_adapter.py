@@ -44,7 +44,7 @@ class LicenseAdapter(ABC):
         -------
         A string report of license compliance
         """
-        if any(lic in type_license for lic in ["MIT", "Apache", "BSD"]):
+        if any(lic in type_license for lic in ["MIT", "Apache", "BSD", "ISC", "PSF"]):
             return "🟢 Low"
 
         if any(lic in type_license for lic in ["LGPL", "MPL"]):

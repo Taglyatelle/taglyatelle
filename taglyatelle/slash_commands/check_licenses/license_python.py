@@ -16,11 +16,11 @@ class PythonAdapter(LicenseAdapter):
     """Adapter for checking Python package licenses."""
 
     def __init__(self):
-        self.files_to_check = [
-            "requirements.txt",
-            "uv.lock",
-            "poetry.lock",
-        ]
+        self.file_handlers = {
+            "requirements.txt": self.parse_requirements_file,
+            "uv.lock": self.parse_lock_files,
+            "poetry.lock": self.parse_lock_files,
+        }
 
     def _clean_license_text(self, license_text: str) -> str:
         """
@@ -43,29 +43,52 @@ class PythonAdapter(LicenseAdapter):
         if len(license_text) > 200:
             lines = license_text.split("\n")
             first_line = lines[0].strip()
+            license_upper = license_text.upper()
 
-            if "Copyright" in first_line:
-                for line in lines[:10]:
-                    if "BSD" in line:
-                        if "3-Clause" in line or "Three-Clause" in line:
-                            return "BSD-3-Clause"
-                        elif "2-Clause" in line or "Two-Clause" in line:
-                            return "BSD-2-Clause"
-                        return "BSD License"
-                    elif "MIT" in line:
-                        return "MIT"
+            # Check for explicit BSD/MIT mentions first
+            for line in lines[:15]:
+                line_upper = line.upper()
+                if "BSD" in line_upper:
+                    if (
+                        "3-CLAUSE" in line_upper
+                        or "THREE-CLAUSE" in line_upper
+                        or "3 CLAUSE" in line_upper
+                    ):
+                        return "BSD-3-Clause"
+                    elif (
+                        "2-CLAUSE" in line_upper
+                        or "TWO-CLAUSE" in line_upper
+                        or "2 CLAUSE" in line_upper
+                    ):
+                        return "BSD-2-Clause"
+                    return "BSD License"
+                elif "MIT LICENSE" in line_upper:
+                    return "MIT"
 
-            if "GNU GENERAL PUBLIC LICENSE" in license_text:
-                if "Version 3" in license_text:
+            # Detect BSD-3-Clause by structure (redistribution + binary + no endorsement clauses)
+            if (
+                "REDISTRIBUTION AND USE" in license_upper
+                and "IN BINARY FORM" in license_upper
+                and (
+                    "ENDORSE OR PROMOTE" in license_upper
+                    or "WITHOUT SPECIFIC PRIOR WRITTEN PERMISSION" in license_upper
+                )
+            ):
+                return "BSD-3-Clause"
+
+            # Check for GPL only if BSD/MIT not found
+            if "GNU GENERAL PUBLIC LICENSE" in license_upper:
+                if "VERSION 3" in license_upper:
                     return "GPL-3.0"
-                elif "Version 2" in license_text:
+                elif "VERSION 2" in license_upper:
                     return "GPL-2.0"
                 return "GPL"
 
-            if "NumPy" in license_text or "numpy" in first_line.lower():
-                return "BSD-3-Clause (NumPy)"
+            # Fallback to first line if meaningful
+            if first_line and not first_line.startswith("Copyright"):
+                return first_line[:100]
 
-            return first_line[:100] if first_line else "Unknown"
+            return "Unknown"
 
         return license_text
 
@@ -120,9 +143,9 @@ class PythonAdapter(LicenseAdapter):
         The license of the package as a string.
         """
         try:
-            meta = metadata.metadata(pkg_name)
+            meta = metadata.metadata(str(pkg_name))
         except metadata.PackageNotFoundError:
-            return self._get_license_from_pypi(pkg_name)
+            return self._get_license_from_pypi(str(pkg_name))
 
         license_field = meta.get("License")
         if license_field and license_field.strip() and license_field != "UNKNOWN":
@@ -141,7 +164,7 @@ class PythonAdapter(LicenseAdapter):
             if len(parts) >= 3:
                 return self._clean_license_text(parts[-1])
 
-        return self._get_license_from_pypi(pkg_name)
+        return self._get_license_from_pypi(str(pkg_name))
 
     def parse_requirements_file(self, path: str) -> list[dict[str, str]]:
         """
@@ -198,22 +221,13 @@ class PythonAdapter(LicenseAdapter):
         -------
         A list of dictionaries with package and license information
         """
-        available_files = self._search_files(self.files_to_check)
+        available_files = self._search_files(list(self.file_handlers.keys()))
         if not available_files:
             return None
 
         pkg_licenses = []
-
-        # Create a mapping for file handlers
-        file_handlers = {
-            "requirements.txt": self.parse_requirements_file,
-            "uv.lock": self.parse_lock_files,
-            "poetry.lock": self.parse_lock_files,
-        }
-
-        # Process files efficiently
         for file_path in available_files:
-            for file_type, handler in file_handlers.items():
+            for file_type, handler in self.file_handlers.items():
                 if file_path.endswith(file_type):
                     pkg_licenses.extend(handler(file_path))
                     break
