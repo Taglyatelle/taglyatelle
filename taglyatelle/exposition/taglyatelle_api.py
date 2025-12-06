@@ -8,6 +8,7 @@ from taglyatelle.schemas.webhook_event_models import WebhookEventModel
 from taglyatelle.git_providers.core.git_factory import GitProvider
 from taglyatelle.exposition.middleware import SmeeMiddleware
 from taglyatelle.slash_commands.core.slash_factory import SlashCommand
+from taglyatelle.background_commands.synchronize_changelog import synchronize_changelog
 
 if os.path.exists(".env"):
     load_dotenv()
@@ -66,13 +67,13 @@ async def receipt_payload(
     # Synchronize changelog and create releases
     if webhook_event.event_type == "pull_request":
         if payload["action"] in ["opened", "synchronize", "reopened"]:
-            pr_files = provider.get_pr_files(payload["number"])
-            changelog = provider.synchronize_changelog(content=pr_files)
-            provider.create_pr_body(pr_number=payload["number"], body=changelog)
+            synchronize_changelog(provider=provider, pr_number=payload["number"])
 
-        elif payload["pull_request"]["merged"] and payload["pull_request"]["base"][
-            "ref"
-        ] == payload["repository"]["default_branch"]:
+        elif (
+            payload["pull_request"]["merged"]
+            and payload["pull_request"]["base"]["ref"]
+            == payload["repository"]["default_branch"]
+        ):
             changelog = provider.get_pr_body(payload["number"])
             new_version = provider.bump_version(changelog)
             provider.create_tag(tag=new_version)

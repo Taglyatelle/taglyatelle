@@ -142,12 +142,36 @@ class GitProvider:
         files = self.get_repository_tree(ref=branch)
 
         # Sample some key files for analysis
-        sample_files = [f for f in files if any(f.endswith(ext) for ext in [
-            '.py', '.js', '.ts', '.java', '.go', '.rb', '.php', '.cs',
-            '.cpp', '.c', '.rs', '.swift', '.kt', 'package.json',
-            'requirements.txt', 'pom.xml', 'go.mod', 'Gemfile',
-            'composer.json', 'Cargo.toml', 'pyproject.toml'
-        ])][:20]  # Limit to first 20 relevant files
+        sample_files = [
+            f
+            for f in files
+            if any(
+                f.endswith(ext)
+                for ext in [
+                    ".py",
+                    ".js",
+                    ".ts",
+                    ".java",
+                    ".go",
+                    ".rb",
+                    ".php",
+                    ".cs",
+                    ".cpp",
+                    ".c",
+                    ".rs",
+                    ".swift",
+                    ".kt",
+                    "package.json",
+                    "requirements.txt",
+                    "pom.xml",
+                    "go.mod",
+                    "Gemfile",
+                    "composer.json",
+                    "Cargo.toml",
+                    "pyproject.toml",
+                ]
+            )
+        ][:20]  # Limit to first 20 relevant files
 
         language_prompt = f"""
         Analyze the following file paths from a repository and determine the main programming language.
@@ -331,62 +355,6 @@ class GitProvider:
         Created issue number
         """
         return self.adapter.update_issue(issue_number, title, body, state)
-
-    def synchronize_changelog(self, content: list[dict[str, str | int]]) -> str:
-        """
-        Create a changelog description prompt.
-
-        Parameters
-        ----------
-        content
-            list of modified files
-
-        Returns
-        -------
-        Generated changelog description
-        """
-        if self._strategy is None:
-            raise ValueError("LLM strategy is not defined.")
-
-        files_summary = []
-        for file_info in content:
-            filename = file_info.get("filename", "")
-            status = file_info.get("status", "")
-            additions = file_info.get("additions", 0)
-            deletions = file_info.get("deletions", 0)
-            patch = file_info.get("patch", "")
-
-            files_summary.append(f"""
-                File: {filename}
-                Status: {status}
-                Changes: +{additions} -{deletions}
-                Patch:{patch}""")
-
-        changelog_prompt = f"""
-        Based on the following pull request changes, generate a changelog description in this format:
-
-        ## Added
-        [List new features, functionality, or files that were added]
-
-        ## Modified
-        [List existing features, functionality, or files that were changed/updated]
-
-        ## Fixed
-        [List bugs, issues, or problems that were resolved]
-
-        Pull Request Files Changed:
-        {"".join(files_summary)}
-
-        Instructions:
-        - Analyze the code changes and categorize them appropriately
-        - Use bullet points with clear, concise descriptions
-        - Focus on user-facing changes and important technical improvements
-        - If a category has no changes, omit it.
-        - Keep descriptions professional and informative without too much verbosity.
-        - Return ONLY the changelog content in plain text without markdown code blocks or backticks.
-        """
-        changelog_description = self.invoke_llm(changelog_prompt)
-        return str(changelog_description)
 
     def bump_version(self, changelog: str) -> str:
         """
