@@ -9,6 +9,7 @@ from taglyatelle.git_providers.core.git_factory import GitProvider
 from taglyatelle.exposition.middleware import SmeeMiddleware
 from taglyatelle.slash_commands.core.slash_factory import SlashCommand
 from taglyatelle.background_commands.synchronize_changelog import synchronize_changelog
+from taglyatelle.background_commands.publish_release import publish_release
 
 if os.path.exists(".env"):
     load_dotenv()
@@ -74,10 +75,7 @@ async def receipt_payload(
             and payload["pull_request"]["base"]["ref"]
             == payload["repository"]["default_branch"]
         ):
-            changelog = provider.get_pr_body(payload["number"])
-            new_version = provider.bump_version(changelog)
-            provider.create_tag(tag=new_version)
-            provider.create_release(body=changelog)
+            publish_release(provider=provider, pr_number=payload["number"])
 
 
 if __name__ == "__main__":
