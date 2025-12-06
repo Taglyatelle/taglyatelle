@@ -41,8 +41,11 @@ class LicenseProvider:
         A dictionary mapping file names to their licenses
         """
         parsing_packages = self.adapter.parse()
+        if not parsing_packages:
+            return None
+
         df_parsing = pd.DataFrame(parsing_packages)
         df_parsing["severity"] = df_parsing["license"].apply(
-            lambda x: self.adapter._get_complaince(x)
+            self.adapter._get_complaince
         )
         return df_parsing.to_dict("records")

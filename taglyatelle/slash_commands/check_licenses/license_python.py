@@ -22,6 +22,53 @@ class PythonAdapter(LicenseAdapter):
             "poetry.lock",
         ]
 
+    def _clean_license_text(self, license_text: str) -> str:
+        """
+        Clean and truncate verbose license text to keep only the essential license name.
+
+        Parameters
+        ----------
+        license_text
+            The raw license text from metadata or PyPI.
+
+        Returns
+        -------
+        Cleaned license name or identifier.
+        """
+        if not license_text or not license_text.strip():
+            return "Unknown"
+
+        license_text = license_text.strip()
+
+        if len(license_text) > 200:
+            lines = license_text.split("\n")
+            first_line = lines[0].strip()
+
+            if "Copyright" in first_line:
+                for line in lines[:10]:
+                    if "BSD" in line:
+                        if "3-Clause" in line or "Three-Clause" in line:
+                            return "BSD-3-Clause"
+                        elif "2-Clause" in line or "Two-Clause" in line:
+                            return "BSD-2-Clause"
+                        return "BSD License"
+                    elif "MIT" in line:
+                        return "MIT"
+
+            if "GNU GENERAL PUBLIC LICENSE" in license_text:
+                if "Version 3" in license_text:
+                    return "GPL-3.0"
+                elif "Version 2" in license_text:
+                    return "GPL-2.0"
+                return "GPL"
+
+            if "NumPy" in license_text or "numpy" in first_line.lower():
+                return "BSD-3-Clause (NumPy)"
+
+            return first_line[:100] if first_line else "Unknown"
+
+        return license_text
+
     def _get_license_from_pypi(self, pkg_name: str) -> str:
         """
         Fetch license information from PyPI JSON API.
@@ -40,18 +87,20 @@ class PythonAdapter(LicenseAdapter):
             with urllib.request.urlopen(url, timeout=5) as response:
                 data = json.loads(response.read().decode())
 
-            # Try info.license first
-            license_info = data.get("info", {}).get("license")
+            info = data.get("info", {})
+            license_info = info.get("license")
             if license_info and license_info.strip() and license_info != "UNKNOWN":
-                return license_info
+                return self._clean_license_text(license_info)
 
-            # Try classifiers
-            classifiers = data.get("info", {}).get("classifiers", [])
-            for classifier in classifiers:
-                if classifier.startswith("License ::"):
-                    parts = classifier.split(" :: ")
-                    if len(parts) >= 3:
-                        return parts[-1]
+            # Use generator expression for early exit
+            classifiers = info.get("classifiers", [])
+            license_classifier = next(
+                (c for c in classifiers if c.startswith("License ::")), None
+            )
+            if license_classifier:
+                parts = license_classifier.split(" :: ")
+                if len(parts) >= 3:
+                    return self._clean_license_text(parts[-1])
 
             return "Unknown"
         except Exception:
@@ -71,34 +120,28 @@ class PythonAdapter(LicenseAdapter):
         The license of the package as a string.
         """
         try:
-            meta = metadata.metadata(str(pkg_name))
+            meta = metadata.metadata(pkg_name)
         except metadata.PackageNotFoundError:
-            return "Unknown"
+            return self._get_license_from_pypi(pkg_name)
 
-        # Try License field first
         license_field = meta.get("License")
         if license_field and license_field.strip() and license_field != "UNKNOWN":
-            return license_field
+            return self._clean_license_text(license_field)
 
-        # Try License-Expression (newer standard)
         license_expr = meta.get("License-Expression")
         if license_expr and license_expr.strip():
-            return license_expr
+            return self._clean_license_text(license_expr)
 
-        # Extract from Classifier metadata
         classifiers = meta.get_all("Classifier") or []
-        for classifier in classifiers:
-            if classifier.startswith("License ::"):
-                parts = classifier.split(" :: ")
-                if len(parts) >= 3:
-                    return parts[-1]
+        license_classifier = next(
+            (c for c in classifiers if c.startswith("License ::")), None
+        )
+        if license_classifier:
+            parts = license_classifier.split(" :: ")
+            if len(parts) >= 3:
+                return self._clean_license_text(parts[-1])
 
-        # Fallback to PyPI API if local metadata doesn't have license info
-        pypi_license = self._get_license_from_pypi(str(pkg_name))
-        if pypi_license != "Unknown":
-            return pypi_license
-
-        return "Unknown"
+        return self._get_license_from_pypi(pkg_name)
 
     def parse_requirements_file(self, path: str) -> list[dict[str, str]]:
         """
@@ -113,40 +156,39 @@ class PythonAdapter(LicenseAdapter):
         -------
         A list of dictionaries with package and license information
         """
-        pkg_licenses = []
         with open(path, "r") as req_file:
-            for line in req_file:
-                line = line.strip()
-                if not line or line.startswith("#"):
-                    continue
-                pkg_name = re.split(r"[=<>!~]", line)[0].strip()
-                if pkg_name:
-                    license_info = self._get_metadata(Path(pkg_name))
-                    pkg_licenses.append({"package": pkg_name, "license": license_info})
-        return pkg_licenses
+            lines = req_file.readlines()
+
+        return [
+            {"package": pkg_name, "license": self._get_metadata(pkg_name)}
+            for raw_line in lines
+            if (stripped := raw_line.strip()) and not stripped.startswith("#")
+            for pkg_name in [re.split(r"[=<>!~]", stripped)[0].strip()]
+            if pkg_name
+        ]
 
     def parse_lock_files(self, path: str) -> list[dict[str, str]]:
         """
-        Parse uv.lock file
+        Parse uv.lock or poetry.lock file
 
         Parameters
         ----------
         path
-            Path of the uv.lock
+            Path of the lock file
 
         Returns
         -------
         A list of dictionaries with package and license information
         """
         with open(path, "rb") as lock_file:
-            lock_file = tomllib.load(lock_file)
-        packages = lock_file.get("package", [])
-        pkg_licenses = []
-        for p in packages:
-            if p.get("name"):
-                license_info = self._get_metadata(Path(p.get("name")))
-                pkg_licenses.append({"package": p.get("name"), "license": license_info})
-        return pkg_licenses
+            lock_data = tomllib.load(lock_file)
+
+        packages = lock_data.get("package", [])
+        return [
+            {"package": pkg_name, "license": self._get_metadata(pkg_name)}
+            for p in packages
+            if (pkg_name := p.get("name"))
+        ]
 
     def parse(self) -> None | list[dict[str, str]]:
         """
@@ -157,27 +199,23 @@ class PythonAdapter(LicenseAdapter):
         A list of dictionaries with package and license information
         """
         available_files = self._search_files(self.files_to_check)
-        if available_files == []:
+        if not available_files:
             return None
 
         pkg_licenses = []
-        # Check requirements.txt file
-        req_file = next(
-            (f for f in available_files if f.endswith("requirements.txt")), None
-        )
-        if req_file:
-            pkg_licenses.extend(self.parse_requirements_file(req_file))
 
-        # Check uv.lock file
-        uv_lock_file = next((f for f in available_files if f.endswith("uv.lock")), None)
-        if uv_lock_file:
-            pkg_licenses.extend(self.parse_lock_files(uv_lock_file))
+        # Create a mapping for file handlers
+        file_handlers = {
+            "requirements.txt": self.parse_requirements_file,
+            "uv.lock": self.parse_lock_files,
+            "poetry.lock": self.parse_lock_files,
+        }
 
-        # Check poetry.lock file
-        poetry_lock_file = next(
-            (f for f in available_files if f.endswith("poetry.lock")), None
-        )
-        if poetry_lock_file:
-            pkg_licenses.extend(self.parse_lock_files(poetry_lock_file))
+        # Process files efficiently
+        for file_path in available_files:
+            for file_type, handler in file_handlers.items():
+                if file_path.endswith(file_type):
+                    pkg_licenses.extend(handler(file_path))
+                    break
 
-        return pkg_licenses
+        return pkg_licenses if pkg_licenses else None

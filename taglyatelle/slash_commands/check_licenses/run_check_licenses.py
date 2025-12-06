@@ -3,6 +3,7 @@
 from datetime import datetime
 import logging
 from typing import Any
+from itertools import islice
 from taglyatelle.git_providers.core.git_factory import GitProvider
 from taglyatelle.slash_commands.check_licenses.core.license_factory import (
     LicenseProvider,
@@ -25,36 +26,32 @@ def _detect_main_language(provider: GitProvider, branch: str = "main") -> str | 
     Main programming language (e.g., 'python', 'javascript', 'java')
     """
     files = provider.get_repository_tree(ref=branch)
-    sample_files = [
-        f
-        for f in files
-        if any(
-            f.endswith(ext)
-            for ext in [
-                ".py",
-                ".js",
-                ".ts",
-                ".java",
-                ".go",
-                ".rb",
-                ".php",
-                ".cs",
-                ".cpp",
-                ".c",
-                ".rs",
-                ".swift",
-                ".kt",
-                "package.json",
-                "requirements.txt",
-                "pom.xml",
-                "go.mod",
-                "Gemfile",
-                "composer.json",
-                "Cargo.toml",
-                "pyproject.toml",
-            ]
+
+    relevant_extensions = {
+        ".py",
+        ".js",
+        ".ts",
+        ".java",
+        ".go",
+        ".rb",
+        ".php",
+        ".cs",
+        ".cpp",
+        ".c",
+        ".rs",
+        ".swift",
+        ".kt",
+        ".R",
+        ".m",
+        ".scala",
+    }
+
+    sample_files = list(
+        islice(
+            (f for f in files if any(f.endswith(ext) for ext in relevant_extensions)),
+            20,
         )
-    ][:20]
+    )
 
     language_prompt = f"""
     Analyze the following file paths from a repository and determine the main programming language.
@@ -80,7 +77,7 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
     Parameters
     ----------
     provider
-        Git provider instance
+        git provider class
 
     branch
         The branch to check for licenses
@@ -89,7 +86,7 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
     -------
     Formatted markdown table with license information
     """
-    main_language = _detect_main_language(branch=branch)
+    main_language = _detect_main_language(provider=provider, branch=branch)
 
     if not main_language:
         logging.warning("Could not detect the main programming language.")
@@ -103,17 +100,16 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
         logging.error(str(e))
         return None
 
-    # Parse the licenses using the adapter
     parsed_licenses = license_provider.parse()
 
     if not parsed_licenses:
         logging.warning("No license information found.")
         return None
 
-    # Format the results as a markdown table
-    markdown_table = "| Package | License | Severity |\n"
-    markdown_table += "|---------|---------|----------|\n"
-
+    table_rows = [
+        "| Package | License | Severity |",
+        "|---------|---------|----------|",
+    ]
     severity_counts = {"🟢 Low": 0, "🟠 Medium": 0, "🔴 High": 0, "⚪ Unknown": 0}
 
     for pkg_info in parsed_licenses:
@@ -121,22 +117,28 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
         license_name = pkg_info.get("license", "Unknown")
         severity = pkg_info.get("severity", "⚪ Unknown")
 
-        markdown_table += f"| {package_name} | {license_name} | {severity} |\n"
+        table_rows.append(f"| {package_name} | {license_name} | {severity} |")
+        severity_counts[severity] = severity_counts.get(severity, 0) + 1
 
-        # Count severity levels
-        if severity in severity_counts:
-            severity_counts[severity] += 1
+    summary_lines = [
+        f"- {severity_level}: {count} package(s)"
+        for severity_level, count in severity_counts.items()
+        if count > 0
+    ]
 
-    # Add summary
-    markdown_table += "\n---\n\n**Summary:**\n"
-    for severity_level, count in severity_counts.items():
-        if count > 0:
-            markdown_table += f"- {severity_level}: {count} package(s)\n"
+    return "\n".join(
+        [
+            "\n".join(table_rows),
+            "",
+            "---",
+            "",
+            "**Summary:**",
+            *summary_lines,
+        ]
+    )
 
-    return markdown_table
 
-
-def check_licenses(provider: GitProvider, payload: Any) -> None:
+def run_check_licenses(provider: GitProvider, payload: Any) -> None:
     """
     Check software license compliance
 
@@ -157,7 +159,6 @@ def check_licenses(provider: GitProvider, payload: Any) -> None:
     pr_number = payload["issue"]["number"]
     pr_details = provider.adapter._get_request(url=f"pulls/{pr_number}").json()  # type: ignore
 
-    # Run the license check using the clean implementation
     license_analysis = _check_licenses(
         provider=provider, branch=pr_details["head"]["ref"]
     )
@@ -176,22 +177,20 @@ def check_licenses(provider: GitProvider, payload: Any) -> None:
     )
 
     current_date = datetime.now().strftime("%d %B %Y")
-    issue_body = f"""{license_analysis}
----
-<sub>*Updated: {current_date}*</sub>
-"""
+    issue_body = f"{license_analysis}\n---\n<sub>*Updated: {current_date}*</sub>\n"
 
-    if existing_issues:
-        issue_number = provider.update_issue(
+    issue_number = (
+        provider.update_issue(
             issue_number=existing_issues[0]["number"],
             body=issue_body,
         )
-    else:
-        issue_number = provider.create_issue(
+        if existing_issues
+        else provider.create_issue(
             title="Check software license compliance",
             body=issue_body,
             labels=["taglyatelle[bot]", "license-compliance"],
         )
+    )
 
     provider.create_pr_comment(
         pr_number=pr_number,
