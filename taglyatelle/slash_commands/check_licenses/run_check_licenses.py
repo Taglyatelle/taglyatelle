@@ -11,6 +11,68 @@ from taglyatelle.slash_commands.check_licenses.core.license_factory import (
 logging.basicConfig(level=logging.INFO)
 
 
+def _detect_main_language(provider: GitProvider, branch: str = "main") -> str | None:
+    """
+    Detect the main programming language of the repository using LLM.
+
+    Parameters
+    ----------
+    branch
+        The branch to analyze
+
+    Returns
+    -------
+    Main programming language (e.g., 'python', 'javascript', 'java')
+    """
+    files = provider.get_repository_tree(ref=branch)
+    sample_files = [
+        f
+        for f in files
+        if any(
+            f.endswith(ext)
+            for ext in [
+                ".py",
+                ".js",
+                ".ts",
+                ".java",
+                ".go",
+                ".rb",
+                ".php",
+                ".cs",
+                ".cpp",
+                ".c",
+                ".rs",
+                ".swift",
+                ".kt",
+                "package.json",
+                "requirements.txt",
+                "pom.xml",
+                "go.mod",
+                "Gemfile",
+                "composer.json",
+                "Cargo.toml",
+                "pyproject.toml",
+            ]
+        )
+    ][:20]
+
+    language_prompt = f"""
+    Analyze the following file paths from a repository and determine the main programming language.
+
+    Files:
+    {chr(10).join(sample_files)}
+
+    Based on the file extensions and patterns, identify the PRIMARY programming language used in this repository.
+    Respond with ONLY the language name in lowercase (e.g., 'python', 'javascript', 'java', 'go', 'ruby').
+    Do not include any explanation, just the language name.
+    """
+
+    response = provider.invoke_llm(language_prompt)
+    if response:
+        return response.strip().lower()
+    return None
+
+
 def _check_licenses(provider: GitProvider, branch: str) -> str | None:
     """
     Check software licenses used by the repository.
@@ -27,8 +89,7 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
     -------
     Formatted markdown table with license information
     """
-    # Detect the main programming language of the repository
-    main_language = provider.detect_main_language(branch=branch)
+    main_language = _detect_main_language(branch=branch)
 
     if not main_language:
         logging.warning("Could not detect the main programming language.")
@@ -36,7 +97,6 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
 
     logging.info(f"Detected main language: {main_language}")
 
-    # Use the LicenseProvider factory to get the appropriate adapter
     try:
         license_provider = LicenseProvider(provider=main_language)
     except ValueError as e:
@@ -98,7 +158,9 @@ def check_licenses(provider: GitProvider, payload: Any) -> None:
     pr_details = provider.adapter._get_request(url=f"pulls/{pr_number}").json()  # type: ignore
 
     # Run the license check using the clean implementation
-    license_analysis = _check_licenses(provider=provider, branch=pr_details["head"]["ref"])
+    license_analysis = _check_licenses(
+        provider=provider, branch=pr_details["head"]["ref"]
+    )
 
     if license_analysis is None:
         provider.create_pr_comment(

@@ -7,6 +7,7 @@ from taglyatelle.git_providers.core.git_adapter import GitAdapter
 from dotenv import load_dotenv
 import logging
 import os
+import base64
 
 if os.path.exists(".env"):
     load_dotenv()
@@ -299,7 +300,6 @@ class GithubAdapter(GitAdapter):
         response = self._get_request(url=f"issues?{self._build_query_string(params)}")
         issues = response.json()
 
-        # Filter by title if query provided
         if query:
             issues = [
                 issue for issue in issues if query.lower() in issue["title"].lower()
@@ -382,12 +382,9 @@ class GithubAdapter(GitAdapter):
         -------
         Decoded file content or None if file not found
         """
-        import base64
-
         response = self._get_request(url=f"contents/{file_path}?ref={ref}")
         if response.status_code == 200:
             content_data = response.json()
-            # GitHub API returns base64 encoded content
             encoded_content = content_data.get("content", "")
             return base64.b64decode(encoded_content).decode("utf-8")
         return None
@@ -410,7 +407,7 @@ class GithubAdapter(GitAdapter):
             tree_data = response.json()
             files = []
             for item in tree_data.get("tree", []):
-                if item.get("type") == "blob":  # Only include files, not directories
+                if item.get("type") == "blob":
                     files.append(item.get("path", ""))
             return files
         return []
