@@ -1,4 +1,4 @@
-"""Bump version and create release."""
+"""Bump version, create tag and create release."""
 
 from taglyatelle.git_providers.core.git_factory import GitProvider
 import logging
