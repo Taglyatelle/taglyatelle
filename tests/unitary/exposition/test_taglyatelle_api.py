@@ -30,6 +30,7 @@ def mock_github_payload_opened():
         "repository": {
             "owner": {"login": "test-owner"},
             "name": "test-repo",
+            "default_branch": "main",
         },
         "pull_request": {
             "number": 123,
@@ -49,6 +50,7 @@ def mock_github_payload_merged():
         "repository": {
             "owner": {"login": "test-owner"},
             "name": "test-repo",
+            "default_branch": "main",
         },
         "pull_request": {
             "number": 456,
@@ -79,11 +81,13 @@ def test_ping_returns_pong(client):
     assert response.json() == "pong"
 
 
+@patch("taglyatelle.exposition.taglyatelle_api.synchronize_changelog")
 @patch("taglyatelle.exposition.taglyatelle_api.GitProvider")
 @patch("os.getenv")
 def test_webhook_pr_opened(
     mock_getenv,
     mock_git_provider_class,
+    mock_synchronize_changelog,
     client,
     mock_github_payload_opened,
     mock_pr_files,
@@ -94,10 +98,6 @@ def test_webhook_pr_opened(
     }.get(key)
 
     mock_provider_instance = MagicMock()
-    mock_provider_instance.get_pr_files.return_value = mock_pr_files
-    mock_provider_instance.synchronize_changelog.return_value = (
-        "## Added\n- New feature"
-    )
     mock_git_provider_class.return_value = mock_provider_instance
 
     response = client.post(
@@ -115,20 +115,18 @@ def test_webhook_pr_opened(
     mock_provider_instance.set_llm_strategy.assert_called_once_with(
         provider="openai", model="gpt-4"
     )
-    mock_provider_instance.get_pr_files.assert_called_once_with(123)
-    mock_provider_instance.synchronize_changelog.assert_called_once_with(
-        content=mock_pr_files
-    )
-    mock_provider_instance.create_pr_body.assert_called_once_with(
-        pr_number=123, body="## Added\n- New feature"
+    mock_synchronize_changelog.assert_called_once_with(
+        provider=mock_provider_instance, pr_number=123
     )
 
 
+@patch("taglyatelle.exposition.taglyatelle_api.synchronize_changelog")
 @patch("taglyatelle.exposition.taglyatelle_api.GitProvider")
 @patch("os.getenv")
 def test_webhook_pr_synchronize(
     mock_getenv,
     mock_git_provider_class,
+    mock_synchronize_changelog,
     client,
     mock_github_payload_opened,
     mock_pr_files,
@@ -142,10 +140,6 @@ def test_webhook_pr_synchronize(
     }.get(key)
 
     mock_provider_instance = MagicMock()
-    mock_provider_instance.get_pr_files.return_value = mock_pr_files
-    mock_provider_instance.synchronize_changelog.return_value = (
-        "## Modified\n- Updated tests"
-    )
     mock_git_provider_class.return_value = mock_provider_instance
 
     response = client.post(
@@ -155,16 +149,18 @@ def test_webhook_pr_synchronize(
     )
 
     assert response.status_code == 200
-    mock_provider_instance.get_pr_files.assert_called_once_with(123)
-    mock_provider_instance.synchronize_changelog.assert_called_once()
-    mock_provider_instance.create_pr_body.assert_called_once()
+    mock_synchronize_changelog.assert_called_once_with(
+        provider=mock_provider_instance, pr_number=123
+    )
 
 
+@patch("taglyatelle.exposition.taglyatelle_api.synchronize_changelog")
 @patch("taglyatelle.exposition.taglyatelle_api.GitProvider")
 @patch("os.getenv")
 def test_webhook_pr_reopened(
     mock_getenv,
     mock_git_provider_class,
+    mock_synchronize_changelog,
     client,
     mock_github_payload_opened,
     mock_pr_files,
@@ -178,8 +174,6 @@ def test_webhook_pr_reopened(
     }.get(key)
 
     mock_provider_instance = MagicMock()
-    mock_provider_instance.get_pr_files.return_value = mock_pr_files
-    mock_provider_instance.synchronize_changelog.return_value = "## Fixed\n- Bug fix"
     mock_git_provider_class.return_value = mock_provider_instance
 
     response = client.post(
@@ -189,14 +183,20 @@ def test_webhook_pr_reopened(
     )
 
     assert response.status_code == 200
-    mock_provider_instance.get_pr_files.assert_called_once_with(123)
-    mock_provider_instance.create_pr_body.assert_called_once()
+    mock_synchronize_changelog.assert_called_once_with(
+        provider=mock_provider_instance, pr_number=123
+    )
 
 
+@patch("taglyatelle.exposition.taglyatelle_api.publish_release")
 @patch("taglyatelle.exposition.taglyatelle_api.GitProvider")
 @patch("os.getenv")
 def test_webhook_pr_merged_to_main(
-    mock_getenv, mock_git_provider_class, client, mock_github_payload_merged
+    mock_getenv,
+    mock_git_provider_class,
+    mock_publish_release,
+    client,
+    mock_github_payload_merged,
 ):
     mock_getenv.side_effect = lambda key: {
         "LLM_PROVIDER": "openai",
@@ -204,10 +204,6 @@ def test_webhook_pr_merged_to_main(
     }.get(key)
 
     mock_provider_instance = MagicMock()
-    mock_provider_instance.get_pr_body.return_value = (
-        "## Added\n- New feature\n## Fixed\n- Bug fix"
-    )
-    mock_provider_instance.bump_version.return_value = "1.2.0"
     mock_git_provider_class.return_value = mock_provider_instance
 
     response = client.post(
@@ -217,23 +213,24 @@ def test_webhook_pr_merged_to_main(
     )
 
     assert response.status_code == 200
-    mock_provider_instance.get_pr_body.assert_called_once_with(456)
-    mock_provider_instance.bump_version.assert_called_once_with(
-        "## Added\n- New feature\n## Fixed\n- Bug fix"
-    )
-    mock_provider_instance.create_tag.assert_called_once_with(tag="1.2.0")
-    mock_provider_instance.create_release.assert_called_once_with(
-        body="## Added\n- New feature\n## Fixed\n- Bug fix"
+    mock_publish_release.assert_called_once_with(
+        provider=mock_provider_instance, pr_number=456
     )
 
 
+@patch("taglyatelle.exposition.taglyatelle_api.publish_release")
 @patch("taglyatelle.exposition.taglyatelle_api.GitProvider")
 @patch("os.getenv")
 def test_webhook_pr_merged_to_master(
-    mock_getenv, mock_git_provider_class, client, mock_github_payload_merged
+    mock_getenv,
+    mock_git_provider_class,
+    mock_publish_release,
+    client,
+    mock_github_payload_merged,
 ):
     payload = mock_github_payload_merged.copy()
     payload["pull_request"]["base"]["ref"] = "master"
+    payload["repository"]["default_branch"] = "master"
 
     mock_getenv.side_effect = lambda key: {
         "LLM_PROVIDER": "openai",
@@ -241,8 +238,6 @@ def test_webhook_pr_merged_to_master(
     }.get(key)
 
     mock_provider_instance = MagicMock()
-    mock_provider_instance.get_pr_body.return_value = "## Modified\n- Updated logic"
-    mock_provider_instance.bump_version.return_value = "2.0.0"
     mock_git_provider_class.return_value = mock_provider_instance
 
     response = client.post(
@@ -252,14 +247,20 @@ def test_webhook_pr_merged_to_master(
     )
 
     assert response.status_code == 200
-    mock_provider_instance.create_tag.assert_called_once_with(tag="2.0.0")
-    mock_provider_instance.create_release.assert_called_once()
+    mock_publish_release.assert_called_once_with(
+        provider=mock_provider_instance, pr_number=456
+    )
 
 
+@patch("taglyatelle.exposition.taglyatelle_api.publish_release")
 @patch("taglyatelle.exposition.taglyatelle_api.GitProvider")
 @patch("os.getenv")
 def test_webhook_pr_merged_to_feature_branch(
-    mock_getenv, mock_git_provider_class, client, mock_github_payload_merged
+    mock_getenv,
+    mock_git_provider_class,
+    mock_publish_release,
+    client,
+    mock_github_payload_merged,
 ):
     payload = mock_github_payload_merged.copy()
     payload["pull_request"]["base"]["ref"] = "feature/test"
@@ -279,10 +280,7 @@ def test_webhook_pr_merged_to_feature_branch(
     )
 
     assert response.status_code == 200
-    mock_provider_instance.get_pr_body.assert_not_called()
-    mock_provider_instance.bump_version.assert_not_called()
-    mock_provider_instance.create_tag.assert_not_called()
-    mock_provider_instance.create_release.assert_not_called()
+    mock_publish_release.assert_not_called()
 
 
 @patch("taglyatelle.exposition.taglyatelle_api.GitProvider")
@@ -322,6 +320,7 @@ def test_webhook_non_pr_event(mock_getenv, mock_git_provider_class, client):
         "repository": {
             "owner": {"login": "test-owner"},
             "name": "test-repo",
+            "default_branch": "main",
         },
     }
 

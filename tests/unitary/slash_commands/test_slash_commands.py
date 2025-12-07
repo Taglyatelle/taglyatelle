@@ -1,6 +1,7 @@
 import pytest
 from taglyatelle.slash_commands.core.slash_registry import slash_command_registry
 from taglyatelle.slash_commands.core.slash_factory import SlashCommand
+from unittest.mock import patch
 
 
 def test_slash_command_registry():
@@ -28,7 +29,7 @@ def test_slash_command_unsupported(mocker):
             {
                 "pr_comment": {
                     "pr_number": 123,
-                    "message": "❌ No dependency files found to analyze.",
+                    "message": "❌ No dependency files found to analyze or language not supported.",
                 }
             },
         ),
@@ -53,7 +54,7 @@ def test_slash_command_unsupported(mocker):
                 },
                 "pr_comment": {
                     "pr_number": 123,
-                    "message": "✅ License compliance check! See issue #456 for details.",
+                    "message": "✅ License compliance check completed! See issue #456 for details.",
                 },
             },
         ),
@@ -75,7 +76,7 @@ def test_slash_command_unsupported(mocker):
                 "update_issue": {"issue_number": 789},
                 "pr_comment": {
                     "pr_number": 123,
-                    "message": "✅ License compliance check! See issue #789 for details.",
+                    "message": "✅ License compliance check completed! See issue #789 for details.",
                 },
             },
         ),
@@ -91,47 +92,58 @@ def test_slash_command_execution(mocker, command, mock_setup, expected_calls):
     mock_provider = mocker.Mock()
 
     # Setup mock responses
-    mock_provider.adapter._get_request.return_value.json.return_value = mock_setup.get(
-        "pr_details"
-    )
-    mock_provider.check_licenses.return_value = mock_setup.get("check_licenses_result")
+    mock_provider.get_pr_details.return_value = mock_setup.get("pr_details")
     mock_provider.search_issues.return_value = mock_setup.get(
         "search_issues_result", []
     )
     mock_provider.create_issue.return_value = mock_setup.get("create_issue_result")
     mock_provider.update_issue.return_value = mock_setup.get("update_issue_result")
 
-    payload = {"issue": {"number": 123}}
+    # Mock the internal _check_licenses function
+    with patch(
+        "taglyatelle.slash_commands.check_licenses.run_check_licenses._check_licenses"
+    ) as mock_check_licenses:
+        mock_check_licenses.return_value = mock_setup.get("check_licenses_result")
 
-    # Execute command
-    slash_cmd = SlashCommand(command=command, provider=mock_provider, payload=payload)
-    slash_cmd.execute()
+        payload = {"issue": {"number": 123}}
 
-    # Verify expected calls
-    if "check_licenses" in expected_calls:
-        mock_provider.check_licenses.assert_called_once_with(
-            **expected_calls["check_licenses"]
+        # Execute command
+        slash_cmd = SlashCommand(
+            command=command, provider=mock_provider, payload=payload
         )
+        slash_cmd.execute()
 
-    if "search_issues" in expected_calls:
-        mock_provider.search_issues.assert_called_once_with(
-            **expected_calls["search_issues"]
-        )
+        # Verify expected calls
+        if "check_licenses" in expected_calls:
+            mock_check_licenses.assert_called_once_with(
+                provider=mock_provider, **expected_calls["check_licenses"]
+            )
+        # Verify expected calls
+        if "check_licenses" in expected_calls:
+            mock_check_licenses.assert_called_once_with(
+                provider=mock_provider, **expected_calls["check_licenses"]
+            )
 
-    if "create_issue" in expected_calls:
-        mock_provider.create_issue.assert_called_once()
-        call_args = mock_provider.create_issue.call_args[1]
-        assert call_args["title"] == expected_calls["create_issue"]["title"]
-        assert call_args["labels"] == expected_calls["create_issue"]["labels"]
+        if "search_issues" in expected_calls:
+            mock_provider.search_issues.assert_called_once_with(
+                **expected_calls["search_issues"]
+            )
 
-    if "update_issue" in expected_calls:
-        mock_provider.update_issue.assert_called_once()
-        call_args = mock_provider.update_issue.call_args[1]
-        assert (
-            call_args["issue_number"] == expected_calls["update_issue"]["issue_number"]
-        )
+        if "create_issue" in expected_calls:
+            mock_provider.create_issue.assert_called_once()
+            call_args = mock_provider.create_issue.call_args[1]
+            assert call_args["title"] == expected_calls["create_issue"]["title"]
+            assert call_args["labels"] == expected_calls["create_issue"]["labels"]
 
-    if "pr_comment" in expected_calls:
-        mock_provider.create_pr_comment.assert_called_once_with(
-            **expected_calls["pr_comment"]
-        )
+        if "update_issue" in expected_calls:
+            mock_provider.update_issue.assert_called_once()
+            call_args = mock_provider.update_issue.call_args[1]
+            assert (
+                call_args["issue_number"]
+                == expected_calls["update_issue"]["issue_number"]
+            )
+
+        if "pr_comment" in expected_calls:
+            mock_provider.create_pr_comment.assert_called_once_with(
+                **expected_calls["pr_comment"]
+            )
