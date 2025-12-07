@@ -1,6 +1,7 @@
-"""Registry pattern for LLM providers."""
+"""Registry pattern for license check providers."""
 
-from typing import Type, Literal
+from typing import Literal, Type
+
 from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
     LicenseAdapter,
 )
@@ -15,12 +16,12 @@ def register_license_provider(
     adapter_cls: Type[LicenseAdapter],
 ) -> None:
     """
-    Register a programming language.
+    Register a programming language license adapter.
 
     Parameters
     ----------
     name
-        The name of the programming language
+        The name of the programming language (e.g., 'python', 'r', 'javascript')
 
     adapter_cls
         The adapter class for the programming language

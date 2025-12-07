@@ -7,8 +7,6 @@ from taglyatelle.slash_commands.check_licenses.core.license_registry import (
     check_license_registry,
 )
 
-import pandas as pd
-
 
 class LicenseProvider:
     """Adapter for multiple license providers."""
@@ -32,20 +30,47 @@ class LicenseProvider:
             )
         return adapter_cls()
 
-    def parse(self) -> None | list[dict[str, str]]:
+    def _get_compliance(self, type_license: str) -> str:
+        """
+        Get the license compliance severity level.
+
+        Parameters
+        ----------
+        type_license
+            The type of license to check compliance for
+
+        Returns
+        -------
+        A string report of license compliance severity
+        """
+        license_upper = type_license.upper()
+
+        if any(lic in license_upper for lic in ["MIT", "APACHE", "BSD", "ISC", "PSF"]):
+            return "🟢 Low"
+
+        if any(lic in license_upper for lic in ["LGPL", "MPL"]):
+            return "🟠 Medium"
+
+        if any(lic in license_upper for lic in ["GPL", "AGPL"]):
+            return "🔴 High"
+
+        return "⚪ Unknown"
+
+    def parse(self) -> list[dict[str, str]] | None:
         """
         Parse the selected files to extract their licenses.
 
         Returns
         -------
-        A dictionary mapping file names to their licenses
+        A list of dictionaries with package, license, and severity information,
+        or None if no packages found
         """
         parsing_packages = self.adapter.parse()
         if not parsing_packages:
             return None
 
-        df_parsing = pd.DataFrame(parsing_packages)
-        df_parsing["severity"] = df_parsing["license"].apply(
-            self.adapter._get_complaince
-        )
-        return df_parsing.to_dict("records")
+        # Add severity to each package
+        for pkg_info in parsing_packages:
+            pkg_info["severity"] = self._get_compliance(pkg_info["license"])
+
+        return parsing_packages

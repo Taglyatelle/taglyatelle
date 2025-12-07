@@ -4,12 +4,37 @@ from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
     LicenseAdapter,
 )
 
+import json
 import re
 import tomllib
+import urllib.request
 from importlib import metadata
 from pathlib import Path
-import urllib.request
-import json
+
+# Constants
+MAX_LICENSE_TEXT_LENGTH = 200
+MAX_LINES_TO_SCAN = 15
+MAX_FIRST_LINE_LENGTH = 100
+PYPI_TIMEOUT_SECONDS = 5
+
+# License detection patterns
+BSD_INDICATORS = ["BSD"]
+BSD_3_INDICATORS = ["3-CLAUSE", "THREE-CLAUSE", "3 CLAUSE"]
+BSD_2_INDICATORS = ["2-CLAUSE", "TWO-CLAUSE", "2 CLAUSE"]
+MIT_INDICATORS = ["MIT LICENSE"]
+GPL_INDICATORS = ["GNU GENERAL PUBLIC LICENSE"]
+GPL_V3_INDICATORS = ["VERSION 3"]
+GPL_V2_INDICATORS = ["VERSION 2"]
+
+# BSD-3-Clause structural markers
+BSD_3_STRUCTURAL_MARKERS = [
+    "REDISTRIBUTION AND USE",
+    "IN BINARY FORM",
+]
+BSD_3_ENDORSEMENT_MARKERS = [
+    "ENDORSE OR PROMOTE",
+    "WITHOUT SPECIFIC PRIOR WRITTEN PERMISSION",
+]
 
 
 class PythonAdapter(LicenseAdapter):
@@ -21,6 +46,82 @@ class PythonAdapter(LicenseAdapter):
             "uv.lock": self.parse_lock_files,
             "poetry.lock": self.parse_lock_files,
         }
+
+    def _detect_bsd_license(self, lines: list[str], license_upper: str) -> str | None:
+        """
+        Detect BSD license variants from license text.
+
+        Parameters
+        ----------
+        lines
+            Lines of license text to analyze
+        license_upper
+            Uppercase version of full license text
+
+        Returns
+        -------
+        BSD license type if detected, None otherwise
+        """
+        for line in lines[:MAX_LINES_TO_SCAN]:
+            line_upper = line.upper()
+            if any(indicator in line_upper for indicator in BSD_INDICATORS):
+                if any(indicator in line_upper for indicator in BSD_3_INDICATORS):
+                    return "BSD-3-Clause"
+
+                if any(indicator in line_upper for indicator in BSD_2_INDICATORS):
+                    return "BSD-2-Clause"
+
+                return "BSD License"
+
+        # Detect BSD-3-Clause by structural markers
+        if all(marker in license_upper for marker in BSD_3_STRUCTURAL_MARKERS) and any(
+            marker in license_upper for marker in BSD_3_ENDORSEMENT_MARKERS
+        ):
+            return "BSD-3-Clause"
+
+        return None
+
+    def _detect_mit_license(self, lines: list[str]) -> bool:
+        """
+        Detect MIT license from license text.
+
+        Parameters
+        ----------
+        lines
+            Lines of license text to analyze
+
+        Returns
+        -------
+        True if MIT license detected, False otherwise
+        """
+        for line in lines[:MAX_LINES_TO_SCAN]:
+            if any(indicator in line.upper() for indicator in MIT_INDICATORS):
+                return True
+        return False
+
+    def _detect_gpl_license(self, license_upper: str) -> str | None:
+        """
+        Detect GPL license variants from license text.
+
+        Parameters
+        ----------
+        license_upper
+            Uppercase version of license text
+
+        Returns
+        -------
+        GPL license type if detected, None otherwise
+        """
+        if any(indicator in license_upper for indicator in GPL_INDICATORS):
+            if any(indicator in license_upper for indicator in GPL_V3_INDICATORS):
+                return "GPL-3.0"
+
+            if any(indicator in license_upper for indicator in GPL_V2_INDICATORS):
+                return "GPL-2.0"
+
+            return "GPL"
+
+        return None
 
     def _clean_license_text(self, license_text: str) -> str:
         """
@@ -40,57 +141,34 @@ class PythonAdapter(LicenseAdapter):
 
         license_text = license_text.strip()
 
-        if len(license_text) > 200:
-            lines = license_text.split("\n")
-            first_line = lines[0].strip()
-            license_upper = license_text.upper()
+        # Short license texts can be returned as-is
+        if len(license_text) <= MAX_LICENSE_TEXT_LENGTH:
+            return license_text
 
-            # Check for explicit BSD/MIT mentions first
-            for line in lines[:15]:
-                line_upper = line.upper()
-                if "BSD" in line_upper:
-                    if (
-                        "3-CLAUSE" in line_upper
-                        or "THREE-CLAUSE" in line_upper
-                        or "3 CLAUSE" in line_upper
-                    ):
-                        return "BSD-3-Clause"
-                    elif (
-                        "2-CLAUSE" in line_upper
-                        or "TWO-CLAUSE" in line_upper
-                        or "2 CLAUSE" in line_upper
-                    ):
-                        return "BSD-2-Clause"
-                    return "BSD License"
-                elif "MIT LICENSE" in line_upper:
-                    return "MIT"
+        # Parse long license texts
+        lines = license_text.split("\n")
+        first_line = lines[0].strip()
+        license_upper = license_text.upper()
 
-            # Detect BSD-3-Clause by structure (redistribution + binary + no endorsement clauses)
-            if (
-                "REDISTRIBUTION AND USE" in license_upper
-                and "IN BINARY FORM" in license_upper
-                and (
-                    "ENDORSE OR PROMOTE" in license_upper
-                    or "WITHOUT SPECIFIC PRIOR WRITTEN PERMISSION" in license_upper
-                )
-            ):
-                return "BSD-3-Clause"
+        # Try to detect BSD license
+        bsd_license = self._detect_bsd_license(lines, license_upper)
+        if bsd_license:
+            return bsd_license
 
-            # Check for GPL only if BSD/MIT not found
-            if "GNU GENERAL PUBLIC LICENSE" in license_upper:
-                if "VERSION 3" in license_upper:
-                    return "GPL-3.0"
-                elif "VERSION 2" in license_upper:
-                    return "GPL-2.0"
-                return "GPL"
+        # Try to detect MIT license
+        if self._detect_mit_license(lines):
+            return "MIT"
 
-            # Fallback to first line if meaningful
-            if first_line and not first_line.startswith("Copyright"):
-                return first_line[:100]
+        # Try to detect GPL license
+        gpl_license = self._detect_gpl_license(license_upper)
+        if gpl_license:
+            return gpl_license
 
-            return "Unknown"
+        # Fallback to first line if meaningful
+        if first_line and not first_line.startswith("Copyright"):
+            return first_line[:MAX_FIRST_LINE_LENGTH]
 
-        return license_text
+        return "Unknown"
 
     def _get_license_from_pypi(self, pkg_name: str) -> str:
         """
@@ -107,7 +185,7 @@ class PythonAdapter(LicenseAdapter):
         """
         try:
             url = f"https://pypi.org/pypi/{pkg_name}/json"
-            with urllib.request.urlopen(url, timeout=5) as response:
+            with urllib.request.urlopen(url, timeout=PYPI_TIMEOUT_SECONDS) as response:
                 data = json.loads(response.read().decode())
 
             info = data.get("info", {})
@@ -125,6 +203,8 @@ class PythonAdapter(LicenseAdapter):
                 if len(parts) >= 3:
                     return self._clean_license_text(parts[-1])
 
+            return "Unknown"
+        except (urllib.error.URLError, urllib.error.HTTPError, json.JSONDecodeError):
             return "Unknown"
         except Exception:
             return "Unknown"
@@ -182,13 +262,21 @@ class PythonAdapter(LicenseAdapter):
         with open(path, "r") as req_file:
             lines = req_file.readlines()
 
-        return [
-            {"package": pkg_name, "license": self._get_metadata(pkg_name)}
-            for raw_line in lines
-            if (stripped := raw_line.strip()) and not stripped.startswith("#")
-            for pkg_name in [re.split(r"[=<>!~]", stripped)[0].strip()]
-            if pkg_name
-        ]
+        packages = []
+        for raw_line in lines:
+            stripped = raw_line.strip()
+            # Skip empty lines and comments
+            if not stripped or stripped.startswith("#"):
+                continue
+
+            # Extract package name (before any version specifier)
+            pkg_name = re.split(r"[=<>!~]", stripped)[0].strip()
+            if pkg_name:
+                packages.append(
+                    {"package": pkg_name, "license": self._get_metadata(pkg_name)}
+                )
+
+        return packages
 
     def parse_lock_files(self, path: str) -> list[dict[str, str]]:
         """

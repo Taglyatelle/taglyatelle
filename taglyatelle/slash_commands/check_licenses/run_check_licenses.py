@@ -1,9 +1,10 @@
 """Check Compliance licenses"""
 
-from datetime import datetime
 import logging
-from typing import Any
+from datetime import datetime
 from itertools import islice
+from typing import Any
+
 from taglyatelle.git_providers.core.git_factory import GitProvider
 from taglyatelle.slash_commands.check_licenses.core.license_factory import (
     LicenseProvider,
@@ -11,13 +12,39 @@ from taglyatelle.slash_commands.check_licenses.core.license_factory import (
 
 logging.basicConfig(level=logging.INFO)
 
+# Constants
+DEFAULT_BRANCH = "main"
+MAX_FILES_TO_SAMPLE = 20
+RELEVANT_EXTENSIONS = {
+    ".py",
+    ".js",
+    ".ts",
+    ".java",
+    ".go",
+    ".rb",
+    ".php",
+    ".cs",
+    ".cpp",
+    ".c",
+    ".rs",
+    ".swift",
+    ".kt",
+    ".R",
+    ".m",
+    ".scala",
+}
 
-def _detect_main_language(provider: GitProvider, branch: str = "main") -> str | None:
+
+def _detect_main_language(
+    provider: GitProvider, branch: str = DEFAULT_BRANCH
+) -> str | None:
     """
     Detect the main programming language of the repository using LLM.
 
     Parameters
     ----------
+    provider
+        Git provider instance
     branch
         The branch to analyze
 
@@ -27,29 +54,10 @@ def _detect_main_language(provider: GitProvider, branch: str = "main") -> str | 
     """
     files = provider.get_repository_tree(ref=branch)
 
-    relevant_extensions = {
-        ".py",
-        ".js",
-        ".ts",
-        ".java",
-        ".go",
-        ".rb",
-        ".php",
-        ".cs",
-        ".cpp",
-        ".c",
-        ".rs",
-        ".swift",
-        ".kt",
-        ".R",
-        ".m",
-        ".scala",
-    }
-
     sample_files = list(
         islice(
-            (f for f in files if any(f.endswith(ext) for ext in relevant_extensions)),
-            20,
+            (f for f in files if any(f.endswith(ext) for ext in RELEVANT_EXTENSIONS)),
+            MAX_FILES_TO_SAMPLE,
         )
     )
 
@@ -77,14 +85,14 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
     Parameters
     ----------
     provider
-        git provider class
+        Git provider instance
 
     branch
         The branch to check for licenses
 
     Returns
     -------
-    Formatted markdown table with license information
+    Formatted markdown table with license information, or None if unable to analyze
     """
     main_language = _detect_main_language(provider=provider, branch=branch)
 
@@ -145,10 +153,10 @@ def run_check_licenses(provider: GitProvider, payload: Any) -> None:
     Parameters
     ----------
     provider
-        git provider class
+        Git provider instance
 
     payload
-        body of the request
+        Body of the request containing issue information
 
     Notes
     -----
@@ -156,8 +164,24 @@ def run_check_licenses(provider: GitProvider, payload: Any) -> None:
     current pull request branch. The bot will analyze the dependencies
     and create or update an issue with the results.
     """
+    # Validate payload structure
+    if not payload or "issue" not in payload or "number" not in payload["issue"]:
+        logging.error("Invalid payload structure")
+        return
+
     pr_number = payload["issue"]["number"]
-    pr_details = provider.adapter._get_request(url=f"pulls/{pr_number}").json()  # type: ignore
+
+    # Get PR details to extract branch information
+    try:
+        pr_response = provider.adapter._get_request(url=f"pulls/{pr_number}")
+        pr_details = pr_response.json()
+    except Exception as e:
+        logging.error(f"Failed to get PR details: {e}")
+        provider.create_pr_comment(
+            pr_number=pr_number,
+            message="❌ Unable to retrieve pull request details.",
+        )
+        return
 
     license_analysis = _check_licenses(
         provider=provider, branch=pr_details["head"]["ref"]
