@@ -9,7 +9,6 @@ import re
 import tomllib
 import urllib.request
 from importlib import metadata
-from pathlib import Path
 
 MAX_LICENSE_TEXT_LENGTH = 200
 MAX_LINES_TO_SCAN = 15
@@ -198,7 +197,7 @@ class PythonAdapter(LicenseAdapter):
         except Exception:
             return "Unknown"
 
-    def _get_metadata(self, pkg_name: Path) -> str:
+    def _get_metadata(self, pkg_name: str) -> str:
         """
         Get the license metadata for a given package.
 

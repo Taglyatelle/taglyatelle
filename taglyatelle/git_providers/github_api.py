@@ -160,6 +160,22 @@ class GithubAdapter(GitAdapter):
         data = response.json()
         return str(data["body"])
 
+    def get_pr_details(self, pr_number: int) -> dict:
+        """
+        Get the full details of a pull request.
+
+        Parameters
+        ----------
+        pr_number
+            Pull request number
+
+        Returns
+        -------
+        Dictionary containing full PR details including head, base, title, etc.
+        """
+        response = self._get_request(url=f"pulls/{pr_number}")
+        return response.json()
+
     def create_pr_body(self, pr_number: int, body: str) -> None:
         """
         Fill in the description body of a pull request.

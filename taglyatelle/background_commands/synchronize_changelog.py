@@ -60,5 +60,5 @@ def synchronize_changelog(provider: GitProvider, pr_number: int) -> None:
     """
 
     changelog = provider.invoke_llm(changelog_prompt)
-    provider.create_pr_body(pr_number=pr_number, body=changelog)
+    provider.create_pr_body(pr_number=pr_number, body=str(changelog))
     logger.info(f"Changelog synchronized for PR #{pr_number}:\n{changelog}")

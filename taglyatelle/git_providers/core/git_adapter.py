@@ -13,6 +13,9 @@ class GitAdapter:
     def get_pr_body(self, pr_number: int) -> str:
         raise NotImplementedError
 
+    def get_pr_details(self, pr_number: int) -> dict:
+        raise NotImplementedError
+
     def create_pr_body(self, pr_number: int, body: str) -> None:
         raise NotImplementedError
 

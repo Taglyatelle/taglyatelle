@@ -2,6 +2,7 @@
 
 from abc import ABC
 from pathlib import Path
+from typing import Callable
 
 
 EXCLUDED_DIRS = {
@@ -19,10 +20,6 @@ EXCLUDED_DIRS = {
 
 
 class LicenseAdapter(ABC):
-    def __init__(self):
-        """Initialize the adapter with file handlers."""
-        self.file_handlers: dict[str, callable] = {}
-
     def _search_files(
         self, files_to_check: list[str], root_path: str | Path = "."
     ) -> list[str]:
@@ -51,7 +48,7 @@ class LicenseAdapter(ABC):
                     found_files.append(str(file_path))
         return found_files
 
-    def get_file_handlers(self) -> dict[str, callable]:
+    def get_file_handlers(self) -> dict[str, Callable]:
         """
         Get the file handlers for this adapter.
 
@@ -59,4 +56,4 @@ class LicenseAdapter(ABC):
         -------
         Dictionary mapping file names to their parser functions
         """
-        return self.file_handlers
+        raise NotImplementedError

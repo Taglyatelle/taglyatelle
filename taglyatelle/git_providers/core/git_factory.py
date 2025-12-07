@@ -152,6 +152,21 @@ class GitProvider:
         """
         return self.adapter.get_pr_body(pr_number)
 
+    def get_pr_details(self, pr_number: int) -> dict:
+        """
+        Get the full details of a pull request.
+
+        Parameters
+        ----------
+        pr_number
+            Pull request number
+
+        Returns
+        -------
+        Dictionary containing full PR details including head, base, title, etc.
+        """
+        return self.adapter.get_pr_details(pr_number)
+
     def create_pr_body(self, pr_number: int, body: str) -> None:
         """
         Fill in the description body of a pull request.

@@ -160,8 +160,7 @@ def run_check_licenses(provider: GitProvider, payload: dict[str, Any]) -> None:
 
     # Get PR details to extract branch information
     try:
-        pr_response = provider.adapter._get_request(url=f"pulls/{pr_number}")
-        pr_details = pr_response.json()
+        pr_details = provider.get_pr_details(pr_number=pr_number)
     except Exception as e:
         logging.error(f"Failed to get PR details: {e}")
         provider.create_pr_comment(

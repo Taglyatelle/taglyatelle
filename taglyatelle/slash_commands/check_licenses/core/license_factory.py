@@ -1,5 +1,6 @@
 """Factory pattern for licencer providers."""
 
+from collections.abc import Callable
 from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
     LicenseAdapter,
 )
@@ -100,7 +101,8 @@ class LicenseProvider:
 
             for file_type, handler in file_handlers.items():
                 if file_path.endswith(file_type):
-                    pkg_licenses.extend(handler(file_content))
+                    handler_func: Callable[[str], list[dict[str, str]]] = handler
+                    pkg_licenses.extend(handler_func(file_content))
                     break
 
         if not pkg_licenses:
