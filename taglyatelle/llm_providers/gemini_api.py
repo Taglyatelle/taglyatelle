@@ -88,7 +88,7 @@ class GeminiAdapter(LlmAdapter):
         if not isinstance(schema, dict):
             return schema
 
-        sanitized = {}
+        sanitized: dict[str, Any] = {}
         for key, value in schema.items():
             if key in ("additional_properties", "additionalProperties"):
                 continue
@@ -217,13 +217,13 @@ class GeminiAdapter(LlmAdapter):
             else None
         )
 
-        contents = []
+        contents: list[types.Content] = []
 
         for msg in conversation_history:
             contents.append(
                 types.Content(
                     role="user",
-                    parts=[types.Part(text=msg)],
+                    parts=[types.Part(text=str(msg))],
                 )
             )
 
