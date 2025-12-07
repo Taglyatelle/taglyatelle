@@ -6,7 +6,7 @@
     <p>
         <a href="https://github.com/alexym1/taglyatelle/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="Apache 2.0 License"></a>
         <a href="https://github.com/apps/taglyatelle"><img src="https://img.shields.io/badge/GitHub_App-taglyatelle-purple.svg" alt="GitHub App"></a>
-        <img src="https://img.shields.io/badge/version-0.1.0-green.svg" alt="Version">
+        <img src="https://img.shields.io/badge/version-0.2.0-green.svg" alt="Version">
         <a href="https://app.codecov.io/gh/alexym1/taglyatelle?branch=master"><img src="https://codecov.io/gh/alexym1/taglyatelle/branch/master/graph/badge.svg" alt="Codecov"></a>
     </p>
 </div>
