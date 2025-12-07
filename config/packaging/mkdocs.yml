@@ -12,10 +12,12 @@ nav:
 theme:
   name: material
   language: en
+  logo: logo.png
+  favicon: logo.png
   palette:
-    scheme: preference
-    primary: indigo
-    accent: indigo
+    scheme: slate
+    primary: custom
+    accent: custom
   features:
     - navigation.tabs
     - navigation.top
@@ -69,6 +71,8 @@ plugins:
         - ../../taglyatelle
 extra:
   social:
-    - icon: material/email
-      link: alexym1
+    - icon: fontawesome/brands/github
+      link: https://github.com/alexym1
+extra_css:
+  - stylesheets/extra.css
 
