@@ -100,7 +100,7 @@ class AnthropicAdapter(LlmAdapter):
             temperature=self.temperature,
             system=system_instruction,
             messages=[{"role": "user", "content": prompt}],
-            tools=anthropic_tools if anthropic_tools else None,
+            tools=anthropic_tools if anthropic_tools else None,  # type: ignore[arg-type]
         )
 
         result = self._extract_response_parts(response)
@@ -174,7 +174,7 @@ class AnthropicAdapter(LlmAdapter):
         """
         anthropic_tools = self._build_tools(tools)
 
-        messages = []
+        messages: list[dict[str, Any]] = []
 
         for msg in conversation_history:
             messages.append({"role": "user", "content": msg})
@@ -183,7 +183,7 @@ class AnthropicAdapter(LlmAdapter):
             messages.append(
                 {
                     "role": "assistant",
-                    "content": assistant_message.content,
+                    "content": assistant_message.content,  # type: ignore[dict-item]
                 }
             )
 
@@ -204,8 +204,8 @@ class AnthropicAdapter(LlmAdapter):
             max_tokens=4096,
             temperature=self.temperature,
             system=system_instruction,
-            messages=messages,
-            tools=anthropic_tools if anthropic_tools else None,
+            messages=messages,  # type: ignore[arg-type]
+            tools=anthropic_tools if anthropic_tools else None,  # type: ignore[arg-type]
         )
 
         return self._extract_response_parts(response)

@@ -1,10 +1,18 @@
 """Define Mistral adapter class."""
 
 import os
-from typing import Any
+from typing import Any, Union
 
 from dotenv import load_dotenv
 from mistralai import Mistral
+from mistralai.models import (
+    SystemMessage,
+    UserMessage,
+    AssistantMessage,
+    ToolMessage,
+    Function,
+    Tool,
+)
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 
 if os.path.exists(".env"):
@@ -51,7 +59,7 @@ class MistralAdapter(LlmAdapter):
 
         return response.choices[0].message.content  # type: ignore
 
-    def _build_tools(self, tools: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def _build_tools(self, tools: list[dict[str, Any]]) -> list[Tool]:
         """
         Build Mistral tool definitions from MCP tools.
 
@@ -67,14 +75,14 @@ class MistralAdapter(LlmAdapter):
         mistral_tools = []
         for tool in tools:
             mistral_tools.append(
-                {
-                    "type": "function",
-                    "function": {
-                        "name": tool["name"],
-                        "description": tool["description"],
-                        "parameters": tool.get("input_schema", {}),
-                    },
-                }
+                Tool(
+                    type="function",
+                    function=Function(
+                        name=tool["name"],
+                        description=tool["description"],
+                        parameters=tool.get("input_schema", {}),
+                    ),
+                )
             )
         return mistral_tools
 
@@ -104,9 +112,11 @@ class MistralAdapter(LlmAdapter):
         """
         mistral_tools = self._build_tools(tools)
 
-        messages = [
-            {"role": "system", "content": system_instruction},
-            {"role": "user", "content": prompt},
+        messages: list[
+            Union[SystemMessage, UserMessage, AssistantMessage, ToolMessage]
+        ] = [
+            SystemMessage(content=system_instruction),
+            UserMessage(content=prompt),
         ]
 
         response = self.client.chat.complete(
@@ -186,21 +196,22 @@ class MistralAdapter(LlmAdapter):
         """
         mistral_tools = self._build_tools(tools)
 
-        messages = [{"role": "system", "content": system_instruction}]
+        messages: list[
+            Union[SystemMessage, UserMessage, AssistantMessage, ToolMessage]
+        ] = [SystemMessage(content=system_instruction)]
         for msg in conversation_history:
-            messages.append({"role": "user", "content": msg})
+            messages.append(UserMessage(content=msg))
 
         if assistant_message:
             messages.append(assistant_message)
 
         for tool_result in tool_results:
             messages.append(
-                {
-                    "role": "tool",
-                    "tool_call_id": tool_result.get("id", ""),
-                    "name": tool_result["name"],
-                    "content": str(tool_result["result"]),
-                }
+                ToolMessage(
+                    tool_call_id=tool_result.get("id", ""),
+                    name=tool_result["name"],
+                    content=str(tool_result["result"]),
+                )
             )
 
         response = self.client.chat.complete(

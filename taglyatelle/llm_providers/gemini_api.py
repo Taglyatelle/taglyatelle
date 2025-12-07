@@ -66,7 +66,7 @@ class GeminiAdapter(LlmAdapter):
                 types.FunctionDeclaration(
                     name=tool["name"],
                     description=tool["description"],
-                    parameters=sanitized_schema,
+                    parameters=types.Schema(**sanitized_schema),
                 )
             )
         return function_declarations

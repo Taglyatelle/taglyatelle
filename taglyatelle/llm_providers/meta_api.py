@@ -108,8 +108,8 @@ class MetaAdapter(LlmAdapter):
         response = self.client.chat.completions.create(
             model=self.model,
             temperature=self.temperature,
-            messages=messages,
-            tools=meta_tools if meta_tools else None,
+            messages=messages,  # type: ignore[arg-type]
+            tools=meta_tools if meta_tools else None,  # type: ignore[arg-type]
         )
 
         result = self._extract_response_parts(response)
@@ -210,7 +210,7 @@ class MetaAdapter(LlmAdapter):
                     "content": assistant_message.completion_message.content.text
                     if hasattr(assistant_message.completion_message.content, "text")
                     else "",
-                    "tool_calls": tool_calls_data,
+                    "tool_calls": tool_calls_data,  # type: ignore[dict-item]
                 }
             )
 
@@ -227,8 +227,8 @@ class MetaAdapter(LlmAdapter):
         response = self.client.chat.completions.create(
             model=self.model,
             temperature=self.temperature,
-            messages=messages,
-            tools=meta_tools if meta_tools else None,
+            messages=messages,  # type: ignore[arg-type]
+            tools=meta_tools if meta_tools else None,  # type: ignore[arg-type]
         )
 
         return self._extract_response_parts(response)

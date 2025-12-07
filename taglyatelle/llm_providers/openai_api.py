@@ -1,10 +1,15 @@
 """Define OpenAI adapter class."""
 
 import os
-from typing import Any
+from typing import Any, cast
 
 from dotenv import load_dotenv
 from openai import OpenAI
+from openai.types.chat import (
+    ChatCompletionMessageParam,
+    ChatCompletionToolParam,
+    ChatCompletionMessageToolCallParam,
+)
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 
 if os.path.exists(".env"):
@@ -49,7 +54,9 @@ class OpenAIAdapter(LlmAdapter):
 
         return response.choices[0].message.content
 
-    def _build_tools(self, tools: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    def _build_tools(
+        self, tools: list[dict[str, Any]]
+    ) -> list[ChatCompletionToolParam]:
         """
         Build OpenAI tool definitions from MCP tools.
 
@@ -62,17 +69,20 @@ class OpenAIAdapter(LlmAdapter):
         -------
         List of OpenAI tool definition objects
         """
-        openai_tools = []
+        openai_tools: list[ChatCompletionToolParam] = []
         for tool in tools:
             openai_tools.append(
-                {
-                    "type": "function",
-                    "function": {
-                        "name": tool["name"],
-                        "description": tool["description"],
-                        "parameters": tool.get("input_schema", {}),
+                cast(
+                    ChatCompletionToolParam,
+                    {
+                        "type": "function",
+                        "function": {
+                            "name": tool["name"],
+                            "description": tool["description"],
+                            "parameters": tool.get("input_schema", {}),
+                        },
                     },
-                }
+                )
             )
         return openai_tools
 
@@ -102,7 +112,7 @@ class OpenAIAdapter(LlmAdapter):
         """
         openai_tools = self._build_tools(tools)
 
-        messages = [
+        messages: list[ChatCompletionMessageParam] = [
             {"role": "system", "content": system_instruction},
             {"role": "user", "content": prompt},
         ]
@@ -111,7 +121,7 @@ class OpenAIAdapter(LlmAdapter):
             model=self.model,
             temperature=self.temperature,
             messages=messages,
-            tools=openai_tools if openai_tools else None,
+            tools=openai_tools if openai_tools else None,  # type: ignore
         )
 
         result = self._extract_response_parts(response)
@@ -184,45 +194,57 @@ class OpenAIAdapter(LlmAdapter):
         """
         openai_tools = self._build_tools(tools)
 
-        messages = [{"role": "system", "content": system_instruction}]
+        messages: list[ChatCompletionMessageParam] = [
+            {"role": "system", "content": system_instruction}
+        ]
 
         for msg in conversation_history:
             messages.append({"role": "user", "content": msg})
 
         if assistant_message:
+            tool_calls_list: list[ChatCompletionMessageToolCallParam] = [
+                cast(
+                    ChatCompletionMessageToolCallParam,
+                    {
+                        "id": tc.id,
+                        "type": "function",
+                        "function": {
+                            "name": tc.function.name,
+                            "arguments": tc.function.arguments,
+                        },
+                    },
+                )
+                for tc in assistant_message.choices[0].message.tool_calls
+            ]
             messages.append(
-                {
-                    "role": "assistant",
-                    "content": assistant_message.choices[0].message.content,
-                    "tool_calls": [
-                        {
-                            "id": tc.id,
-                            "type": "function",
-                            "function": {
-                                "name": tc.function.name,
-                                "arguments": tc.function.arguments,
-                            },
-                        }
-                        for tc in assistant_message.choices[0].message.tool_calls
-                    ],
-                }
+                cast(
+                    ChatCompletionMessageParam,
+                    {
+                        "role": "assistant",
+                        "content": assistant_message.choices[0].message.content,
+                        "tool_calls": tool_calls_list,
+                    },
+                )
             )
 
         for tool_result in tool_results:
             messages.append(
-                {
-                    "role": "tool",
-                    "tool_call_id": tool_result.get("id", ""),
-                    "name": tool_result["name"],
-                    "content": str(tool_result["result"]),
-                }
+                cast(
+                    ChatCompletionMessageParam,
+                    {
+                        "role": "tool",
+                        "tool_call_id": tool_result.get("id", ""),
+                        "name": tool_result["name"],
+                        "content": str(tool_result["result"]),
+                    },
+                )
             )
 
         response = self.client.chat.completions.create(
             model=self.model,
             temperature=self.temperature,
             messages=messages,
-            tools=openai_tools if openai_tools else None,
+            tools=openai_tools if openai_tools else None,  # type: ignore
         )
 
         return self._extract_response_parts(response)
