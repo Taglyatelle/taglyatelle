@@ -20,6 +20,10 @@ EXCLUDED_DIRS = {
 
 
 class LicenseAdapter(ABC):
+    def __init__(self):
+        """Initialize the adapter with file handlers."""
+        self.file_handlers: dict[str, Callable] = {}
+
     def _search_files(
         self, files_to_check: list[str], root_path: str | Path = "."
     ) -> list[str]:
@@ -56,4 +60,4 @@ class LicenseAdapter(ABC):
         -------
         Dictionary mapping file names to their parser functions
         """
-        raise NotImplementedError
+        return self.file_handlers
