@@ -5,6 +5,7 @@ import json
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Depends
 from taglyatelle.schemas.webhook_event_models import WebhookEventModel
+from taglyatelle.schemas.request_model import GitProviderRequest
 from taglyatelle.git_providers.core.git_factory import GitProvider
 from taglyatelle.exposition.middleware import SmeeMiddleware
 from taglyatelle.slash_commands.core.slash_factory import SlashCommand
@@ -44,12 +45,19 @@ async def receipt_payload(
     payload_body = await request.body()
     payload = json.loads(payload_body)
 
-    os.environ["INSTALLATION_ID"] = str(payload["installation"]["id"])
+    git_request = GitProviderRequest.from_payload(
+        payload=payload,
+        provider=webhook_event.provider,
+        event_type=webhook_event.event_type,
+    )
+
+    if git_request.installation_id:
+        os.environ["INSTALLATION_ID"] = str(git_request.installation_id)
 
     provider = GitProvider(
-        git_provider=webhook_event.provider,
-        owner=payload["repository"]["owner"]["login"],
-        repo=payload["repository"]["name"],
+        git_provider=git_request.provider,
+        owner=git_request.repository_owner,
+        repo=git_request.repository_name,
     )
 
     provider.set_llm_strategy(
@@ -57,25 +65,26 @@ async def receipt_payload(
     )
 
     # Call slash commands
-    if webhook_event.event_type == "issue_comment" and payload["action"] == "created":
-        comment_body = payload["comment"]["body"].strip()
-
-        if comment_body.startswith("/"):
+    if git_request.event_type == "issue_comment" and git_request.action == "created":
+        if git_request.comment_body and git_request.comment_body.strip().startswith(
+            "/"
+        ):
+            comment_body = git_request.comment_body.strip()
             command = comment_body.split()[0][1:].lower()
-            slash_command = SlashCommand(command, provider, payload)
+            slash_command = SlashCommand(command, provider, git_request.raw_payload)
             slash_command.execute()
 
     # Synchronize changelog and create releases
-    if webhook_event.event_type == "pull_request":
-        if payload["action"] in ["opened", "synchronize", "reopened"]:
-            synchronize_changelog(provider=provider, pr_number=payload["number"])
+    if git_request.event_type in ["pull_request", "merge_request"]:
+        if git_request.action in ["opened", "synchronize", "reopened"]:
+            if git_request.number:
+                synchronize_changelog(provider=provider, pr_number=git_request.number)
 
         elif (
-            payload["pull_request"]["merged"]
-            and payload["pull_request"]["base"]["ref"]
-            == payload["repository"]["default_branch"]
+            git_request.is_merged and git_request.base_ref == git_request.default_branch
         ):
-            publish_release(provider=provider, pr_number=payload["number"])
+            if git_request.number:
+                publish_release(provider=provider, pr_number=git_request.number)
 
 
 if __name__ == "__main__":
