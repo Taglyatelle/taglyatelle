@@ -28,7 +28,4 @@ Comment on any PR or issue with these commands:
 
 - **`/check_licenses`** - Analyzes dependencies in your files, creates an issue with a detailed license compliance report including package names, license types, and severity levels.
 
-
-## Supported languages (for Slash commands)
-
-> Python and R
+> Supported languages: Python and R
