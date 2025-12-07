@@ -65,12 +65,25 @@ class LicenseProvider:
         A list of dictionaries with package, license, and severity information,
         or None if no packages found
         """
-        parsing_packages = self.adapter.parse()
-        if not parsing_packages:
+        file_handlers = self.adapter.get_file_handlers()
+        if not file_handlers:
             return None
 
-        # Add severity to each package
-        for pkg_info in parsing_packages:
+        available_files = self.adapter._search_files(list(file_handlers.keys()))
+        if not available_files:
+            return None
+
+        pkg_licenses = []
+        for file_path in available_files:
+            for file_type, handler in file_handlers.items():
+                if file_path.endswith(file_type):
+                    pkg_licenses.extend(handler(file_path))
+                    break
+
+        if not pkg_licenses:
+            return None
+
+        for pkg_info in pkg_licenses:
             pkg_info["severity"] = self._get_compliance(pkg_info["license"])
 
-        return parsing_packages
+        return pkg_licenses

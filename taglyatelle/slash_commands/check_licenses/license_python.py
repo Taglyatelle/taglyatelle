@@ -11,13 +11,11 @@ import urllib.request
 from importlib import metadata
 from pathlib import Path
 
-# Constants
 MAX_LICENSE_TEXT_LENGTH = 200
 MAX_LINES_TO_SCAN = 15
 MAX_FIRST_LINE_LENGTH = 100
 PYPI_TIMEOUT_SECONDS = 5
 
-# License detection patterns
 BSD_INDICATORS = ["BSD"]
 BSD_3_INDICATORS = ["3-CLAUSE", "THREE-CLAUSE", "3 CLAUSE"]
 BSD_2_INDICATORS = ["2-CLAUSE", "TWO-CLAUSE", "2 CLAUSE"]
@@ -26,7 +24,6 @@ GPL_INDICATORS = ["GNU GENERAL PUBLIC LICENSE"]
 GPL_V3_INDICATORS = ["VERSION 3"]
 GPL_V2_INDICATORS = ["VERSION 2"]
 
-# BSD-3-Clause structural markers
 BSD_3_STRUCTURAL_MARKERS = [
     "REDISTRIBUTION AND USE",
     "IN BINARY FORM",
@@ -73,7 +70,6 @@ class PythonAdapter(LicenseAdapter):
 
                 return "BSD License"
 
-        # Detect BSD-3-Clause by structural markers
         if all(marker in license_upper for marker in BSD_3_STRUCTURAL_MARKERS) and any(
             marker in license_upper for marker in BSD_3_ENDORSEMENT_MARKERS
         ):
@@ -141,30 +137,24 @@ class PythonAdapter(LicenseAdapter):
 
         license_text = license_text.strip()
 
-        # Short license texts can be returned as-is
         if len(license_text) <= MAX_LICENSE_TEXT_LENGTH:
             return license_text
 
-        # Parse long license texts
         lines = license_text.split("\n")
         first_line = lines[0].strip()
         license_upper = license_text.upper()
 
-        # Try to detect BSD license
         bsd_license = self._detect_bsd_license(lines, license_upper)
         if bsd_license:
             return bsd_license
 
-        # Try to detect MIT license
         if self._detect_mit_license(lines):
             return "MIT"
 
-        # Try to detect GPL license
         gpl_license = self._detect_gpl_license(license_upper)
         if gpl_license:
             return gpl_license
 
-        # Fallback to first line if meaningful
         if first_line and not first_line.startswith("Copyright"):
             return first_line[:MAX_FIRST_LINE_LENGTH]
 
@@ -193,7 +183,6 @@ class PythonAdapter(LicenseAdapter):
             if license_info and license_info.strip() and license_info != "UNKNOWN":
                 return self._clean_license_text(license_info)
 
-            # Use generator expression for early exit
             classifiers = info.get("classifiers", [])
             license_classifier = next(
                 (c for c in classifiers if c.startswith("License ::")), None
@@ -265,11 +254,9 @@ class PythonAdapter(LicenseAdapter):
         packages = []
         for raw_line in lines:
             stripped = raw_line.strip()
-            # Skip empty lines and comments
             if not stripped or stripped.startswith("#"):
                 continue
 
-            # Extract package name (before any version specifier)
             pkg_name = re.split(r"[=<>!~]", stripped)[0].strip()
             if pkg_name:
                 packages.append(
@@ -300,24 +287,3 @@ class PythonAdapter(LicenseAdapter):
             for p in packages
             if (pkg_name := p.get("name"))
         ]
-
-    def parse(self) -> None | list[dict[str, str]]:
-        """
-        Check the licenses of Python packages in the given project path.
-
-        Returns
-        -------
-        A list of dictionaries with package and license information
-        """
-        available_files = self._search_files(list(self.file_handlers.keys()))
-        if not available_files:
-            return None
-
-        pkg_licenses = []
-        for file_path in available_files:
-            for file_type, handler in self.file_handlers.items():
-                if file_path.endswith(file_type):
-                    pkg_licenses.extend(handler(file_path))
-                    break
-
-        return pkg_licenses if pkg_licenses else None

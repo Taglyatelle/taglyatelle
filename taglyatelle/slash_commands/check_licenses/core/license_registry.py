@@ -6,13 +6,14 @@ from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
     LicenseAdapter,
 )
 from taglyatelle.slash_commands.check_licenses.license_python import PythonAdapter
+from taglyatelle.slash_commands.check_licenses.license_r import RAdapter
 
 
 check_license_registry: dict[str, Type[LicenseAdapter]] = {}
 
 
 def register_license_provider(
-    name: Literal["python"],
+    name: Literal["python", "r"],
     adapter_cls: Type[LicenseAdapter],
 ) -> None:
     """
@@ -30,3 +31,4 @@ def register_license_provider(
 
 
 register_license_provider("python", PythonAdapter)
+register_license_provider("r", RAdapter)

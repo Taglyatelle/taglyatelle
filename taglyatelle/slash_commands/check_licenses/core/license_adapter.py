@@ -1,6 +1,6 @@
 """Adapter pattern for check_licenses."""
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from pathlib import Path
 
 
@@ -19,6 +19,10 @@ EXCLUDED_DIRS = {
 
 
 class LicenseAdapter(ABC):
+    def __init__(self):
+        """Initialize the adapter with file handlers."""
+        self.file_handlers: dict[str, callable] = {}
+
     def _search_files(
         self, files_to_check: list[str], root_path: str | Path = "."
     ) -> list[str]:
@@ -47,6 +51,12 @@ class LicenseAdapter(ABC):
                     found_files.append(str(file_path))
         return found_files
 
-    @abstractmethod
-    def parse(self) -> None | list[dict[str, str]]:
-        raise NotImplementedError
+    def get_file_handlers(self) -> dict[str, callable]:
+        """
+        Get the file handlers for this adapter.
+
+        Returns
+        -------
+        Dictionary mapping file names to their parser functions
+        """
+        return self.file_handlers

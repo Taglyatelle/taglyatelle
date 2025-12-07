@@ -68,7 +68,7 @@ def _detect_main_language(
     {chr(10).join(sample_files)}
 
     Based on the file extensions and patterns, identify the PRIMARY programming language used in this repository.
-    Respond with ONLY the language name in lowercase (e.g., 'python', 'javascript', 'java', 'go', 'ruby').
+    Respond with ONLY the language name in lowercase.  (e.g., 'python', 'javascript', 'java', 'go', 'ruby').
     Do not include any explanation, just the language name.
     """
 
