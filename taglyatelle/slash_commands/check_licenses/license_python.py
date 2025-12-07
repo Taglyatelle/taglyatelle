@@ -235,21 +235,20 @@ class PythonAdapter(LicenseAdapter):
 
         return self._get_license_from_pypi(str(pkg_name))
 
-    def parse_requirements_file(self, path: str) -> list[dict[str, str]]:
+    def parse_requirements_file(self, content: str) -> list[dict[str, str]]:
         """
         Parse requirements.txt file
 
         Parameters
         ----------
-        path
-            Path of the requirements.txt
+        content
+            Content of the requirements.txt
 
         Returns
         -------
         A list of dictionaries with package and license information
         """
-        with open(path, "r") as req_file:
-            lines = req_file.readlines()
+        lines = content.splitlines()
 
         packages = []
         for raw_line in lines:
@@ -265,21 +264,20 @@ class PythonAdapter(LicenseAdapter):
 
         return packages
 
-    def parse_lock_files(self, path: str) -> list[dict[str, str]]:
+    def parse_lock_files(self, content: str) -> list[dict[str, str]]:
         """
         Parse uv.lock or poetry.lock file
 
         Parameters
         ----------
-        path
-            Path of the lock file
+        content
+            Content of the lock file
 
         Returns
         -------
         A list of dictionaries with package and license information
         """
-        with open(path, "rb") as lock_file:
-            lock_data = tomllib.load(lock_file)
+        lock_data = tomllib.loads(content)
 
         packages = lock_data.get("package", [])
         return [

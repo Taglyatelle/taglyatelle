@@ -13,31 +13,14 @@ from taglyatelle.slash_commands.check_licenses.core.license_factory import (
 logging.basicConfig(level=logging.INFO)
 
 # Constants
-DEFAULT_BRANCH = "main"
 MAX_FILES_TO_SAMPLE = 20
 RELEVANT_EXTENSIONS = {
     ".py",
-    ".js",
-    ".ts",
-    ".java",
-    ".go",
-    ".rb",
-    ".php",
-    ".cs",
-    ".cpp",
-    ".c",
-    ".rs",
-    ".swift",
-    ".kt",
     ".R",
-    ".m",
-    ".scala",
 }
 
 
-def _detect_main_language(
-    provider: GitProvider, branch: str = DEFAULT_BRANCH
-) -> str | None:
+def _detect_main_language(provider: GitProvider, branch: str) -> str | None:
     """
     Detect the main programming language of the repository using LLM.
 
@@ -68,7 +51,8 @@ def _detect_main_language(
     {chr(10).join(sample_files)}
 
     Based on the file extensions and patterns, identify the PRIMARY programming language used in this repository.
-    Respond with ONLY the language name in lowercase.  (e.g., 'python', 'javascript', 'java', 'go', 'ruby').
+    Respond with ONLY the language name in lowercase: 'python' or 'r'.
+    If the main language cannot be clearly determined or is neither Python nor R, respond with 'unknown'.
     Do not include any explanation, just the language name.
     """
 
@@ -103,7 +87,9 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
     logging.info(f"Detected main language: {main_language}")
 
     try:
-        license_provider = LicenseProvider(provider=main_language)
+        license_provider = LicenseProvider(
+            provider=main_language, git_provider=provider, branch=branch
+        )
     except ValueError as e:
         logging.error(str(e))
         return None
@@ -125,6 +111,7 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
         license_name = pkg_info.get("license", "Unknown")
         severity = pkg_info.get("severity", "⚪ Unknown")
 
+        license_name = license_name.replace("|", "or")
         table_rows.append(f"| {package_name} | {license_name} | {severity} |")
         severity_counts[severity] = severity_counts.get(severity, 0) + 1
 
@@ -146,7 +133,7 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
     )
 
 
-def run_check_licenses(provider: GitProvider, payload: Any) -> None:
+def run_check_licenses(provider: GitProvider, payload: dict[str, Any]) -> None:
     """
     Check software license compliance
 

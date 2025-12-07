@@ -7,12 +7,16 @@ from taglyatelle.slash_commands.check_licenses.core.license_registry import (
     check_license_registry,
 )
 
+from taglyatelle.git_providers.core.git_factory import GitProvider
+
 
 class LicenseProvider:
     """Adapter for multiple license providers."""
 
-    def __init__(self, provider: str):
+    def __init__(self, provider: str, git_provider: "GitProvider", branch: str):
         self.provider = provider
+        self.git_provider = git_provider
+        self.branch = branch
         self.adapter = self._get_adapter()
 
     def _get_adapter(self) -> LicenseAdapter:
@@ -45,7 +49,10 @@ class LicenseProvider:
         """
         license_upper = type_license.upper()
 
-        if any(lic in license_upper for lic in ["MIT", "APACHE", "BSD", "ISC", "PSF"]):
+        if any(
+            lic in license_upper
+            for lic in ["MIT", "APACHE", "BSD", "ISC", "PSF", "UNLIMITED"]
+        ):
             return "🟢 Low"
 
         if any(lic in license_upper for lic in ["LGPL", "MPL"]):
@@ -69,15 +76,31 @@ class LicenseProvider:
         if not file_handlers:
             return None
 
-        available_files = self.adapter._search_files(list(file_handlers.keys()))
+        all_files = self.git_provider.get_repository_tree(ref=self.branch)
+        if not all_files:
+            return None
+
+        available_files = []
+        for file_path in all_files:
+            for file_type in file_handlers.keys():
+                if file_path.endswith(file_type):
+                    available_files.append(file_path)
+                    break
+
         if not available_files:
             return None
 
         pkg_licenses = []
         for file_path in available_files:
+            file_content = self.git_provider.get_file_content(
+                file_path=file_path, ref=self.branch
+            )
+            if not file_content:
+                continue
+
             for file_type, handler in file_handlers.items():
                 if file_path.endswith(file_type):
-                    pkg_licenses.extend(handler(file_path))
+                    pkg_licenses.extend(handler(file_content))
                     break
 
         if not pkg_licenses:

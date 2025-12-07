@@ -39,14 +39,18 @@ class RAdapter(LicenseAdapter):
 
         license_text = license_text.strip()
 
+        # Remove "file LICENSE" or "file LICENCE" patterns (with + or | separators)
         license_text = re.sub(
-            r"\s*\+\s*file\s+LICENSE.*$", "", license_text, flags=re.IGNORECASE
-        )
-        license_text = re.sub(
-            r"\s*\|\s*file\s+LICENCE.*$", "", license_text, flags=re.IGNORECASE
+            r"\s*[\+\|]\s*file\s+LICEN[CS]E.*$", "", license_text, flags=re.IGNORECASE
         )
 
+        # If the result is just "file LICENSE" or similar, return Unknown
+        if re.match(r"^\s*file\s+LICEN[CS]E.*$", license_text, flags=re.IGNORECASE):
+            return "Unknown"
+
         license_text = license_text.strip()
+        if not license_text:
+            return "Unknown"
 
         if len(license_text) <= MAX_LICENSE_TEXT_LENGTH:
             return license_text
@@ -87,23 +91,20 @@ class RAdapter(LicenseAdapter):
         except Exception:
             return "Unknown"
 
-    def parse_description_file(self, path: str) -> list[dict[str, str]]:
+    def parse_description_file(self, content: str) -> list[dict[str, str]]:
         """
         Parse DESCRIPTION file (R package metadata).
 
         Parameters
         ----------
-        path
-            Path of the DESCRIPTION file
+        content
+            Content of the DESCRIPTION file
 
         Returns
         -------
         A list with a single dictionary containing the package license information
         """
         try:
-            with open(path, "r", encoding="utf-8") as desc_file:
-                content = desc_file.read()
-
             package_match = re.search(r"^Package:\s*(.+)$", content, re.MULTILINE)
             package_name = (
                 package_match.group(1).strip() if package_match else "Unknown"
@@ -127,22 +128,21 @@ class RAdapter(LicenseAdapter):
         except Exception:
             return []
 
-    def parse_renv_lock(self, path: str) -> list[dict[str, str]]:
+    def parse_renv_lock(self, content: str) -> list[dict[str, str]]:
         """
         Parse renv.lock file (R dependency lock file).
 
         Parameters
         ----------
-        path
-            Path of the renv.lock file
+        content
+            Content of the renv.lock file
 
         Returns
         -------
         A list of dictionaries with package and license information
         """
         try:
-            with open(path, "r", encoding="utf-8") as lock_file:
-                lock_data = json.load(lock_file)
+            lock_data = json.loads(content)
 
             packages = lock_data.get("Packages", {})
 
@@ -153,7 +153,7 @@ class RAdapter(LicenseAdapter):
 
             return pkg_licenses
 
-        except (json.JSONDecodeError, FileNotFoundError):
+        except (json.JSONDecodeError, ValueError):
             return []
         except Exception:
             return []
