@@ -31,12 +31,12 @@ dependencies = [
     "cryptography>=46.0.3",
     "docstring-parser>=0.17.0",
     "dotenv>=0.9.9",
-    "fastapi>=0.121.1",
-    "google-genai>=1.52.0",
+    "fastapi>=0.124.0",
+    "google-genai>=1.53.0",
     "httpx>=0.28.1",
     "llama-api-client>=0.5.0",
     "mistralai>=1.9.11",
-    "openai>=2.8.1",
+    "openai>=2.9.0",
     "pandas>=2.3.3",
     "pydantic>=2.12.5",
     "pydantic-core>=2.41.5",
@@ -56,7 +56,7 @@ typing = [
 ]
 
 test = [
-    "pytest>=9.0.0",
+    "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
     "pytest-mock>=3.15.1"
 ]
@@ -74,7 +74,7 @@ doc = [
     "mkdocs-material-extensions",
     "pytkdocs",
     "mkdocs-autorefs",
-    "mkdocs-gen-files",
+    "mkdocs-gen-files>=0.6.0",
     "mkdocs-literate-nav",
     "jinja2",
     "MarkupSafe>=3.0.3"
