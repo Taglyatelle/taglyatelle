@@ -8,28 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://github.com/alexym1/taglyatelle/references/git_providers/core/git_adapter/">
+        <link rel="canonical" href="https://github.com/alexym1/taglyatelle/references/slash_commands/check_licenses/core/license_adapter/">
       
       
-        <link rel="prev" href="../../../exposition/taglyatelle_api/">
+        <link rel="prev" href="../../../../schemas/webhook_event_models/">
       
       
-        <link rel="next" href="../git_factory/">
+        <link rel="next" href="../license_factory/">
       
       
-      <link rel="icon" href="../../../../logo.png">
+      <link rel="icon" href="../../../../../logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
     
       
-        <title>git_adapter.py - taglyatelle</title>
+        <title>license_adapter.py - taglyatelle</title>
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.7e37652d.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,11 +48,11 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../../../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#taglyatelle.git_providers.core.git_adapter" class="md-skip">
+        <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter" class="md-skip">
           Skip to content
         </a>
       
@@ -92,9 +92,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="taglyatelle" class="md-header__button md-logo" aria-label="taglyatelle" data-md-component="logo">
+    <a href="../../../../.." title="taglyatelle" class="md-header__button md-logo" aria-label="taglyatelle" data-md-component="logo">
       
-  <img src="../../../../logo.png" alt="logo">
+  <img src="../../../../../logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -111,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              git_adapter.py
+              license_adapter.py
             
           </span>
         </div>
@@ -192,7 +192,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../.." class="md-tabs__link">
+        <a href="../../../../.." class="md-tabs__link">
           
   
   
@@ -225,7 +225,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../../background_commands/publish_release/" class="md-tabs__link">
+        <a href="../../../../background_commands/publish_release/" class="md-tabs__link">
           
   
   
@@ -270,9 +270,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="taglyatelle" class="md-nav__button md-logo" aria-label="taglyatelle" data-md-component="logo">
+    <a href="../../../../.." title="taglyatelle" class="md-nav__button md-logo" aria-label="taglyatelle" data-md-component="logo">
       
-  <img src="../../../../logo.png" alt="logo">
+  <img src="../../../../../logo.png" alt="logo">
 
     </a>
     taglyatelle
@@ -324,7 +324,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../.." class="md-nav__link ">
+            <a href="../../../../.." class="md-nav__link ">
               
   
   
@@ -359,7 +359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../contributing/" class="md-nav__link">
+      <a href="../../../../../contributing/" class="md-nav__link">
         
   
   
@@ -382,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../changelog/" class="md-nav__link">
+      <a href="../../../../../changelog/" class="md-nav__link">
         
   
   
@@ -521,7 +521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../background_commands/publish_release/" class="md-nav__link">
+      <a href="../../../../background_commands/publish_release/" class="md-nav__link">
         
   
   
@@ -544,7 +544,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../background_commands/synchronize_changelog/" class="md-nav__link">
+      <a href="../../../../background_commands/synchronize_changelog/" class="md-nav__link">
         
   
   
@@ -624,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../exposition/middleware/" class="md-nav__link">
+      <a href="../../../../exposition/middleware/" class="md-nav__link">
         
   
   
@@ -647,7 +647,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../exposition/monitoring/" class="md-nav__link">
+      <a href="../../../../exposition/monitoring/" class="md-nav__link">
         
   
   
@@ -670,7 +670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../exposition/taglyatelle_api/" class="md-nav__link">
+      <a href="../../../../exposition/taglyatelle_api/" class="md-nav__link">
         
   
   
@@ -698,10 +698,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -716,11 +714,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
         
           
           <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
@@ -736,7 +734,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             git_providers
@@ -747,10 +745,8 @@
                 
   
   
-    
   
   
-  
     
     
       
@@ -767,11 +763,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_1" >
         
           
           <label class="md-nav__link" for="__nav_2_3_1" id="__nav_2_3_1_label" tabindex="0">
@@ -787,7 +783,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_1_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_3_1">
             <span class="md-nav__icon md-icon"></span>
             core
@@ -798,30 +794,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    git_adapter.py
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../../git_providers/core/git_adapter/" class="md-nav__link">
         
   
   
@@ -832,42 +808,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#taglyatelle.git_providers.core.git_adapter" class="md-nav__link">
-    <span class="md-ellipsis">
-      git_adapter
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#taglyatelle.git_providers.core.git_adapter.GitAdapter" class="md-nav__link">
-    <span class="md-ellipsis">
-      GitAdapter
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -880,7 +820,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../git_factory/" class="md-nav__link">
+      <a href="../../../../git_providers/core/git_factory/" class="md-nav__link">
         
   
   
@@ -903,7 +843,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../git_registry/" class="md-nav__link">
+      <a href="../../../../git_providers/core/git_registry/" class="md-nav__link">
         
   
   
@@ -934,7 +874,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../github_api/" class="md-nav__link">
+      <a href="../../../../git_providers/github_api/" class="md-nav__link">
         
   
   
@@ -1020,7 +960,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/anthropic_api/" class="md-nav__link">
+      <a href="../../../../llm_providers/anthropic_api/" class="md-nav__link">
         
   
   
@@ -1094,7 +1034,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/core/llm_adapter/" class="md-nav__link">
+      <a href="../../../../llm_providers/core/llm_adapter/" class="md-nav__link">
         
   
   
@@ -1117,7 +1057,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/core/llm_builder/" class="md-nav__link">
+      <a href="../../../../llm_providers/core/llm_builder/" class="md-nav__link">
         
   
   
@@ -1140,7 +1080,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/core/llm_factory/" class="md-nav__link">
+      <a href="../../../../llm_providers/core/llm_factory/" class="md-nav__link">
         
   
   
@@ -1163,7 +1103,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/core/llm_registry/" class="md-nav__link">
+      <a href="../../../../llm_providers/core/llm_registry/" class="md-nav__link">
         
   
   
@@ -1194,7 +1134,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/gemini_api/" class="md-nav__link">
+      <a href="../../../../llm_providers/gemini_api/" class="md-nav__link">
         
   
   
@@ -1217,7 +1157,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/meta_api/" class="md-nav__link">
+      <a href="../../../../llm_providers/meta_api/" class="md-nav__link">
         
   
   
@@ -1240,7 +1180,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/mistral_api/" class="md-nav__link">
+      <a href="../../../../llm_providers/mistral_api/" class="md-nav__link">
         
   
   
@@ -1263,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../llm_providers/openai_api/" class="md-nav__link">
+      <a href="../../../../llm_providers/openai_api/" class="md-nav__link">
         
   
   
@@ -1341,7 +1281,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../schemas/request_model/" class="md-nav__link">
+      <a href="../../../../schemas/request_model/" class="md-nav__link">
         
   
   
@@ -1364,7 +1304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../schemas/webhook_event_models/" class="md-nav__link">
+      <a href="../../../../schemas/webhook_event_models/" class="md-nav__link">
         
   
   
@@ -1392,8 +1332,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1408,11 +1350,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
         
           
           <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
@@ -1428,7 +1370,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_6">
             <span class="md-nav__icon md-icon"></span>
             slash_commands
@@ -1439,8 +1381,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1459,11 +1403,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_1" checked>
         
           
           <label class="md-nav__link" for="__nav_2_6_1" id="__nav_2_6_1_label" tabindex="0">
@@ -1479,7 +1423,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_6_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_6_1">
             <span class="md-nav__icon md-icon"></span>
             check_licenses
@@ -1490,8 +1434,10 @@
                 
   
   
+    
   
   
+  
     
     
       
@@ -1508,11 +1454,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_1_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6_1_1" checked>
         
           
           <label class="md-nav__link" for="__nav_2_6_1_1" id="__nav_2_6_1_1_label" tabindex="0">
@@ -1528,7 +1474,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_6_1_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_6_1_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_6_1_1">
             <span class="md-nav__icon md-icon"></span>
             core
@@ -1539,10 +1485,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../slash_commands/check_licenses/core/license_adapter/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    license_adapter.py
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1553,6 +1519,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      license_adapter
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      LicenseAdapter
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LicenseAdapter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.get_file_handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_file_handlers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_file_handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.get_file_handlers--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1565,7 +1606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../slash_commands/check_licenses/core/license_factory/" class="md-nav__link">
+      <a href="../license_factory/" class="md-nav__link">
         
   
   
@@ -1588,7 +1629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../slash_commands/check_licenses/core/license_registry/" class="md-nav__link">
+      <a href="../license_registry/" class="md-nav__link">
         
   
   
@@ -1619,7 +1660,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../slash_commands/check_licenses/license_python/" class="md-nav__link">
+      <a href="../../license_python/" class="md-nav__link">
         
   
   
@@ -1642,7 +1683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../slash_commands/check_licenses/license_r/" class="md-nav__link">
+      <a href="../../license_r/" class="md-nav__link">
         
   
   
@@ -1665,7 +1706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../slash_commands/check_licenses/run_check_licenses/" class="md-nav__link">
+      <a href="../../run_check_licenses/" class="md-nav__link">
         
   
   
@@ -1743,7 +1784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../slash_commands/core/slash_factory/" class="md-nav__link">
+      <a href="../../../core/slash_factory/" class="md-nav__link">
         
   
   
@@ -1766,7 +1807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../slash_commands/core/slash_registry/" class="md-nav__link">
+      <a href="../../../core/slash_registry/" class="md-nav__link">
         
   
   
@@ -1901,7 +1942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../webhooks/core/webhook_adapter/" class="md-nav__link">
+      <a href="../../../../webhooks/core/webhook_adapter/" class="md-nav__link">
         
   
   
@@ -1924,7 +1965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../webhooks/core/webhook_factory/" class="md-nav__link">
+      <a href="../../../../webhooks/core/webhook_factory/" class="md-nav__link">
         
   
   
@@ -1947,7 +1988,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../webhooks/core/webhook_registry/" class="md-nav__link">
+      <a href="../../../../webhooks/core/webhook_registry/" class="md-nav__link">
         
   
   
@@ -1978,7 +2019,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../webhooks/webhook_github/" class="md-nav__link">
+      <a href="../../../../webhooks/webhook_github/" class="md-nav__link">
         
   
   
@@ -2034,20 +2075,59 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#taglyatelle.git_providers.core.git_adapter" class="md-nav__link">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter" class="md-nav__link">
     <span class="md-ellipsis">
-      git_adapter
+      license_adapter
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#taglyatelle.git_providers.core.git_adapter.GitAdapter" class="md-nav__link">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter" class="md-nav__link">
     <span class="md-ellipsis">
-      GitAdapter
+      LicenseAdapter
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="LicenseAdapter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __init__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.get_file_handlers" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_file_handlers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get_file_handlers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.get_file_handlers--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2070,16 +2150,16 @@
   
 
 
-  <h1>git_adapter.py</h1>
+  <h1>license_adapter.py</h1>
 
 <div class="doc doc-object doc-module">
 
 
 
-<a id="taglyatelle.git_providers.core.git_adapter"></a>
+<a id="taglyatelle.slash_commands.check_licenses.core.license_adapter"></a>
     <div class="doc doc-contents first">
 
-        <p>Adapter pattern for git providers.</p>
+        <p>Adapter pattern for check_licenses.</p>
 
 
 
@@ -2104,17 +2184,17 @@
 
 
 
-<h2 id="taglyatelle.git_providers.core.git_adapter.GitAdapter" class="doc doc-heading">
-            <code>GitAdapter</code>
+<h2 id="taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter" class="doc doc-heading">
+            <code>LicenseAdapter</code>
 
 
-<a href="#taglyatelle.git_providers.core.git_adapter.GitAdapter" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="abc.ABC">ABC</span></code></p>
 
-
-        <p>Base adapter for git providers.</p>
 
 
 
@@ -2124,26 +2204,8 @@
 
 
               <details class="quote">
-                <summary>Source code in <code>taglyatelle/git_providers/core/git_adapter.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
+                <summary>Source code in <code>taglyatelle/slash_commands/check_licenses/core/license_adapter.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span>
 <span class="normal">25</span>
@@ -2178,60 +2240,54 @@
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
-<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GitAdapter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base adapter for git providers.&quot;&quot;&quot;</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LicenseAdapter</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the adapter with file handlers.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_handlers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">repo</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_search_files</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">files_to_check</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">root_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search for relevant files in the project directory.</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_pr_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        files_to_check</span>
+<span class="sd">            A list of file names to search for</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_pr_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="sd">        root_path</span>
+<span class="sd">            The root directory to start searching from (default: current directory)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_pr_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        A list of file paths to check for licenses</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">found_files</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">files_to_check</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">file_path</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">excluded</span> <span class="ow">in</span> <span class="n">file_path</span><span class="o">.</span><span class="n">parts</span> <span class="k">for</span> <span class="n">excluded</span> <span class="ow">in</span> <span class="n">EXCLUDED_DIRS</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                    <span class="n">found_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">file_path</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">found_files</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_pr_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_file_handlers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the file handlers for this adapter.</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_pr_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pr_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_release</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_issue</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">search_issues</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_issue</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">issue_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">body</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_file_content</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_repository_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;main&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Dictionary mapping file names to their parser functions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_handlers</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -2247,6 +2303,74 @@
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">()</span></code>
+
+<a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Initialize the adapter with file handlers.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/slash_commands/check_licenses/core/license_adapter.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the adapter with file handlers.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">file_handlers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.get_file_handlers" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_file_handlers</span><span class="p">()</span></code>
+
+<a href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.get_file_handlers" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the file handlers for this adapter.</p>
+<h6 id="taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.get_file_handlers--returns">Returns<a class="headerlink" href="#taglyatelle.slash_commands.check_licenses.core.license_adapter.LicenseAdapter.get_file_handlers--returns" title="Permanent link">&para;</a></h6>
+<p>Dictionary mapping file names to their parser functions</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>taglyatelle/slash_commands/check_licenses/core/license_adapter.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_file_handlers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the file handlers for this adapter.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Dictionary mapping file names to their parser functions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_handlers</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
 
 
 
@@ -2334,10 +2458,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.instant", "navigation.tabs.sticky"], "search": "../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../../../../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.instant", "navigation.tabs.sticky"], "search": "../../../../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.92b07e13.min.js"></script>
       
     
   </body>
