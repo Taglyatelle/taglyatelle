@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 def synchronize_changelog(provider: GitProvider, pr_number: int) -> None:
     """
-    Syncrhonize the changelog in the PR body based on the changed files.
+    Synchronize the changelog in the PR body based on the changed files.
 
     Parameters
     ----------
