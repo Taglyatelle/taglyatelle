@@ -1,5 +1,5 @@
 <div align="center">
-    <picture><img src="taglyatelle.png" alt="logo" width="200"></picture>
+    <picture><img src="https://raw.githubusercontent.com/alexym1/taglyatelle/master/taglyatelle.png" alt="logo" width="200"></picture>
     <br/><br/>
     <p> Delegate tasks to your AI agent on multiple Git hosting services
     <br/>
