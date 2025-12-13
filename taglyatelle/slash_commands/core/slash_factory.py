@@ -8,7 +8,9 @@ from taglyatelle.slash_commands.core.slash_registry import slash_command_registr
 class SlashCommand:
     """Adapter for multiple slash commands."""
 
-    def __init__(self, command: str, provider: GitProvider, payload: Any) -> None:
+    def __init__(
+        self, command: str, provider: GitProvider, payload: dict[str, Any]
+    ) -> None:
         """
         Initialize the slash command.
 

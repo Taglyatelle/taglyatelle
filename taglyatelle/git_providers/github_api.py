@@ -160,6 +160,22 @@ class GithubAdapter(GitAdapter):
         data = response.json()
         return str(data["body"])
 
+    def get_pr_details(self, pr_number: int) -> dict:
+        """
+        Get the full details of a pull request.
+
+        Parameters
+        ----------
+        pr_number
+            Pull request number
+
+        Returns
+        -------
+        Dictionary containing full PR details including head, base, title, etc.
+        """
+        response = self._get_request(url=f"pulls/{pr_number}")
+        return response.json()
+
     def create_pr_body(self, pr_number: int, body: str) -> None:
         """
         Fill in the description body of a pull request.
@@ -300,7 +316,6 @@ class GithubAdapter(GitAdapter):
         response = self._get_request(url=f"issues?{self._build_query_string(params)}")
         issues = response.json()
 
-        # Filter by title if query provided
         if query:
             issues = [
                 issue for issue in issues if query.lower() in issue["title"].lower()
@@ -377,19 +392,38 @@ class GithubAdapter(GitAdapter):
             Path to the file in the repository
 
         ref
-            Branch, tag, or commit SHA to get the file from
+            Git reference (branch, tag, or commit SHA)
 
         Returns
         -------
-        File content as string or None if file not found
+        Decoded file content or None if file not found
         """
-        try:
-            response = self._get_request(url=f"contents/{file_path}?ref={ref}")
-            if response.status_code == 200:
-                data = response.json()
-                content = base64.b64decode(data["content"]).decode("utf-8")
-                return content
-            return None
-        except Exception as e:
-            logging.warning(f"Could not retrieve file {file_path}: {e}")
-            return None
+        response = self._get_request(url=f"contents/{file_path}?ref={ref}")
+        if response.status_code == 200:
+            content_data = response.json()
+            encoded_content = content_data.get("content", "")
+            return base64.b64decode(encoded_content).decode("utf-8")
+        return None
+
+    def get_repository_tree(self, ref: str = "main") -> list[str]:
+        """
+        Get the file tree of the repository.
+
+        Parameters
+        ----------
+        ref
+            Git reference (branch, tag, or commit SHA)
+
+        Returns
+        -------
+        List of file paths in the repository
+        """
+        response = self._get_request(url=f"git/trees/{ref}?recursive=1")
+        if response.status_code == 200:
+            tree_data = response.json()
+            files = []
+            for item in tree_data.get("tree", []):
+                if item.get("type") == "blob":
+                    files.append(item.get("path", ""))
+            return files
+        return []

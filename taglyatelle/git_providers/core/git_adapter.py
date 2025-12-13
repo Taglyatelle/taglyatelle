@@ -13,6 +13,9 @@ class GitAdapter:
     def get_pr_body(self, pr_number: int) -> str:
         raise NotImplementedError
 
+    def get_pr_details(self, pr_number: int) -> dict:
+        raise NotImplementedError
+
     def create_pr_body(self, pr_number: int, body: str) -> None:
         raise NotImplementedError
 
@@ -48,4 +51,7 @@ class GitAdapter:
         raise NotImplementedError
 
     def get_file_content(self, file_path: str, ref: str = "main") -> str | None:
+        raise NotImplementedError
+
+    def get_repository_tree(self, ref: str = "main") -> list[str]:
         raise NotImplementedError

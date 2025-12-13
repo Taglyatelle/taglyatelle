@@ -188,13 +188,10 @@ poetry-mypy:
 
 
 docker-build:
-	(docker build -t taglyatelle:0.1.0 .)
+	(docker build -t taglyatelle:0.2.0 .)
 
 docker-run:
-	(docker run -p 8000:8000 --env-file ".env" -v "private_key.pem:/app/private_key.pem:ro" taglyatelle:0.1.0)
+	(docker run -p 8000:8000 --env-file ".env" -v "$(CURRENT_PATH)/private_key.pem:/app/private_key.pem:ro" taglyatelle:0.2.0)
 
 show-api:
 	@${UV} run uvicorn taglyatelle.exposition.taglyatelle_api:app --host 0.0.0.0 --port 8000
-
-activate:
-	source .venv/bin/activate

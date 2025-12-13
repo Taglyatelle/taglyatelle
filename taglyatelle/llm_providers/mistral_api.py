@@ -1,6 +1,7 @@
 """Define Mistral adapter class."""
 
 import os
+
 from dotenv import load_dotenv
 from mistralai import Mistral
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter

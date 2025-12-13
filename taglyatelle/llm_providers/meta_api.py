@@ -1,6 +1,7 @@
 """Define Meta adapter class."""
 
 import os
+
 from dotenv import load_dotenv
 from llama_api_client import LlamaAPIClient
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter

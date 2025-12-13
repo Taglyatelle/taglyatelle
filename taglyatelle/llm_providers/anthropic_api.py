@@ -1,6 +1,7 @@
 """Define Anthropic adapter class."""
 
 import os
+
 from dotenv import load_dotenv
 from anthropic import Anthropic
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter

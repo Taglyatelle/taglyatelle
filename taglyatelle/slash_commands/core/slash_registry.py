@@ -1,7 +1,9 @@
 """Registry pattern for slash commands."""
 
 from typing import Callable
-from taglyatelle.slash_commands.check_licenses import check_licenses
+from taglyatelle.slash_commands.check_licenses.run_check_licenses import (
+    run_check_licenses,
+)
 
 slash_command_registry: dict[str, Callable] = {}
 
@@ -21,4 +23,4 @@ def register_slash_command(name: str, command_func: Callable) -> None:
     slash_command_registry[name] = command_func
 
 
-register_slash_command("check_licenses", check_licenses)
+register_slash_command("check_licenses", run_check_licenses)
