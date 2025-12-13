@@ -16,9 +16,6 @@ class MistralAdapter(LlmAdapter):
     """Define Mistral adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
-        if not MISTRAL_API_KEY:
-            raise ValueError("MISTRAL_API_KEY environment variable is not set")
-
         self.client = Mistral(api_key=MISTRAL_API_KEY)
         self.model = model
         self.temperature = temperature
