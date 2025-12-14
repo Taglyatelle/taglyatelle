@@ -150,7 +150,7 @@ docs-serve:
 ### Deploy the documentation to gh-pages
 docs-deploy:
 	${UV} run mkdocs gh-deploy --config-file config/packaging/mkdocs.yml
-	@${ECHO} "${_BLUE}https://alexym1.github.io/taglyatelle${_END}"
+	@${ECHO} "${_BLUE}https://taglyatelle.github.io/taglyatelle${_END}"
 
 ## Testing
 unittest:

@@ -1,1 +1,1 @@
-Releases are automatically published in [release section](https://github.com/alexym1/taglyatelle/releases)
+Releases are automatically published in [release section](https://github.com/Taglyatelle/taglyatelle/releases)

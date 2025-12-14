@@ -5,7 +5,7 @@
 I. Setup the project
 
 ```shell
-git clone https://github.com/alexym1/taglyatelle.git
+git clone https://github.com/Taglyatelle/taglyatelle.git
 source .venv/bin/activate
 make install-prod
 ```

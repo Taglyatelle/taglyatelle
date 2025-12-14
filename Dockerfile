@@ -7,7 +7,7 @@ RUN make build
 
 FROM python:3.12.3-slim AS production_stage
 
-LABEL org.opencontainers.image.source="https://github.com/alexym1/taglyatelle"
+LABEL org.opencontainers.image.source="https://github.com/Taglyatelle/taglyatelle"
 
 WORKDIR /app
 
