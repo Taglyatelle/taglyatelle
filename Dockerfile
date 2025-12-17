@@ -1,11 +1,11 @@
-FROM python:3.12.3 AS build_package
+FROM python:3.14.2 AS build_package
 
 COPY . .
 RUN make install-prod
 RUN make build
 
 
-FROM python:3.12.3-slim AS production_stage
+FROM python:3.14.2-slim AS production_stage
 
 LABEL org.opencontainers.image.source="https://github.com/alexym1/taglyatelle"
 
