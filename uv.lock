@@ -476,7 +476,7 @@ wheels = [
 
 [[package]]
 name = "llama-api-client"
-version = "0.5.0"
+version = "0.6.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -486,9 +486,9 @@ dependencies = [
     { name = "sniffio" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d8/f8/4dcde68c30e624c40e5b451064af9c1b8c8d0d55243b79e520ca01052dde/llama_api_client-0.5.0.tar.gz", hash = "sha256:78be2d5a7900fb454903a9236f014261f167e2c9ade7c45a10e1be03c504d50b", size = 124988, upload-time = "2025-10-01T21:06:49.632Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6a/98/1bc43b6d2bb2261facf93b3b6557df7aabe37bd0d6435bba25fb2d061628/llama_api_client-0.6.0.tar.gz", hash = "sha256:f6dd125110b9bdfd31b4cea9376d0457b01481ded6ab70efbe115a94a97eb145", size = 127273, upload-time = "2025-12-18T20:30:55.956Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6e/5a/4e1deddefb26d952a448fe191c766e5bdd0f5c73cb514d66b6fa141948a3/llama_api_client-0.5.0-py3-none-any.whl", hash = "sha256:2e4eaf130a6767288464656e6b6de2f7e382291536cb1f11b5576807363a898c", size = 94051, upload-time = "2025-10-01T21:06:48.634Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/65/aacd8e608f2b57dc114ec33ef6a18f4a451da2b0265aa13a6eeab2e8de64/llama_api_client-0.6.0-py3-none-any.whl", hash = "sha256:b41ccced2dfb17f15ae0c2ae2f70cb3cfc76705aa4412286ebfaae61e7fc37ce", size = 94606, upload-time = "2025-12-18T20:30:53.777Z" },
 ]
 
 [[package]]
