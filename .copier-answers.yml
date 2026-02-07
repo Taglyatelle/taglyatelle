@@ -1,0 +1,10 @@
+_commit: "dfd5cbcd5e2d1c635e47224593d21aa19e2c1a76"
+_src_path: https://github.com/alexym1/copier-template.git
+email: {{ email }}
+full_name: {{ full_name }}
+github_username: {{ github_username }}
+language: "uv"
+project_name: {{ project_name }}
+project_short_description: {{ project_short_description }}
+project_slug: {{ project_slug }}
+repo_visibility: {{ repo_visibility }}
