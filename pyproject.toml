@@ -6,7 +6,7 @@ build-backend = "poetry.core.masonry.api"
 name = "taglyatelle"
 version = "0.2.0"
 homepage = "https://github.com/Taglyatelle/taglyatelle"
-description = "Automate low-value tasks on cloud-based platforms"
+description = "Delegate tasks to your AI agent on multiple Git hosting services"
 authors = [{ name = "Alex MARTINEZ" }]
 requires-python = ">=3.12,<3.13"
 keywords = [
