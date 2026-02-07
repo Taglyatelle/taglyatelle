@@ -1,0 +1,24 @@
+[tool.bumpversion]
+current_version = "0.1.0"
+commit = true
+tag = false
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = "version = \"{current_version}\""
+replace = "version = \"{new_version}\""
+
+[[tool.bumpversion.files]]
+filename = "docs/mkdocs.yml"
+search = "v{current_version}"
+replace = "v{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "README.md"
+search = "v{current_version}"
+replace = "v{new_version}"
+
+[[tool.bumpversion.files]]
+filename = "docker/docker.sh"
+search = "{current_version}"
+replace = "{new_version}"

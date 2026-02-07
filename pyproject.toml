@@ -1,14 +1,10 @@
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
 [project]
 name = "taglyatelle"
-version = "0.2.0"
+version = "0.1.0"
 homepage = "https://github.com/Taglyatelle/taglyatelle"
 description = "Delegate tasks to your AI agent on multiple Git hosting services"
 authors = [{ name = "Alex MARTINEZ" }]
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.11,<4.0"
 keywords = [
   "uv", "requirements", "packaging"
 ]
@@ -16,6 +12,7 @@ classifiers=[
     'Intended Audience :: Developers',
     'Natural Language :: English',
     'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
 ]
 readme = "README.md"
@@ -25,30 +22,12 @@ packages = [
 ]
 
 dependencies = [
-    "aiofiles>=25.1.0",
-    "annotated-doc>=0.0.4",
-    "anthropic>=0.72.1",
-    "github-copilot-sdk>=0.1.20",
-    "cryptography>=46.0.3",
-    "docstring-parser>=0.17.0",
-    "dotenv>=0.9.9",
-    "fastapi>=0.127.0",
-    "google-genai>=1.56.0",
-    "httpx>=0.28.1",
-    "llama-api-client>=0.6.0",
-    "mistralai>=1.10.0",
-    "openai>=2.15.0",
-    "pandas>=2.3.3",
-    "pydantic>=2.12.5",
-    "pydantic-core>=2.41.5",
-    "pyjwt>=2.10.1",
-    "requests>=2.32.5",
-    "uvicorn>=0.40.0",
+
 ]
 
 [project.optional-dependencies]
 typing = [
-    "types-requests>=2.32.4.20260107",
+    "types-requests>=2.32.4.20250913",
     "mypy>=1.19.1",
     "types-pyyaml>=6.0.12.20250915",
     "typing-inspection>=0.4.2",
@@ -59,19 +38,20 @@ typing = [
 test = [
     "pytest>=9.0.2",
     "pytest-cov>=7.0.0",
-    "pytest-mock>=3.15.1"
+    "pytest-mock>=3.15.1",
+    "tox>=4.34.1"
 ]
 
 dev = [
-    "bump2version"
+    "bump-my-version>=1.2.6"
 ]
 
 doc = [
     "mkdocs",
     "mkdocs-include-markdown-plugin>=7.2.0",
     "mkdocs-material>=9.7.1",
-    "mkdocstrings>=1.0.1",
-    "mkdocstrings-python>=2.0.1",
+    "mkdocstrings>=0.30.1",
+    "mkdocstrings-python",
     "mkdocs-material-extensions",
     "pytkdocs",
     "mkdocs-autorefs",
@@ -80,3 +60,67 @@ doc = [
     "jinja2",
     "MarkupSafe>=3.0.3"
 ]
+
+[tool.ruff]
+# Same as Black and isort line length
+line-length = 120
+
+# Equivalent to flake8's min_python_version
+target-version = "py39"
+
+# Include patterns (equivalent to Black's include)
+include = ["*.py", "*.pyi"]
+
+# Exclude patterns (combining all your exclude patterns)
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "docs",
+    "config",
+    "notebooks",
+    "data",
+    "setup.cfg",
+    "*.toml",
+    "*.yml",
+    "Justfile",
+    "*.md",
+    "tests",
+    "*.pyi"
+]
+
+[tool.ruff.lint]
+# Enable the rules you want - equivalent to flake8 + additional rules
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "D",   # pydocstyle (docstrings)
+    "C90", # mccabe complexity
+]
+
+# Ignore rules (equivalent to your flake8 ignore)
+ignore = [
+    "E203",  # whitespace before ':'
+    "E266",  # too many leading '#' for block comment
+    "E7",    # multiple statements on one line (E70x)
+    "W6",    # deprecated warnings (W60x)
+    "C901",  # too complex (handled by max-complexity below)
+    "D2",    # Missing docstrings (D20x, D21x)
+    "D3",    # Triple double quotes (D30x, D31x)
+    "D4",    # Docstring content (D40x, D41x, D42x)
+]
+
+[tool.ruff.lint.mccabe]
+# Equivalent to flake8's max-complexity
+max-complexity = 21
+
+[tool.ruff.format]
+# Equivalent to Black configuration
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
