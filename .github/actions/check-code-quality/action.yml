@@ -3,10 +3,13 @@ name: 'Check code quality'
 runs:
   using: 'composite'
   steps:
+    - name: Install just
+      shell: bash
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
+    
     - name: checks rd code quality
       shell: bash
       run: |
-        python -m pip install --upgrade pip
-        pip install prek
         just install-prod
         prek run --config "config/pre-commit/.pre-commit-config.yaml" --all-files
