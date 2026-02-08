@@ -16,20 +16,14 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install just
-        shell: bash
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
-
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install prek
-          just install-prod
+          python -m pip install --upgrade pip uv
+          uv sync --all-extras
 
       - name: Generate coverage report
         run: |
-          just _coverage xml
+          uv run pytest -c "config/tests/setup.cfg" --cov-config="config/tests/setup.cfg" --cov=taglyatelle --cov-branch --cov-report xml tests/unitary
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5

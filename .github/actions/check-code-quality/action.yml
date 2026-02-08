@@ -3,21 +3,20 @@ name: 'Check code quality'
 runs:
   using: 'composite'
   steps:
-    - name: Install just
-      shell: bash
-      run: |
-        curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
-    
-    - name: Install pipx and prek
+    - name: Install dependencies
       shell: bash
       run: |
         python3 -m pip install --upgrade pip
-        python3 -m pip install pipx
-        python3 -m pipx ensurepath
+        python3 -m pip install pipx uv
         python3 -m pipx install prek
     
-    - name: checks rd code quality
+    - name: Install project dependencies
       shell: bash
       run: |
-        just install-prod
-        just preco
+        uv sync --all-extras
+    
+    - name: Run pre-commit checks
+      shell: bash
+      run: |
+        prek install --config config/pre-commit/.pre-commit-config.yaml
+        prek run --config config/pre-commit/.pre-commit-config.yaml --all-files
