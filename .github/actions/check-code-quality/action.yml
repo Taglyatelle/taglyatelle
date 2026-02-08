@@ -8,8 +8,16 @@ runs:
       run: |
         curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
     
+    - name: Install pipx and prek
+      shell: bash
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install pipx
+        python3 -m pipx ensurepath
+        python3 -m pipx install prek
+    
     - name: checks rd code quality
       shell: bash
       run: |
         just install-prod
-        prek run --config "config/pre-commit/.pre-commit-config.yaml" --all-files
+        just preco
