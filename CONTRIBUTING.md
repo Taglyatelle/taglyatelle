@@ -7,7 +7,7 @@ I. Setup the project
 ```shell
 git clone https://github.com/Taglyatelle/taglyatelle.git
 source .venv/bin/activate
-make install-prod
+just install-prod
 ```
 
 II. Create a branch (from the master branch)
@@ -19,8 +19,8 @@ git checkout -b branch_name
 III. Making changes, and check your work:
 
 ```shell
-make preco
-make unittest
+just preco
+just unittest
 ```
 
 IV. Commit
@@ -49,8 +49,8 @@ npx smee -u ${WEBHOOK_PROXY_URL} -t http://localhost:8000/taglyatelle/webhooks
 
 ```shell
 # Method n°1: Start the taglyatelle API (in another terminal)
-make docker-build
-make docker-run
+just docker-build
+just docker-run
 
 ## Method n°2: run the API (not recommanded)
 uvicorn taglyatelle.exposition.taglyatelle_api:app --host 0.0.0.0 --port 8000
@@ -60,12 +60,12 @@ Then, trigger a webhook and check the app's response and results.
 Don't forget to include your own ENV variables in `.env`.
 
 
-II. Run make commands
+II. Run just commands
 
 ```shell
-make preco
-make unittest
-make bump2version XXXXX` (choices : major / minor / patch)
+just preco
+just unittest
+just bump2version XXXXX` (choices : major / minor / patch)
 ```
 
 III. Create a PR from your branch to master

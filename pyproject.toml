@@ -63,7 +63,7 @@ test = [
 ]
 
 dev = [
-    "bump2version"
+    "bump-my-version>=1.2.6"
 ]
 
 doc = [
@@ -80,3 +80,66 @@ doc = [
     "jinja2",
     "MarkupSafe>=3.0.3"
 ]
+
+
+[tool.ruff]
+# Same as Black and isort line length
+line-length = 120
+
+# Equivalent to flake8's min_python_version
+target-version = "py312"
+
+# Include patterns (equivalent to Black's include)
+include = ["*.py", "*.pyi"]
+
+# Exclude patterns (combining all your exclude patterns)
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "docs",
+    "config",
+    "notebooks",
+    "data",
+    "setup.cfg",
+    "*.toml",
+    "*.yml",
+    "Justfile",
+    "*.md",
+    "tests",
+    "*.pyi"
+]
+
+[tool.ruff.lint]
+# Enable the rules you want - equivalent to flake8 + additional rules
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # Pyflakes
+    "I",   # isort
+    "D",   # pydocstyle (docstrings)
+    "C90", # mccabe complexity
+]
+
+# Ignore rules (equivalent to your flake8 ignore)
+ignore = [
+    "E203",  # whitespace before ':'
+    "E266",  # too many leading '#' for block comment
+    "E7",    # multiple statements on one line (E70x)
+    "W6",    # deprecated warnings (W60x)
+    "C901",  # too complex (handled by max-complexity below)
+    "D2",    # Missing docstrings (D20x, D21x)
+    "D3",    # Triple double quotes (D30x, D31x)
+    "D4",    # Docstring content (D40x, D41x, D42x)
+]
+
+# Equivalent to flake8's max-complexity
+mccabe.max-complexity = 21
+
+[tool.ruff.format]
+# Equivalent to Black configuration
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

@@ -1,8 +1,8 @@
 FROM python:3.12.3 AS build_package
 
 COPY . .
-RUN make install-prod
-RUN make build
+RUN just install-prod
+RUN just build
 
 
 FROM python:3.12.3-slim AS production_stage

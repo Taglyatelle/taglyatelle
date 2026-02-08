@@ -2,7 +2,7 @@ site_name: taglyatelle
 site_url: https://github.com/Taglyatelle/taglyatelle
 repo_url: https://github.com/Taglyatelle/taglyatelle/tree/v0.2.0
 repo_name: Taglyatelle/taglyatelle
-docs_dir: ../../docs
+docs_dir: .
 nav:
 - Contents:
   - Home: index.md
@@ -52,7 +52,7 @@ plugins:
   - autorefs
   - gen-files:
       scripts:
-      - ../../docs/gen.py
+      - gen.py
   - search:
       lang: en
   - literate-nav:
