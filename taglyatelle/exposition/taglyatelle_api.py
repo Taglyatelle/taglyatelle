@@ -16,7 +16,7 @@ if os.path.exists(".env"):
     load_dotenv()
 
 
-app = FastAPI(title="taglyatelle", version="0.2.0")
+app = FastAPI(title="taglyatelle", version="0.3.0")
 app.add_middleware(SmeeMiddleware)
 
 

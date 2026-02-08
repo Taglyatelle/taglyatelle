@@ -154,11 +154,11 @@ uv-mypy *args:
 
 # Build docker image
 docker-build:
-    docker build -t taglyatelle:0.2.0 .
+    docker build -t taglyatelle:0.3.0 .
 
 # Run docker container
 docker-run:
-    docker run -p 8000:8000 --env-file ".env" -v "{{CURRENT_PATH}}/private_key.pem:/app/private_key.pem:ro" taglyatelle:0.2.0
+    docker run -p 8000:8000 --env-file ".env" -v "{{CURRENT_PATH}}/private_key.pem:/app/private_key.pem:ro" taglyatelle:0.3.0
 
 # Start the API server
 show-api:

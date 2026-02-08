@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "taglyatelle"
-version = "0.2.0"
+version = "0.3.0"
 homepage = "https://github.com/Taglyatelle/taglyatelle"
 description = "Delegate tasks to your AI agent on multiple Git hosting services"
 authors = [{ name = "Alex MARTINEZ" }]
