@@ -65,7 +65,7 @@ II. Run just commands
 ```shell
 just preco
 just unittest
-just bump2version XXXXX` (choices : major / minor / patch)
+just bump2version XXXXX (choices : major / minor / patch)
 ```
 
 III. Create a PR from your branch to master

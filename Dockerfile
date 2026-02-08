@@ -1,8 +1,10 @@
 FROM python:3.12.3 AS build_package
 
+RUN pip install uv
+
 COPY . .
-RUN just install-prod
-RUN just build
+RUN uv sync --all-extras
+RUN uv build
 
 
 FROM python:3.12.3-slim AS production_stage

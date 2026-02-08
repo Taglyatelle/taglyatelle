@@ -112,7 +112,7 @@ docs-serve:
 
 # Deploy the documentation to gh-pages
 docs-deploy:
-    {{UV}} run mkdocs gh-deploy --config-file config/packaging/mkdocs.yml
+    {{UV}} run mkdocs gh-deploy --config-file docs/mkdocs.yml
     @{{ECHO}} "{{_BLUE}}https://taglyatelle.github.io/taglyatelle{{_END}}"
 
 # Run unit tests

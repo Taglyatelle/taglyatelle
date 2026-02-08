@@ -20,9 +20,9 @@ repos:
     hooks:
     - id: mypy
       name: mypy
-      entry: just uv-mypy
+      entry: uv run mypy
       language: system
-      'types_or': [python, pyi]
+      'types_or': [python]
       require_serial: true
       exclude: |
             (?x)^(
