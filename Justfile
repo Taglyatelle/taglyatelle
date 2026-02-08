@@ -121,7 +121,7 @@ unittest *args:
 
 # Run tox tests
 tox:
-    -{{UV}} run tox -c "config/tests/setup.cfg" --workdir . --root .
+    {{UV}} run tox -c "config/tests/setup.cfg" --workdir . --root .
     -rm -rf python3.12/
 
 _coverage *args:
