@@ -1,8 +1,10 @@
 """Webhook handler for GitHub webhook events."""
 
-import hmac
 import hashlib
+import hmac
+
 from fastapi import HTTPException
+
 from taglyatelle.webhooks.core.webhook_adapter import WebhookAdapter
 
 
@@ -23,13 +25,9 @@ class GithubWebhookAdapter(WebhookAdapter):
         """
         signature_header = self.request.headers.get("x-hub-signature-256")
         if not signature_header:
-            raise HTTPException(
-                status_code=403, detail="x-hub-signature-256 header missing"
-            )
+            raise HTTPException(status_code=403, detail="x-hub-signature-256 header missing")
 
-        hash_object = hmac.new(
-            secret_token.encode(), payload_body, digestmod=hashlib.sha256
-        )
+        hash_object = hmac.new(secret_token.encode(), payload_body, digestmod=hashlib.sha256)
         expected_signature = "sha256=" + hash_object.hexdigest()
         if not hmac.compare_digest(expected_signature, signature_header):
             raise HTTPException(status_code=403, detail="Signature mismatch")

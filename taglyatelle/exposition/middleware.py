@@ -1,14 +1,16 @@
 """Middleware to handle requests from smee server."""
 
+import logging
 import os
-from dotenv import load_dotenv
 from typing import Callable
-from starlette.middleware.base import BaseHTTPMiddleware
+
+from dotenv import load_dotenv
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from taglyatelle.webhooks.core.webhook_factory import WebhookSender
+from starlette.middleware.base import BaseHTTPMiddleware
+
 from taglyatelle.exposition.monitoring import tracing_request
-import logging
+from taglyatelle.webhooks.core.webhook_factory import WebhookSender
 
 logger = logging.getLogger(__name__)
 
@@ -23,9 +25,7 @@ class SmeeMiddleware(BaseHTTPMiddleware):
     """Middleware to process requests from smee server before reaching the API endpoints."""
 
     @tracing_request(enabled=USE_TRACING_REQUEST)
-    async def dispatch(
-        self, request: Request, call_next: Callable
-    ) -> Request | JSONResponse:
+    async def dispatch(self, request: Request, call_next: Callable) -> Request | JSONResponse:
         """
         Process incoming requests to verify signatures and log details.
 

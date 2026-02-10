@@ -1,6 +1,7 @@
 """Factory pattern for slash commands."""
 
 from typing import Any, Callable
+
 from taglyatelle.git_providers.core.git_factory import GitProvider
 from taglyatelle.slash_commands.core.slash_registry import slash_command_registry
 
@@ -8,9 +9,7 @@ from taglyatelle.slash_commands.core.slash_registry import slash_command_registr
 class SlashCommand:
     """Adapter for multiple slash commands."""
 
-    def __init__(
-        self, command: str, provider: GitProvider, payload: dict[str, Any]
-    ) -> None:
+    def __init__(self, command: str, provider: GitProvider, payload: dict[str, Any]) -> None:
         """
         Initialize the slash command.
 

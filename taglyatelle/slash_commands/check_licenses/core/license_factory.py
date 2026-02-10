@@ -1,14 +1,14 @@
 """Factory pattern for licencer providers."""
 
 from collections.abc import Callable
+
+from taglyatelle.git_providers.core.git_factory import GitProvider
 from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
     LicenseAdapter,
 )
 from taglyatelle.slash_commands.check_licenses.core.license_registry import (
     check_license_registry,
 )
-
-from taglyatelle.git_providers.core.git_factory import GitProvider
 
 
 class LicenseProvider:
@@ -50,10 +50,7 @@ class LicenseProvider:
         """
         license_upper = type_license.upper()
 
-        if any(
-            lic in license_upper
-            for lic in ["MIT", "APACHE", "BSD", "ISC", "PSF", "UNLIMITED"]
-        ):
+        if any(lic in license_upper for lic in ["MIT", "APACHE", "BSD", "ISC", "PSF", "UNLIMITED"]):
             return "🟢 Low"
 
         if any(lic in license_upper for lic in ["LGPL", "MPL"]):
@@ -93,9 +90,7 @@ class LicenseProvider:
 
         pkg_licenses = []
         for file_path in available_files:
-            file_content = self.git_provider.get_file_content(
-                file_path=file_path, ref=self.branch
-            )
+            file_content = self.git_provider.get_file_content(file_path=file_path, ref=self.branch)
             if not file_content:
                 continue
 

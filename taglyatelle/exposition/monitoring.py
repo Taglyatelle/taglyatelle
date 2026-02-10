@@ -1,9 +1,10 @@
 """Trace requests for debugging."""
 
-import os
-import json
 import functools
+import json
+import os
 from datetime import datetime
+
 import aiofiles
 
 
@@ -29,9 +30,7 @@ def tracing_request(func=None, *, enabled: bool = True):
                 os.makedirs(log_timestamp_folder, exist_ok=True)
 
                 # Log headers
-                headers_filename = os.path.join(
-                    log_timestamp_folder, "tracing_headers.json"
-                )
+                headers_filename = os.path.join(log_timestamp_folder, "tracing_headers.json")
                 async with aiofiles.open(headers_filename, "w") as f:
                     await f.write(json.dumps(dict(request.headers), indent=4))
 

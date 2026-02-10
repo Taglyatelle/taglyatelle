@@ -1,6 +1,7 @@
 """Adapter pattern for webhooks."""
 
 from abc import ABC, abstractmethod
+
 from fastapi import Request
 
 

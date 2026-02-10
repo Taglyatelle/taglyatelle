@@ -1,13 +1,15 @@
 """Get a GitHub App installation access token."""
 
-import jwt
-import time
-import requests
-from taglyatelle.git_providers.core.git_adapter import GitAdapter
-from dotenv import load_dotenv
+import base64
 import logging
 import os
-import base64
+import time
+
+import jwt
+import requests
+from dotenv import load_dotenv
+
+from taglyatelle.git_providers.core.git_adapter import GitAdapter
 
 if os.path.exists(".env"):
     load_dotenv()
@@ -255,9 +257,7 @@ class GithubAdapter(GitAdapter):
         self._post_request(url="releases", body=data)
         logging.info(f"New Release for Tag {self.tag} has been successfully delivered.")
 
-    def create_issue(
-        self, title: str, body: str, labels: list[str] | None = None
-    ) -> int:
+    def create_issue(self, title: str, body: str, labels: list[str] | None = None) -> int:
         """
         Create an issue in the repository.
 
@@ -282,15 +282,11 @@ class GithubAdapter(GitAdapter):
 
         response = self._post_request(url="issues", body=data)
         issue_data = response.json()
-        logging.info(
-            f"Issue #{issue_data.get('number')} has been successfully created."
-        )
+        logging.info(f"Issue #{issue_data.get('number')} has been successfully created.")
 
         return issue_data["number"]
 
-    def search_issues(
-        self, query: str, state: str = "open", labels: list[str] | None = None
-    ) -> list[dict]:
+    def search_issues(self, query: str, state: str = "open", labels: list[str] | None = None) -> list[dict]:
         """
         Search for issues in the repository.
 
@@ -317,9 +313,7 @@ class GithubAdapter(GitAdapter):
         issues = response.json()
 
         if query:
-            issues = [
-                issue for issue in issues if query.lower() in issue["title"].lower()
-            ]
+            issues = [issue for issue in issues if query.lower() in issue["title"].lower()]
 
         return issues
 
@@ -361,9 +355,7 @@ class GithubAdapter(GitAdapter):
 
         response = self._patch_request(url=f"issues/{issue_number}", body=data)
         issue_data = response.json()
-        logging.info(
-            f"Issue #{issue_data.get('number')} has been successfully updated."
-        )
+        logging.info(f"Issue #{issue_data.get('number')} has been successfully updated.")
 
         return issue_data["number"]
 

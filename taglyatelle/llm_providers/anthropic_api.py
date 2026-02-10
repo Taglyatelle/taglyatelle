@@ -2,8 +2,9 @@
 
 import os
 
-from dotenv import load_dotenv
 from anthropic import Anthropic
+from dotenv import load_dotenv
+
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 
 if os.path.exists(".env"):

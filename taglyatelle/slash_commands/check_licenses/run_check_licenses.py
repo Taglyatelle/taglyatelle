@@ -87,9 +87,7 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
     logging.info(f"Detected main language: {main_language}")
 
     try:
-        license_provider = LicenseProvider(
-            provider=main_language, git_provider=provider, branch=branch
-        )
+        license_provider = LicenseProvider(provider=main_language, git_provider=provider, branch=branch)
     except ValueError as e:
         logging.error(str(e))
         return None
@@ -116,9 +114,7 @@ def _check_licenses(provider: GitProvider, branch: str) -> str | None:
         severity_counts[severity] = severity_counts.get(severity, 0) + 1
 
     summary_lines = [
-        f"- {severity_level}: {count} package(s)"
-        for severity_level, count in severity_counts.items()
-        if count > 0
+        f"- {severity_level}: {count} package(s)" for severity_level, count in severity_counts.items() if count > 0
     ]
 
     return "\n".join(
@@ -169,9 +165,7 @@ def run_check_licenses(provider: GitProvider, payload: dict[str, Any]) -> None:
         )
         return
 
-    license_analysis = _check_licenses(
-        provider=provider, branch=pr_details["head"]["ref"]
-    )
+    license_analysis = _check_licenses(provider=provider, branch=pr_details["head"]["ref"])
 
     if license_analysis is None:
         provider.create_pr_comment(

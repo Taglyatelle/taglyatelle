@@ -31,14 +31,10 @@ class GitAdapter:
     def create_release(self, body: str) -> None:
         raise NotImplementedError
 
-    def create_issue(
-        self, title: str, body: str, labels: list[str] | None = None
-    ) -> int:
+    def create_issue(self, title: str, body: str, labels: list[str] | None = None) -> int:
         raise NotImplementedError
 
-    def search_issues(
-        self, query: str, state: str = "open", labels: list[str] | None = None
-    ) -> list[dict]:
+    def search_issues(self, query: str, state: str = "open", labels: list[str] | None = None) -> list[dict]:
         raise NotImplementedError
 
     def update_issue(

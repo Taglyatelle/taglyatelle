@@ -1,12 +1,12 @@
 """Check licenses for R packages."""
 
-from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
-    LicenseAdapter,
-)
-
 import json
 import re
 import urllib.request
+
+from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
+    LicenseAdapter,
+)
 
 CRAN_TIMEOUT_SECONDS = 5
 MAX_LICENSE_TEXT_LENGTH = 200
@@ -40,9 +40,7 @@ class RAdapter(LicenseAdapter):
         license_text = license_text.strip()
 
         # Remove "file LICENSE" or "file LICENCE" patterns (with + or | separators)
-        license_text = re.sub(
-            r"\s*[\+\|]\s*file\s+LICEN[CS]E.*$", "", license_text, flags=re.IGNORECASE
-        )
+        license_text = re.sub(r"\s*[\+\|]\s*file\s+LICEN[CS]E.*$", "", license_text, flags=re.IGNORECASE)
 
         # If the result is just "file LICENSE" or similar, return Unknown
         if re.match(r"^\s*file\s+LICEN[CS]E.*$", license_text, flags=re.IGNORECASE):
@@ -106,9 +104,7 @@ class RAdapter(LicenseAdapter):
         """
         try:
             package_match = re.search(r"^Package:\s*(.+)$", content, re.MULTILINE)
-            package_name = (
-                package_match.group(1).strip() if package_match else "Unknown"
-            )
+            package_name = package_match.group(1).strip() if package_match else "Unknown"
 
             license_match = re.search(
                 r"^License:\s*(.+?)(?=\n[A-Z][a-z]+:|$)",

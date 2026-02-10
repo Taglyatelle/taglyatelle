@@ -1,9 +1,9 @@
 """Factory pattern for git providers."""
 
-from taglyatelle.llm_providers.core.llm_factory import LlmProvider
-from taglyatelle.llm_providers.core.llm_builder import LlmProviderBuilder
 from taglyatelle.git_providers.core.git_adapter import GitAdapter
 from taglyatelle.git_providers.core.git_registry import git_provider_registry
+from taglyatelle.llm_providers.core.llm_builder import LlmProviderBuilder
+from taglyatelle.llm_providers.core.llm_factory import LlmProvider
 
 
 class GitProvider:
@@ -49,9 +49,7 @@ class GitProvider:
         """
         return self._strategy
 
-    def set_llm_strategy(
-        self, provider: str, model: str, temperature: float | int = 0
-    ) -> None:
+    def set_llm_strategy(self, provider: str, model: str, temperature: float | int = 0) -> None:
         """
         Set the LLM strategy using the builder pattern.
 
@@ -227,9 +225,7 @@ class GitProvider:
         """
         return self.adapter.create_release(body)
 
-    def create_issue(
-        self, title: str, body: str, labels: list[str] | None = None
-    ) -> int:
+    def create_issue(self, title: str, body: str, labels: list[str] | None = None) -> int:
         """
         Create an issue in the repository.
 
@@ -250,9 +246,7 @@ class GitProvider:
         """
         return self.adapter.create_issue(title, body, labels)
 
-    def search_issues(
-        self, query: str, state: str = "open", labels: list[str] | None = None
-    ) -> list[dict]:
+    def search_issues(self, query: str, state: str = "open", labels: list[str] | None = None) -> list[dict]:
         """
         Search for issues in the repository.
 
