@@ -17,6 +17,17 @@ class AnthropicAdapter(LlmAdapter):
     """Define Anthropic adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
+        """
+        Initialize Anthropic's llms.
+
+        Parameters
+        ----------
+        model
+            LLM model name
+
+        temperature
+            LLM temperature
+        """
         self.client = Anthropic()
         self.model = model
         self.temperature = temperature

@@ -19,6 +19,8 @@ EXCLUDED_DIRS = {
 
 
 class LicenseAdapter(ABC):
+    """Base adapter for license file parsing."""
+
     def __init__(self):
         """Initialize the adapter with file handlers."""
         self.file_handlers: dict[str, Callable] = {}

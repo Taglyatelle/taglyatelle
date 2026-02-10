@@ -17,6 +17,17 @@ class OpenAIAdapter(LlmAdapter):
     """Define OpenAI adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
+        """
+        Initialize OpenAI's llms.
+
+        Parameters
+        ----------
+        model
+            LLM model name
+
+        temperature
+            LLM temperature
+        """
         self.client = OpenAI()
         self.model = model
         self.temperature = temperature

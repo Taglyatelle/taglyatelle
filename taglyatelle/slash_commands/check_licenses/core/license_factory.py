@@ -15,6 +15,20 @@ class LicenseProvider:
     """Adapter for multiple license providers."""
 
     def __init__(self, provider: str, git_provider: "GitProvider", branch: str):
+        """
+        Initialize the license provider adapter.
+
+        Parameters
+        ----------
+        provider
+            License adapter key registered in the license registry
+
+        git_provider
+            Git provider instance used to read repository files
+
+        branch
+            Branch name to inspect
+        """
         self.provider = provider
         self.git_provider = git_provider
         self.branch = branch

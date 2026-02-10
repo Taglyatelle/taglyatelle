@@ -37,6 +37,7 @@ class PythonAdapter(LicenseAdapter):
     """Adapter for checking Python package licenses."""
 
     def __init__(self):
+        """Initialize file handlers for Python dependency manifests."""
         self.file_handlers = {
             "requirements.txt": self.parse_requirements_file,
             "uv.lock": self.parse_lock_files,

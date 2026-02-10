@@ -16,6 +16,7 @@ class RAdapter(LicenseAdapter):
     """Adapter for checking R package licenses."""
 
     def __init__(self):
+        """Initialize file handlers for R dependency manifests."""
         self.file_handlers = {
             "DESCRIPTION": self.parse_description_file,
             "renv.lock": self.parse_renv_lock,

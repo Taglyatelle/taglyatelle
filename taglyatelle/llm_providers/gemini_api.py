@@ -18,6 +18,17 @@ class GeminiAdapter(LlmAdapter):
     """Define Gemini adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
+        """
+        Initialize Google's llms.
+
+        Parameters
+        ----------
+        model
+            LLM model name
+
+        temperature
+            LLM temperature
+        """
         self.client = genai.Client()
         self.model = model
         self.temperature = temperature

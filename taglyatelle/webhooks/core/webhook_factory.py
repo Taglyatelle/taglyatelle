@@ -13,6 +13,14 @@ class WebhookSender:
     """Adapter for multiple webhook senders."""
 
     def __init__(self, request: Request):
+        """
+        Initialize the webhook sender adapter.
+
+        Parameters
+        ----------
+        request
+            Incoming FastAPI request
+        """
         self.request = request
         self.adapter = self._get_adapter()
 

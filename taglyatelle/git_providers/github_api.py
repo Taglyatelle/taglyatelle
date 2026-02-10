@@ -21,6 +21,17 @@ class GithubAdapter(GitAdapter):
     """GitHub API configuration."""
 
     def __init__(self, owner: str, repo: str):
+        """
+        Initialize the GitHub adapter.
+
+        Parameters
+        ----------
+        owner
+            Repository owner or organization
+
+        repo
+            Repository name
+        """
         self.owner = owner
         self.repo = repo
         self.tag: str | None = None

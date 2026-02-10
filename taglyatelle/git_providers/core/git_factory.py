@@ -15,6 +15,20 @@ class GitProvider:
         owner: str,
         repo: str,
     ):
+        """
+        Initialize the Git provider adapter.
+
+        Parameters
+        ----------
+        git_provider
+            Provider key registered in the git registry
+
+        owner
+            Repository owner or organization
+
+        repo
+            Repository name
+        """
         self.provider = git_provider
         self.owner = owner
         self.repo = repo
