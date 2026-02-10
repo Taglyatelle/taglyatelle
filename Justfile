@@ -29,10 +29,10 @@ _REV := "\\x1b[7m"
 
 PROJECT_DIR := "config data docs docker notebooks tests config/packaging config/tests"
 
-PROJECT_FILES := "Justfile pyproject.toml README.md config/tests/setup.cfg config/packaging/mkdocs.yml config/packaging/setup.cfg config/pre-commit/.pre-commit-config.yaml"
+PROJECT_FILES := "Justfile pyproject.toml README.md config/tests/setup.cfg docs/mkdocs.yml config/packaging/setup.toml config/pre-commit/.pre-commit-config.yaml"
 
 # Prek config
-PREK := env_var('HOME') + "/.local/bin/prek"
+PREK := "uv tool run prek"
 PIPX_PATH_BIN := env_var('HOME') + "/.local/bin"
 PIPX_PATH_HOME := env_var('HOME') + "/.local/pipx"
 UV := PIPX_PATH_BIN + "/uv"
@@ -59,6 +59,11 @@ _init_pipx_step2:
 _init_prek_step3:
     #!/usr/bin/env bash
     set -euo pipefail
+    if [[ ! -x "{{UV}}" ]]; then
+        {{ECHO}} "{{_RED}}Init: uv is missing. Run 'just install-prod' or install uv first.{{_END}}"
+        exit 1
+    fi
+    {{UV}} tool install prek > /dev/null 2>&1 || true
     {{PREK}} install --config config/pre-commit/.pre-commit-config.yaml
     {{ECHO}} "{{_CYAN}}Init: install prek... OK {{_END}}"
 
@@ -73,10 +78,6 @@ ruff-check *args:
 # Run ruff format
 ruff-format *args:
     @just preco '\ruff-format' {{args}}
-
-# Custom pre-commit checks - check Python 3 compatibility
-check-py3:
-    @python3 -c "import compileall; compileall.compile_dir('python',force=True,quiet=1)"
 
 # Install environment in prod
 install-prod:
