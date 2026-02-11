@@ -1,0 +1,77 @@
+site_name: taglyatelle
+site_url: https://github.com/Taglyatelle/taglyatelle
+repo_url: https://github.com/Taglyatelle/taglyatelle/tree/v0.3.0
+repo_name: Taglyatelle/taglyatelle
+docs_dir: .
+site_dir: ../site
+nav:
+- Contents:
+  - Home: index.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+- Modules: references/
+theme:
+  name: material
+  language: en
+  logo: logo.png
+  favicon: logo.png
+  palette:
+    scheme: slate
+    primary: custom
+    accent: custom
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.indexes
+    - navigation.instant
+    - navigation.tabs.sticky
+markdown_extensions:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.tabbed
+  - attr_list
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      linenums: false
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.details
+  - admonition
+  - toc:
+      baselevel: 2
+      permalink: true
+      slugify: !!python/name:pymdownx.slugs.uslugify
+  - meta
+plugins:
+  - include-markdown
+  - autorefs
+  - gen-files:
+      scripts:
+      - gen.py
+  - search:
+      lang: en
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - .
+          selection:
+            new_path_syntax: yes
+            docstring_style: "numpy"
+          rendering:
+            heading_level: 2
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Taglyatelle
+extra_css:
+  - stylesheets/extra.css
+
