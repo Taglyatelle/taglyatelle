@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv
 from mistralai import Mistral
+
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 
 if os.path.exists(".env"):
@@ -16,6 +17,17 @@ class MistralAdapter(LlmAdapter):
     """Define Mistral adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
+        """
+        Initialize Mistral's llms.
+
+        Parameters
+        ----------
+        model
+            LLM model name
+
+        temperature
+            LLM temperature
+        """
         self.client = Mistral(api_key=MISTRAL_API_KEY)
         self.model = model
         self.temperature = temperature

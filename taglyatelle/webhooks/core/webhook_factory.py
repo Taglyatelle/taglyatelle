@@ -1,16 +1,26 @@
 """Factory pattern for webhook senders."""
 
 import ipaddress
+
 import requests
 from fastapi import HTTPException, Request, status
-from taglyatelle.webhooks.core.webhook_registry import webhook_registry
+
 from taglyatelle.webhooks.core.webhook_adapter import WebhookAdapter
+from taglyatelle.webhooks.core.webhook_registry import webhook_registry
 
 
 class WebhookSender:
     """Adapter for multiple webhook senders."""
 
     def __init__(self, request: Request):
+        """
+        Initialize the webhook sender adapter.
+
+        Parameters
+        ----------
+        request
+            Incoming FastAPI request
+        """
         self.request = request
         self.adapter = self._get_adapter()
 

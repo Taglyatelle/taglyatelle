@@ -1,22 +1,24 @@
 """Expose taglyatelle as an API."""
 
-import os
 import json
+import os
+
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request, Depends
-from taglyatelle.schemas.webhook_event_models import WebhookEventModel
-from taglyatelle.schemas.request_model import GitProviderRequest
-from taglyatelle.git_providers.core.git_factory import GitProvider
-from taglyatelle.exposition.middleware import SmeeMiddleware
-from taglyatelle.slash_commands.core.slash_factory import SlashCommand
-from taglyatelle.background_commands.synchronize_changelog import synchronize_changelog
+from fastapi import Depends, FastAPI, Request
+
 from taglyatelle.background_commands.publish_release import publish_release
+from taglyatelle.background_commands.synchronize_changelog import synchronize_changelog
+from taglyatelle.exposition.middleware import SmeeMiddleware
+from taglyatelle.git_providers.core.git_factory import GitProvider
+from taglyatelle.schemas.request_model import GitProviderRequest
+from taglyatelle.schemas.webhook_event_models import WebhookEventModel
+from taglyatelle.slash_commands.core.slash_factory import SlashCommand
 
 if os.path.exists(".env"):
     load_dotenv()
 
 
-app = FastAPI(title="taglyatelle", version="0.2.0")
+app = FastAPI(title="taglyatelle", version="0.3.0")
 app.add_middleware(SmeeMiddleware)
 
 
@@ -60,15 +62,11 @@ async def receipt_payload(
         repo=git_request.repository_name,
     )
 
-    provider.set_llm_strategy(
-        provider=str(os.getenv("LLM_PROVIDER")), model=str(os.getenv("LLM_MODEL"))
-    )
+    provider.set_llm_strategy(provider=str(os.getenv("LLM_PROVIDER")), model=str(os.getenv("LLM_MODEL")))
 
     # Call slash commands
     if git_request.event_type == "issue_comment" and git_request.action == "created":
-        if git_request.comment_body and git_request.comment_body.strip().startswith(
-            "/"
-        ):
+        if git_request.comment_body and git_request.comment_body.strip().startswith("/"):
             comment_body = git_request.comment_body.strip()
             command = comment_body.split()[0][1:].lower()
             slash_command = SlashCommand(command, provider, git_request.raw_payload)
@@ -80,9 +78,7 @@ async def receipt_payload(
             if git_request.number:
                 synchronize_changelog(provider=provider, pr_number=git_request.number)
 
-        elif (
-            git_request.is_merged and git_request.base_ref == git_request.default_branch
-        ):
+        elif git_request.is_merged and git_request.base_ref == git_request.default_branch:
             if git_request.number:
                 publish_release(provider=provider, pr_number=git_request.number)
 

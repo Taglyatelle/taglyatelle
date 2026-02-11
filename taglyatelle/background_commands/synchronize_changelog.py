@@ -1,7 +1,8 @@
 """Synchronize PR body with changed files."""
 
-from taglyatelle.git_providers.core.git_factory import GitProvider
 import logging
+
+from taglyatelle.git_providers.core.git_factory import GitProvider
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

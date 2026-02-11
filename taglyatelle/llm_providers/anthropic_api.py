@@ -2,8 +2,9 @@
 
 import os
 
-from dotenv import load_dotenv
 from anthropic import Anthropic
+from dotenv import load_dotenv
+
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 
 if os.path.exists(".env"):
@@ -16,6 +17,17 @@ class AnthropicAdapter(LlmAdapter):
     """Define Anthropic adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
+        """
+        Initialize Anthropic's llms.
+
+        Parameters
+        ----------
+        model
+            LLM model name
+
+        temperature
+            LLM temperature
+        """
         self.client = Anthropic()
         self.model = model
         self.temperature = temperature

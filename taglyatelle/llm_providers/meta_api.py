@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv
 from llama_api_client import LlamaAPIClient
+
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 
 if os.path.exists(".env"):
@@ -16,6 +17,17 @@ class MetaAdapter(LlmAdapter):
     """Define Meta adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
+        """
+        Initialize Meta's llms.
+
+        Parameters
+        ----------
+        model
+            LLM model name
+
+        temperature
+            LLM temperature
+        """
         self.client = LlamaAPIClient()
         self.model = model
         self.temperature = temperature

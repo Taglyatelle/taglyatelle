@@ -1,14 +1,14 @@
 """Check licenses for Python packages."""
 
-from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
-    LicenseAdapter,
-)
-
 import json
 import re
 import tomllib
 import urllib.request
 from importlib import metadata
+
+from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
+    LicenseAdapter,
+)
 
 MAX_LICENSE_TEXT_LENGTH = 200
 MAX_LINES_TO_SCAN = 15
@@ -37,6 +37,7 @@ class PythonAdapter(LicenseAdapter):
     """Adapter for checking Python package licenses."""
 
     def __init__(self):
+        """Initialize file handlers for Python dependency manifests."""
         self.file_handlers = {
             "requirements.txt": self.parse_requirements_file,
             "uv.lock": self.parse_lock_files,
@@ -183,9 +184,7 @@ class PythonAdapter(LicenseAdapter):
                 return self._clean_license_text(license_info)
 
             classifiers = info.get("classifiers", [])
-            license_classifier = next(
-                (c for c in classifiers if c.startswith("License ::")), None
-            )
+            license_classifier = next((c for c in classifiers if c.startswith("License ::")), None)
             if license_classifier:
                 parts = license_classifier.split(" :: ")
                 if len(parts) >= 3:
@@ -224,9 +223,7 @@ class PythonAdapter(LicenseAdapter):
             return self._clean_license_text(license_expr)
 
         classifiers = meta.get_all("Classifier") or []
-        license_classifier = next(
-            (c for c in classifiers if c.startswith("License ::")), None
-        )
+        license_classifier = next((c for c in classifiers if c.startswith("License ::")), None)
         if license_classifier:
             parts = license_classifier.split(" :: ")
             if len(parts) >= 3:
@@ -257,9 +254,7 @@ class PythonAdapter(LicenseAdapter):
 
             pkg_name = re.split(r"[=<>!~]", stripped)[0].strip()
             if pkg_name:
-                packages.append(
-                    {"package": pkg_name, "license": self._get_metadata(pkg_name)}
-                )
+                packages.append({"package": pkg_name, "license": self._get_metadata(pkg_name)})
 
         return packages
 

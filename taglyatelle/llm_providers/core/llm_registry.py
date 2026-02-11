@@ -1,13 +1,13 @@
 """Registry pattern for LLM providers."""
 
-from typing import Type, Literal
-from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
-from taglyatelle.llm_providers.openai_api import OpenAIAdapter
+from typing import Literal, Type
+
 from taglyatelle.llm_providers.anthropic_api import AnthropicAdapter
+from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 from taglyatelle.llm_providers.gemini_api import GeminiAdapter
 from taglyatelle.llm_providers.meta_api import MetaAdapter
 from taglyatelle.llm_providers.mistral_api import MistralAdapter
-
+from taglyatelle.llm_providers.openai_api import OpenAIAdapter
 
 llm_provider_registry: dict[str, Type[LlmAdapter]] = {}
 

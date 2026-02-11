@@ -1,13 +1,15 @@
 FROM python:3.12.3 AS build_package
 
+RUN pip install uv
+
 COPY . .
-RUN make install-prod
-RUN make build
+RUN uv sync --all-extras
+RUN uv build
 
 
 FROM python:3.12.3-slim AS production_stage
 
-LABEL org.opencontainers.image.source="https://github.com/alexym1/taglyatelle"
+LABEL org.opencontainers.image.source="https://github.com/Taglyatelle/taglyatelle"
 
 WORKDIR /app
 

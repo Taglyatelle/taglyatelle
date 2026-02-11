@@ -1,6 +1,7 @@
 """Registry pattern for slash commands."""
 
 from typing import Callable
+
 from taglyatelle.slash_commands.check_licenses.run_check_licenses import (
     run_check_licenses,
 )

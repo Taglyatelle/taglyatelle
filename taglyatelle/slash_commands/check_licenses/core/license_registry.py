@@ -8,7 +8,6 @@ from taglyatelle.slash_commands.check_licenses.core.license_adapter import (
 from taglyatelle.slash_commands.check_licenses.license_python import PythonAdapter
 from taglyatelle.slash_commands.check_licenses.license_r import RAdapter
 
-
 check_license_registry: dict[str, Type[LicenseAdapter]] = {}
 
 

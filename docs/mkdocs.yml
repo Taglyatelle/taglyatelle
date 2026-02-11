@@ -1,8 +1,8 @@
 site_name: taglyatelle
-site_url: https://github.com/alexym1/taglyatelle
-repo_url: https://github.com/alexym1/taglyatelle/tree/v0.2.0
-repo_name: alexym1/taglyatelle
-docs_dir: ../../docs
+site_url: https://github.com/Taglyatelle/taglyatelle
+repo_url: https://github.com/Taglyatelle/taglyatelle/tree/v0.3.0
+repo_name: Taglyatelle/taglyatelle
+docs_dir: .
 nav:
 - Contents:
   - Home: index.md
@@ -52,7 +52,7 @@ plugins:
   - autorefs
   - gen-files:
       scripts:
-      - ../../docs/gen.py
+      - gen.py
   - search:
       lang: en
   - literate-nav:
@@ -72,7 +72,7 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/alexym1
+      link: https://github.com/Taglyatelle
 extra_css:
   - stylesheets/extra.css
 

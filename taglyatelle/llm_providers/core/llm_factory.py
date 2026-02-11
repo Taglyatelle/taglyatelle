@@ -8,6 +8,20 @@ class LlmProvider:
     """Adapter for multiple LLM providers."""
 
     def __init__(self, provider: str, model: str, temperature: float | int = 0):
+        """
+        Initialize the LLM provider adapter.
+
+        Parameters
+        ----------
+        provider
+            Provider key registered in the LLM registry
+
+        model
+            LLM model name
+
+        temperature
+            Sampling temperature
+        """
         self.provider = provider
         self.model = model
         self.temperature = temperature

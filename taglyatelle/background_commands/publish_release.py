@@ -1,7 +1,8 @@
 """Bump version, create tag and create release."""
 
-from taglyatelle.git_providers.core.git_factory import GitProvider
 import logging
+
+from taglyatelle.git_providers.core.git_factory import GitProvider
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -28,7 +29,8 @@ def _bump_version(provider: GitProvider, changelog: str) -> str:
         return "0.1.0"
 
     version_prompt = f"""
-    Based on the following changelog, determine the appropriate version bump type according to semantic versioning principles.
+    Based on the following changelog,
+    determine the appropriate version bump type according to semantic versioning principles.
 
     Current version: {current_version}
 
@@ -46,7 +48,8 @@ def _bump_version(provider: GitProvider, changelog: str) -> str:
     - Return ONLY the new version number in the exact same format as the current version: X.Y.Z
     - Do not include any explanations or additional text
     - Consider the severity and scope of changes in the changelog
-    - If the changelog mentions bumping version files or updating version numbers, use the current version: {current_version}
+    - If the changelog mentions bumping version files or updating version numbers,
+    use the current version: {current_version}
     """
 
     new_version = provider.invoke_llm(version_prompt)

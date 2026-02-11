@@ -4,6 +4,7 @@ import os
 
 from dotenv import load_dotenv
 from openai import OpenAI
+
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 
 if os.path.exists(".env"):
@@ -16,6 +17,17 @@ class OpenAIAdapter(LlmAdapter):
     """Define OpenAI adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
+        """
+        Initialize OpenAI's llms.
+
+        Parameters
+        ----------
+        model
+            LLM model name
+
+        temperature
+            LLM temperature
+        """
         self.client = OpenAI()
         self.model = model
         self.temperature = temperature

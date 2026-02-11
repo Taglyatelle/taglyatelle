@@ -1,16 +1,14 @@
 """Registry pattern for git providers."""
 
-from typing import Type, Literal
+from typing import Literal, Type
+
 from taglyatelle.git_providers.core.git_adapter import GitAdapter
 from taglyatelle.git_providers.github_api import GithubAdapter
-
 
 git_provider_registry: dict[str, Type[GitAdapter]] = {}
 
 
-def register_git_provider(
-    name: Literal["github"], adapter_cls: Type[GitAdapter]
-) -> None:
+def register_git_provider(name: Literal["github"], adapter_cls: Type[GitAdapter]) -> None:
     """
     Register a git provider.
 

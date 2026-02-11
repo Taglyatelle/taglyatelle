@@ -4,7 +4,6 @@ from abc import ABC
 from pathlib import Path
 from typing import Callable
 
-
 EXCLUDED_DIRS = {
     ".venv",
     "venv",
@@ -20,13 +19,13 @@ EXCLUDED_DIRS = {
 
 
 class LicenseAdapter(ABC):
+    """Base adapter for license file parsing."""
+
     def __init__(self):
         """Initialize the adapter with file handlers."""
         self.file_handlers: dict[str, Callable] = {}
 
-    def _search_files(
-        self, files_to_check: list[str], root_path: str | Path = "."
-    ) -> list[str]:
+    def _search_files(self, files_to_check: list[str], root_path: str | Path = ".") -> list[str]:
         """
         Search for relevant files in the project directory.
 

@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+
 from taglyatelle.llm_providers.core.llm_adapter import LlmAdapter
 
 if os.path.exists(".env"):
@@ -17,6 +18,17 @@ class GeminiAdapter(LlmAdapter):
     """Define Gemini adapter class."""
 
     def __init__(self, model: str, temperature: float | int = 0):
+        """
+        Initialize Google's llms.
+
+        Parameters
+        ----------
+        model
+            LLM model name
+
+        temperature
+            LLM temperature
+        """
         self.client = genai.Client()
         self.model = model
         self.temperature = temperature
