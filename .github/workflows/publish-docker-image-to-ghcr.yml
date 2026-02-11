@@ -35,4 +35,4 @@ jobs:
               context: .
               file: ./Dockerfile
               push: true
-              tags: ${{env.REGISTRY}}/${{github.repository}}:${{github.ref_name}},${{env.REGISTRY}}/${{github.repository}}:latest
+              tags: ${{env.REGISTRY}}/${{toLower(github.repository)}}:${{github.ref_name}},${{env.REGISTRY}}/${{toLower(github.repository)}}:latest
