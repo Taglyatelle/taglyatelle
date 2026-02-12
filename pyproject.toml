@@ -29,11 +29,11 @@ dependencies = [
     "annotated-doc>=0.0.4",
     "anthropic>=0.72.1",
     "github-copilot-sdk>=0.1.20",
-    "cryptography>=46.0.3",
+    "cryptography>=46.0.5",
     "docstring-parser>=0.17.0",
     "dotenv>=0.9.9",
     "fastapi>=0.127.0",
-    "google-genai>=1.56.0",
+    "google-genai>=1.62.0",
     "httpx>=0.28.1",
     "llama-api-client>=0.6.0",
     "mistralai>=1.10.0",
@@ -44,6 +44,10 @@ dependencies = [
     "pyjwt>=2.11.0",
     "requests>=2.32.5",
     "uvicorn>=0.40.0",
+    "starlette==0.52.1",
+    "pyasn1==0.6.2",
+    "protobuf==6.33.5",
+    "urllib3==2.6.3",
 ]
 
 [project.optional-dependencies]
@@ -75,7 +79,7 @@ doc = [
     "mkdocstrings-python>=2.0.2",
     "mkdocs-material-extensions",
     "pytkdocs",
-    "mkdocs-autorefs",
+    "mkdocs-autorefs>=1.4.4",
     "mkdocs-gen-files>=0.6.0",
     "mkdocs-literate-nav",
     "jinja2",
