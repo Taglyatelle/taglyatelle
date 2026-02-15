@@ -81,7 +81,7 @@ When creating the pull request, use the `create-pull-request` safe output with:
 
 1. List alerts: Check for Python dependency alerts
 2. If alerts exist:
-   - Create branch: `dependabot-fixes-2026-02-15`
+   - Create branch: `dependabot-fixes-YYYY-MM-DD` (use current date)
    - Update `pyproject.toml` with fixed versions
    - Commit changes with clear message
    - Create PR with detailed description
